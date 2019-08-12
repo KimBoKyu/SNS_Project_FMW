@@ -128,12 +128,6 @@ public class HomeFragment extends Fragment {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                /*
-                case R.id.logoutButton:
-                    FirebaseAuth.getInstance().signOut();
-                    myStartActivity(SignUpActivity.class);
-                    break;
-                */
                 case R.id.floatingActionButton:
                     myStartActivity(WritePostActivity.class);
                     break;
@@ -148,6 +142,7 @@ public class HomeFragment extends Fragment {
             if(firebaseAuth.getUid().equals(postInfo.getPublisher())){
                 postList.remove(postInfo);
                 homeAdapter.notifyDataSetChanged();
+                postsUpdate(true);
                 Log.e("로그: ","삭제 성공");
             }
             else{
@@ -161,7 +156,7 @@ public class HomeFragment extends Fragment {
         }
     };
 
-    private void postsUpdate(final boolean clear) {
+    public void postsUpdate(final boolean clear) {
         updating = true;
         Date date = postList.size() == 0 || clear ? new Date() : postList.get(postList.size() - 1).getCreatedAt();
         CollectionReference collectionReference = firebaseFirestore.collection("posts");
