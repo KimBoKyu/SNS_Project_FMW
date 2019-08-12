@@ -274,6 +274,7 @@ public class WritePostActivity extends BasicActivity {
             }
             if (successCount == 0) {
                 storeUpload(documentReference, new PostInfo(title, contentsList, formatList, user.getUid(), date));
+                postInit();
             }
         } else {
             showToast(WritePostActivity.this, "제목을 입력해주세요.");
