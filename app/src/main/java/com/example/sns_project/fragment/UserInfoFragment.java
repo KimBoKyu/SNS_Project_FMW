@@ -7,37 +7,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.sns_project.PostInfo;
 import com.example.sns_project.R;
-import com.example.sns_project.UserInfo;
-import com.example.sns_project.activity.MemberInitActivity;
-import com.example.sns_project.activity.WritePostActivity;
-import com.example.sns_project.adapter.UserListAdapter;
-import com.example.sns_project.listener.OnPostListener;
+import com.example.sns_project.activity.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
 
 public class UserInfoFragment extends Fragment {
     private static final String TAG = "UserInfoFragment";
-
     public UserInfoFragment() {
         // Required empty public constructor
     }
@@ -57,7 +45,8 @@ public class UserInfoFragment extends Fragment {
         final TextView phoneNumberTextView = view.findViewById(R.id.phoneNumberTextView);
         final TextView birthDayTextView = view.findViewById(R.id.birthDayTextView);
         final TextView addressTextView = view.findViewById(R.id.addressTextView);
-
+        final Button logoutButton = view.findViewById(R.id.btn_lgout);
+        logoutButton.setOnClickListener(onClickListener);
         DocumentReference documentReference = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -85,6 +74,30 @@ public class UserInfoFragment extends Fragment {
         });
 
         return view;
+    }
+
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            System.out.println("눌림????");
+            switch (v.getId()) {
+                case R.id.btn_lgout:
+                    System.out.println("눌림?");
+                    logout();
+                    myStartActivity(LoginActivity.class);
+                    break;
+
+            }
+        }
+    };
+
+    public void logout(){
+        FirebaseAuth.getInstance().signOut();
+    }
+
+    private void myStartActivity(Class c) {
+        Intent intent = new Intent(getActivity(), c);
+        startActivityForResult(intent, 0);
     }
 
     @Override

@@ -73,6 +73,13 @@
                     android:layout_margin="5dp"
                     android:textSize="18dp" />
 
+                <Button
+                    android:id="@+id/btn_lgout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:text="Button" />
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
@@ -108,6 +115,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="갤러리" />
+
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
