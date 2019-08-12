@@ -3,16 +3,15 @@ package com.example.sns_project.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.example.sns_project.PostInfo;
 import com.example.sns_project.R;
@@ -21,6 +20,7 @@ import com.example.sns_project.adapter.HomeAdapter;
 import com.example.sns_project.listener.OnPostListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -29,6 +29,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
+
+import static com.example.sns_project.Util.showToast;
 
 public class HomeFragment extends Fragment {
     private static final String TAG = "HomeFragment";
@@ -142,10 +144,15 @@ public class HomeFragment extends Fragment {
     OnPostListener onPostListener = new OnPostListener() {
         @Override
         public void onDelete(PostInfo postInfo) {
-            postList.remove(postInfo);
-            homeAdapter.notifyDataSetChanged();
-
-            Log.e("로그: ","삭제 성공");
+            FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+            if(firebaseAuth.getUid().equals(postInfo.getPublisher())){
+                postList.remove(postInfo);
+                homeAdapter.notifyDataSetChanged();
+                Log.e("로그: ","삭제 성공");
+            }
+            else{
+                showToast(getActivity(), "글쓴이가 다릅니다.");
+            }
         }
 
         @Override

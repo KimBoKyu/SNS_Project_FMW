@@ -2,10 +2,11 @@ package com.example.sns_project.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+
+import androidx.annotation.NonNull;
 
 import com.example.sns_project.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,6 +30,7 @@ public class LoginActivity extends BasicActivity {
 
         findViewById(R.id.loginButton).setOnClickListener(onClickListener);
         findViewById(R.id.gotoPasswordResetButton).setOnClickListener(onClickListener);
+        findViewById(R.id.gotoSignUpButton).setOnClickListener(onClickListener);
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -37,6 +39,9 @@ public class LoginActivity extends BasicActivity {
             switch (v.getId()) {
                 case R.id.loginButton:
                     login();
+                    break;
+                case R.id.gotoSignUpButton:
+                    myStartActivity(SignUpActivity.class);
                     break;
                 case R.id.gotoPasswordResetButton:
                     myStartActivity(PasswordResetActivity.class);

@@ -45,7 +45,7 @@ public class UserInfoFragment extends Fragment {
         final TextView phoneNumberTextView = view.findViewById(R.id.phoneNumberTextView);
         final TextView birthDayTextView = view.findViewById(R.id.birthDayTextView);
         final TextView addressTextView = view.findViewById(R.id.addressTextView);
-        final Button logoutButton = view.findViewById(R.id.btn_lgout);
+        final Button logoutButton = view.findViewById(R.id.gotoSignOutButton);
         logoutButton.setOnClickListener(onClickListener);
         DocumentReference documentReference = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -79,10 +79,8 @@ public class UserInfoFragment extends Fragment {
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            System.out.println("눌림????");
             switch (v.getId()) {
-                case R.id.btn_lgout:
-                    System.out.println("눌림?");
+                case R.id.gotoSignOutButton:
                     logout();
                     myStartActivity(LoginActivity.class);
                     break;

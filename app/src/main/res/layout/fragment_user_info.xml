@@ -74,11 +74,11 @@
                     android:textSize="18dp" />
 
                 <Button
-                    android:id="@+id/btn_lgout"
+                    android:id="@+id/gotoSignOutButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:clickable="true"
-                    android:text="Button" />
+                    android:text="로그아웃" />
 
             </LinearLayout>
         </LinearLayout>

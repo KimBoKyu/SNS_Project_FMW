@@ -2,10 +2,11 @@ package com.example.sns_project.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+
+import androidx.annotation.NonNull;
 
 import com.example.sns_project.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -70,7 +71,7 @@ public class SignUpActivity extends BasicActivity {
                                 if (task.isSuccessful()) {
                                     FirebaseUser user = mAuth.getCurrentUser();
                                     showToast(SignUpActivity.this, "회원가입에 성공하였습니다.");
-                                    myStartActivity(MainActivity.class);
+                                    myStartActivity(LoginActivity.class);
                                 } else {
                                     if(task.getException() != null){
                                         showToast(SignUpActivity.this, task.getException().toString());
