@@ -6,19 +6,16 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.bumptech.glide.Glide;
 import com.example.sns_project.FirebaseHelper;
 import com.example.sns_project.PostInfo;
 import com.example.sns_project.R;
 import com.example.sns_project.listener.OnPostListener;
-import com.example.sns_project.view.ContentsItemView;
 import com.example.sns_project.view.ReadContentsVIew;
+import com.google.firebase.auth.FirebaseAuth;
 
-import static com.example.sns_project.Util.INTENT_PATH;
+import static com.example.sns_project.Util.showToast;
 
 public class PostActivity extends BasicActivity {
     private PostInfo postInfo;
@@ -62,12 +59,23 @@ public class PostActivity extends BasicActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         switch (item.getItemId()) {
             case R.id.delete:
-                firebaseHelper.storageDelete(postInfo);
+                if(firebaseAuth.getUid().equals(postInfo.getPublisher())){
+                    firebaseHelper.storageDelete(postInfo);
+                }
+                else{
+                    showToast(this, "글쓴이가 다릅니다.");
+                }
                 return true;
             case R.id.modify:
-                myStartActivity(WritePostActivity.class, postInfo);
+                if(firebaseAuth.getUid().equals(postInfo.getPublisher())){
+                    myStartActivity(WritePostActivity.class, postInfo);
+                }
+                else{
+                    showToast(this, "글쓴이가 다릅니다.");
+                }
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

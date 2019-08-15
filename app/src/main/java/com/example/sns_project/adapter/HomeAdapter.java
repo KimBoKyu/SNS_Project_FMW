@@ -2,12 +2,6 @@ package com.example.sns_project.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
-
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.appcompat.widget.PopupMenu;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -15,6 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.PopupMenu;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sns_project.FirebaseHelper;
 import com.example.sns_project.PostInfo;
@@ -24,8 +23,11 @@ import com.example.sns_project.activity.WritePostActivity;
 import com.example.sns_project.listener.OnPostListener;
 import com.example.sns_project.view.ReadContentsVIew;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
+
+import static com.example.sns_project.Util.showToast;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MainViewHolder> {
     private ArrayList<PostInfo> mDataset;
@@ -117,13 +119,24 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MainViewHolder
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
                 switch (menuItem.getItemId()) {
                     case R.id.modify:
-                        myStartActivity(WritePostActivity.class, mDataset.get(position));
-                        return true;
+                        if(firebaseAuth.getUid().equals(mDataset.get(position).getPublisher())){
+                            myStartActivity(WritePostActivity.class, mDataset.get(position));
+                            return true;
+                        }
+                        else{
+                            showToast(activity,"글쓴이가 다릅니다.");
+                        }
                     case R.id.delete:
-                        firebaseHelper.storageDelete(mDataset.get(position));
-                        return true;
+                        if(firebaseAuth.getUid().equals(mDataset.get(position).getPublisher())){
+                            firebaseHelper.storageDelete(mDataset.get(position));
+                            return true;
+                        }
+                        else{
+                            showToast(activity,"글쓴이가 다릅니다.");
+                        }
                     default:
                         return false;
                 }

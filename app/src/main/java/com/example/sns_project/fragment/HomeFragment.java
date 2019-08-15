@@ -102,9 +102,7 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
-
         postsUpdate(false);
-
         return view;
     }
 
