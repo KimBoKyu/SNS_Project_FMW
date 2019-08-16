@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
-
 import com.example.sns_project.FirebaseHelper;
 import com.example.sns_project.PostInfo;
 import com.example.sns_project.R;
