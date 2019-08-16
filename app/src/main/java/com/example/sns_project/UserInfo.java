@@ -7,7 +7,7 @@ public class UserInfo {
     private String address;
     private String photoUrl;
 
-    public UserInfo(String name, String phoneNumber, String birthDay, String address, String photoUrl){
+    public UserInfo(String name, String phoneNumber, String birthDay, String photoUrl){
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.birthDay = birthDay;
@@ -15,7 +15,7 @@ public class UserInfo {
         this.photoUrl = photoUrl;
     }
 
-    public UserInfo(String name, String phoneNumber, String birthDay, String address){
+    public UserInfo(String name, String phoneNumber, String birthDay){
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.birthDay = birthDay;
@@ -40,12 +40,12 @@ public class UserInfo {
     public void setBirthDay(String birthDay){
         this.birthDay = birthDay;
     }
-    public String getAddress(){
-        return this.address;
-    }
-    public void setAddress(String address){
-        this.address = address;
-    }
+//    public String getAddress(){
+//        return this.address;
+//    }
+//    public void setAddress(String address){
+//        this.address = address;
+//    }
     public String getPhotoUrl(){
         return this.photoUrl;
     }

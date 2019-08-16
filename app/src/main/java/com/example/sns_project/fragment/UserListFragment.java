@@ -170,7 +170,7 @@ public class UserListFragment extends Fragment {
                                         document.getData().get("name").toString(),
                                         document.getData().get("phoneNumber").toString(),
                                         document.getData().get("birthDay").toString(),
-                                        document.getData().get("address").toString(),
+                                        //document.getData().get("address").toString(),
                                         document.getData().get("photoUrl") == null ? null : document.getData().get("photoUrl").toString()));
                             }
                             userListAdapter.notifyDataSetChanged();

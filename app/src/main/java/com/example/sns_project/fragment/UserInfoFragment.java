@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.example.sns_project.R;
 import com.example.sns_project.activity.LoginActivity;
+import com.example.sns_project.activity.MemberInitActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,9 +45,13 @@ public class UserInfoFragment extends Fragment {
         final TextView nameTextView = view.findViewById(R.id.nameTextView);
         final TextView phoneNumberTextView = view.findViewById(R.id.phoneNumberTextView);
         final TextView birthDayTextView = view.findViewById(R.id.birthDayTextView);
-        final TextView addressTextView = view.findViewById(R.id.addressTextView);
-        final Button logoutButton = view.findViewById(R.id.gotoSignOutButton);
+//        final TextView addressTextView = view.findViewById(R.id.addressTextView);
+
+        final Button logoutButton = view.findViewById(R.id.button_signOut);
         logoutButton.setOnClickListener(onClickListener);
+        final Button modifyButton = view.findViewById(R.id.button_modify);
+        modifyButton.setOnClickListener(onClickListener);
+
         DocumentReference documentReference = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -62,7 +67,7 @@ public class UserInfoFragment extends Fragment {
                             nameTextView.setText(document.getData().get("name").toString());
                             phoneNumberTextView.setText(document.getData().get("phoneNumber").toString());
                             birthDayTextView.setText(document.getData().get("birthDay").toString());
-                            addressTextView.setText(document.getData().get("address").toString());
+//                            addressTextView.setText(document.getData().get("address").toString());
                         } else {
                             Log.d(TAG, "No such document");
                         }
@@ -80,11 +85,15 @@ public class UserInfoFragment extends Fragment {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.gotoSignOutButton:
+                case R.id.button_signOut:
                     logout();
                     myStartActivity(LoginActivity.class);
                     break;
 
+                case R.id.button_modify:
+                    //fun();
+                    myStartActivity(MemberInitActivity.class);
+                    break;
             }
         }
     };

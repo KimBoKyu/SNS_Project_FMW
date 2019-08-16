@@ -109,9 +109,9 @@ public class MemberInitActivity extends BasicActivity {
         final String name = ((EditText) findViewById(R.id.nameEditText)).getText().toString();
         final String phoneNumber = ((EditText) findViewById(R.id.phoneNumberEditText)).getText().toString();
         final String birthDay = ((EditText) findViewById(R.id.birthDayEditText)).getText().toString();
-        final String address = ((EditText) findViewById(R.id.addressEditText)).getText().toString();
+        //final String address = ((EditText) findViewById(R.id.addressEditText)).getText().toString();
 
-        if (name.length() > 0 && phoneNumber.length() > 9 && birthDay.length() > 5 && address.length() > 0) {
+        if (name.length() > 0 && phoneNumber.length() > 9 && birthDay.length() > 5) {
             loaderLayout.setVisibility(View.VISIBLE);
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReference();
@@ -119,7 +119,7 @@ public class MemberInitActivity extends BasicActivity {
             final StorageReference mountainImagesRef = storageRef.child("users/" + user.getUid() + "/profileImage.jpg");
 
             if (profilePath == null) {
-                UserInfo userInfo = new UserInfo(name, phoneNumber, birthDay, address);
+                UserInfo userInfo = new UserInfo(name, phoneNumber, birthDay);
                 storeUploader(userInfo);
             } else {
                 try {
@@ -139,7 +139,7 @@ public class MemberInitActivity extends BasicActivity {
                             if (task.isSuccessful()) {
                                 Uri downloadUri = task.getResult();
 
-                                UserInfo userInfo = new UserInfo(name, phoneNumber, birthDay, address, downloadUri.toString());
+                                UserInfo userInfo = new UserInfo(name, phoneNumber, birthDay, downloadUri.toString());
                                 storeUploader(userInfo);
                             } else {
                                 showToast(MemberInitActivity.this, "회원정보를 보내는데 실패하였습니다.");
