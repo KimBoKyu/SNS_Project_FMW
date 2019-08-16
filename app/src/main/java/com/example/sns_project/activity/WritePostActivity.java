@@ -1,6 +1,7 @@
 package com.example.sns_project.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -59,12 +60,14 @@ public class WritePostActivity extends BasicActivity {
     private EditText titleEditText;
     private PostInfo postInfo;
     private int pathCount, successCount;
+    public static Context mcontext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_write_post);
         setToolbarTitle("게시글 작성");
+        mcontext = this;
 
         parent = findViewById(R.id.contentsLayout);
         buttonsBackgroundLayout = findViewById(R.id.buttonsBackgroundLayout);
@@ -78,7 +81,6 @@ public class WritePostActivity extends BasicActivity {
         findViewById(R.id.imageModify).setOnClickListener(onClickListener);
         findViewById(R.id.videoModify).setOnClickListener(onClickListener);
         findViewById(R.id.delete).setOnClickListener(onClickListener);
-
         buttonsBackgroundLayout.setOnClickListener(onClickListener);
         contentsEditText.setOnFocusChangeListener(onFocusChangeListener);
         titleEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -89,10 +91,8 @@ public class WritePostActivity extends BasicActivity {
                 }
             }
         });
-
         FirebaseStorage storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference();
-
         postInfo = (PostInfo) getIntent().getSerializableExtra("postInfo");
         postInit();
     }
@@ -105,9 +105,7 @@ public class WritePostActivity extends BasicActivity {
                 if (resultCode == Activity.RESULT_OK) {
                     String path = data.getStringExtra(INTENT_PATH);
                     pathList.add(path);
-
                     ContentsItemView contentsItemView = new ContentsItemView(this);
-
                     if (selectedEditText == null) {
                         parent.addView(contentsItemView);
                     } else {
@@ -118,7 +116,6 @@ public class WritePostActivity extends BasicActivity {
                             }
                         }
                     }
-
                     contentsItemView.setImage(path);
                     contentsItemView.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -312,7 +309,6 @@ public class WritePostActivity extends BasicActivity {
                     pathList.add(contents);
                     ContentsItemView contentsItemView = new ContentsItemView(this);
                     parent.addView(contentsItemView);
-
                     contentsItemView.setImage(contents);
                     contentsItemView.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -335,6 +331,7 @@ public class WritePostActivity extends BasicActivity {
             }
         }
     }
+
 
     private void myStartActivity(Class c, int media, int requestCode) {
         Intent intent = new Intent(this, c);

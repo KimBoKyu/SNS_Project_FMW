@@ -50,6 +50,13 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        homeAdapter.notifyDataSetChanged();
+        postsUpdate(true);
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -70,7 +77,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-
                 RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
                 int firstVisibleItemPosition = ((LinearLayoutManager)layoutManager).findFirstVisibleItemPosition();
 
@@ -86,7 +92,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy){
                 super.onScrolled(recyclerView, dx, dy);
-
                 RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
                 int visibleItemCount = layoutManager.getChildCount();
                 int totalItemCount = layoutManager.getItemCount();
@@ -134,9 +139,9 @@ public class HomeFragment extends Fragment {
     };
 
     OnPostListener onPostListener = new OnPostListener() {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         @Override
         public void onDelete(PostInfo postInfo) {
-            FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
             if(firebaseAuth.getUid().equals(postInfo.getPublisher())){
                 postList.remove(postInfo);
                 homeAdapter.notifyDataSetChanged();
@@ -150,6 +155,7 @@ public class HomeFragment extends Fragment {
 
         @Override
         public void onModify() {
+            postsUpdate(true);
             Log.e("로그: ","수정 성공");
         }
     };
@@ -184,7 +190,6 @@ public class HomeFragment extends Fragment {
                     }
                 });
     }
-
 
     private void myStartActivity(Class c) {
         Intent intent = new Intent(getActivity(), c);

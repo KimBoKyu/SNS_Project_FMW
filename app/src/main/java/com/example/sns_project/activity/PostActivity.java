@@ -64,6 +64,8 @@ public class PostActivity extends BasicActivity {
             case R.id.delete:
                 if(firebaseAuth.getUid().equals(postInfo.getPublisher())){
                     firebaseHelper.storageDelete(postInfo);
+                    finish();
+                    showToast(this, "삭제하였습니다.");
                 }
                 else{
                     showToast(this, "글쓴이가 다릅니다.");
@@ -72,6 +74,8 @@ public class PostActivity extends BasicActivity {
             case R.id.modify:
                 if(firebaseAuth.getUid().equals(postInfo.getPublisher())){
                     myStartActivity(WritePostActivity.class, postInfo);
+                    finish();
+                    showToast(this, "수정되었습니다.");
                 }
                 else{
                     showToast(this, "글쓴이가 다릅니다.");
