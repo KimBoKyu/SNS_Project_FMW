@@ -37,6 +37,12 @@ public class UserInfoFragment extends Fragment {
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        updateUser();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
@@ -45,8 +51,6 @@ public class UserInfoFragment extends Fragment {
         final TextView nameTextView = view.findViewById(R.id.nameTextView);
         final TextView phoneNumberTextView = view.findViewById(R.id.phoneNumberTextView);
         final TextView birthDayTextView = view.findViewById(R.id.birthDayTextView);
-//        final TextView addressTextView = view.findViewById(R.id.addressTextView);
-
         final Button logoutButton = view.findViewById(R.id.button_signOut);
         logoutButton.setOnClickListener(onClickListener);
         final Button modifyButton = view.findViewById(R.id.button_modify);
@@ -67,7 +71,6 @@ public class UserInfoFragment extends Fragment {
                             nameTextView.setText(document.getData().get("name").toString());
                             phoneNumberTextView.setText(document.getData().get("phoneNumber").toString());
                             birthDayTextView.setText(document.getData().get("birthDay").toString());
-//                            addressTextView.setText(document.getData().get("address").toString());
                         } else {
                             Log.d(TAG, "No such document");
                         }
@@ -81,6 +84,37 @@ public class UserInfoFragment extends Fragment {
         return view;
     }
 
+    public void updateUser(){
+        final ImageView profileImageView = getView().findViewById(R.id.profileImageView);
+        final TextView nameTextView = getView().findViewById(R.id.nameTextView);
+        final TextView phoneNumberTextView = getView().findViewById(R.id.phoneNumberTextView);
+        final TextView birthDayTextView = getView().findViewById(R.id.birthDayTextView);
+        DocumentReference documentReference = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document != null) {
+                        if (document.exists()) {
+                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                            if(document.getData().get("photoUrl") != null){
+                                Glide.with(getActivity()).load(document.getData().get("photoUrl")).centerCrop().override(500).into(profileImageView);
+                            }
+                            nameTextView.setText(document.getData().get("name").toString());
+                            phoneNumberTextView.setText(document.getData().get("phoneNumber").toString());
+                            birthDayTextView.setText(document.getData().get("birthDay").toString());
+                        } else {
+                            Log.d(TAG, "No such document");
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+    }
+
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -91,7 +125,6 @@ public class UserInfoFragment extends Fragment {
                     break;
 
                 case R.id.button_modify:
-                    //fun();
                     myStartActivity(MemberInitActivity.class);
                     break;
             }
