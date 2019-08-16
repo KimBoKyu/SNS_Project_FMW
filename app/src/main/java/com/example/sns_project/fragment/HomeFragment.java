@@ -99,7 +99,7 @@ public class HomeFragment extends Fragment {
                 int lastVisibleItemPosition = ((LinearLayoutManager)layoutManager).findLastVisibleItemPosition();
 
                 if(totalItemCount - 3 <= lastVisibleItemPosition && !updating){
-                    postsUpdate(false);
+                    postsUpdate(true);
                 }
 
                 if(0 < firstVisibleItemPosition){
@@ -107,7 +107,7 @@ public class HomeFragment extends Fragment {
                 }
             }
         });
-        postsUpdate(false);
+        postsUpdate(true);
         return view;
     }
 

@@ -80,7 +80,6 @@ public class MemberModifyActivity extends BasicActivity {
                             Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                             if(document.getData().get("photoUrl") != null){
                                 Glide.with(getApplicationContext()).load(document.getData().get("photoUrl")).centerCrop().override(500).into(profileImageVIew);
-                                //Glide.with().load(document.getData().get("photoUrl")).centerCrop().override(500).into(profileImageVIew);
                             }
                             name.setText(document.getData().get("name").toString());
                             phoneNumber.setText(document.getData().get("phoneNumber").toString());
