@@ -40,6 +40,8 @@
         </activity>
         <activity android:name=".activity.MemberInitActivity">
         </activity>
+        <activity android:name=".activity.MemberModifyActivity">
+        </activity>
         <activity android:name=".activity.CameraActivity">
         </activity>
         <activity android:name=".activity.GalleryActivity">

@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.example.sns_project.R;
 import com.example.sns_project.activity.LoginActivity;
-import com.example.sns_project.activity.MemberInitActivity;
+import com.example.sns_project.activity.MemberModifyActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -125,7 +125,7 @@ public class UserInfoFragment extends Fragment {
                     break;
 
                 case R.id.button_modify:
-                    myStartActivity(MemberInitActivity.class);
+                    myStartActivity(MemberModifyActivity.class);
                     break;
             }
         }
