@@ -21,9 +21,12 @@ import com.example.sns_project.activity.MemberModifyActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class UserInfoFragment extends Fragment {
     private static final String TAG = "UserInfoFragment";
@@ -55,7 +58,6 @@ public class UserInfoFragment extends Fragment {
         logoutButton.setOnClickListener(onClickListener);
         final Button modifyButton = view.findViewById(R.id.button_modify);
         modifyButton.setOnClickListener(onClickListener);
-
         DocumentReference documentReference = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -80,8 +82,27 @@ public class UserInfoFragment extends Fragment {
                 }
             }
         });
-
+        getData();
         return view;
+    }
+
+    public void getData(){
+        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        CollectionReference posts = FirebaseFirestore.getInstance().collection("posts");
+        posts.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        if(mAuth.getUid().equals(document.getData().get("publisher"))){
+                            Log.d(TAG, document.getId() + " => " + document.getData());
+                        }
+                    }
+                } else {
+                    Log.d(TAG, "Error getting documents: ", task.getException());
+                }
+            }
+        });
     }
 
     public void updateUser(){
