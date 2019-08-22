@@ -94,6 +94,7 @@ public class MemberModifyActivity extends BasicActivity {
             }
         });
     }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
