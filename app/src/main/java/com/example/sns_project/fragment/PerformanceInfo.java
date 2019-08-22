@@ -31,6 +31,7 @@ public class PerformanceInfo extends Fragment {
     private ArrayList<String> thumbNail = new ArrayList<>();
     private ListView mListView;;
     private ArrayAdapter mAdapter;
+    private ArrayList<String> mList = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,9 +59,13 @@ public class PerformanceInfo extends Fragment {
             System.out.println("title : " + title.get(i));
         }
         mListView=  view.findViewById(R.id.listView);
-        mAdapter =  new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, title);
+        mAdapter =  new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, mList);
         mListView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
+        for(int i=0; i<title.size(); i++){
+            mList.add(title.get(i));
+        }
+
         flipper= view.findViewById(R.id.flipper);
         /*for(int i=1;i<5;i++){
             ImageView img = new ImageView(getActivity());
