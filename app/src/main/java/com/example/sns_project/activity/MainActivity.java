@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import com.example.sns_project.R;
 import com.example.sns_project.fragment.HomeFragment;
 import com.example.sns_project.fragment.UserInfoFragment;
-import com.example.sns_project.fragment.UserListFragment;
+import com.example.sns_project.fragment.PerformanceInfo;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -100,9 +100,9 @@ public class MainActivity extends BasicActivity {
                                     .commit();
                             return true;
                         case R.id.userList:
-                            UserListFragment userListFragment = new UserListFragment();
+                            PerformanceInfo performanceInfo = new PerformanceInfo();
                             getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.container, userListFragment)
+                                    .replace(R.id.container, performanceInfo)
                                     .commit();
                             return true;
                     }
