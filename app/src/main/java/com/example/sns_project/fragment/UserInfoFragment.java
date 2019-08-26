@@ -7,8 +7,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.example.sns_project.R;
 import com.example.sns_project.activity.LoginActivity;
 import com.example.sns_project.activity.MemberModifyActivity;
+import com.example.sns_project.adapter.HomeAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,7 +32,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+
 public class UserInfoFragment extends Fragment {
+
+
+    private ListView mListView;
+    private ArrayList<String> mList = new ArrayList();
+    private ArrayAdapter mAdapter;
+
+
+
     private static final String TAG = "UserInfoFragment";
     public UserInfoFragment() {
         // Required empty public constructor
@@ -36,7 +50,13 @@ public class UserInfoFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+        //setContentView(R.layout.fragment_user_info) ;
+
+        //ListView mListView = (ListView) findViewById(R.id.listView) ;
+
+
     }
 
     @Override
@@ -48,7 +68,6 @@ public class UserInfoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_user_info, container, false);
         final ImageView profileImageView = view.findViewById(R.id.profileImageView);
         final TextView nameTextView = view.findViewById(R.id.nameTextView);
@@ -58,6 +77,7 @@ public class UserInfoFragment extends Fragment {
         logoutButton.setOnClickListener(onClickListener);
         final Button modifyButton = view.findViewById(R.id.button_modify);
         modifyButton.setOnClickListener(onClickListener);
+
         DocumentReference documentReference = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -66,7 +86,6 @@ public class UserInfoFragment extends Fragment {
                     DocumentSnapshot document = task.getResult();
                     if (document != null) {
                         if (document.exists()) {
-                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                             if(document.getData().get("photoUrl") != null){
                                 Glide.with(getActivity()).load(document.getData().get("photoUrl")).centerCrop().override(500).into(profileImageView);
                             }
@@ -82,20 +101,20 @@ public class UserInfoFragment extends Fragment {
                 }
             }
         });
-        getData();
-        return view;
-    }
 
-    public void getData(){
         final FirebaseAuth mAuth = FirebaseAuth.getInstance();
         CollectionReference posts = FirebaseFirestore.getInstance().collection("posts");
         posts.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    int i = 0;
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         if(mAuth.getUid().equals(document.getData().get("publisher"))){
-                            Log.d(TAG, document.getId() + " => " + document.getData());
+                            mList.add(document.getData().get("title").toString());
+                            mAdapter.notifyDataSetChanged();
+                            System.out.println(mList.get(i++));
+
                         }
                     }
                 } else {
@@ -103,9 +122,32 @@ public class UserInfoFragment extends Fragment {
                 }
             }
         });
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
+
+                // get TextView's Text.
+                String strText = (String) parent.getItemAtPosition(position) ;
+
+                // TODO : use strText
+            }
+        }) ;
+
+
+        mAdapter =  new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, mList);
+        //ListView mListView = (ListView) findViewById(R.id.listview) ;
+        mListView.setAdapter(mAdapter);
+        //mAdapter.notifyDataSetChanged();
+
+        return view;
     }
 
+
+
     public void updateUser(){
+
+
         final ImageView profileImageView = getView().findViewById(R.id.profileImageView);
         final TextView nameTextView = getView().findViewById(R.id.nameTextView);
         final TextView phoneNumberTextView = getView().findViewById(R.id.phoneNumberTextView);
@@ -118,7 +160,6 @@ public class UserInfoFragment extends Fragment {
                     DocumentSnapshot document = task.getResult();
                     if (document != null) {
                         if (document.exists()) {
-                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                             if(document.getData().get("photoUrl") != null){
                                 Glide.with(getActivity()).load(document.getData().get("photoUrl")).centerCrop().override(500).into(profileImageView);
                             }
@@ -134,6 +175,8 @@ public class UserInfoFragment extends Fragment {
                 }
             }
         });
+
+
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -151,6 +194,9 @@ public class UserInfoFragment extends Fragment {
             }
         }
     };
+
+
+
 
     public void logout(){
         FirebaseAuth.getInstance().signOut();

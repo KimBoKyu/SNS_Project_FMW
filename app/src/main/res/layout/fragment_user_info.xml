@@ -27,7 +27,7 @@
                     android:layout_height="30dp"
                     android:layout_marginBottom="20dp"
                     android:gravity="center"
-                    android:text="개인 정보"
+                    android:text="slrkajsep337@naver.com"
                     android:textColor="#000000"
                     android:textSize="24sp"
                     android:textStyle="bold" />
