@@ -52,8 +52,6 @@ public class PerformanceInfo extends Fragment {
         View view = inflater.inflate(R.layout.fragment_performance_info, container, false);
         ViewFlipper flipper;
         super.onCreate(savedInstanceState);
-        Background thread = new Background();
-        thread.start();
         init();
         for(int i=0; i<title.size(); i++){
             System.out.println("title : " + title.get(i));
@@ -67,25 +65,12 @@ public class PerformanceInfo extends Fragment {
         }
 
         flipper= view.findViewById(R.id.flipper);
-        /*for(int i=1;i<5;i++){
-            ImageView img = new ImageView(getActivity());
-            img.setImageResource(R.drawable.title1+i);
-            flipper.addView(img);
-        }*/
         Animation showIn= AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_in_left);
         flipper.setInAnimation(showIn);
         flipper.setOutAnimation(getActivity(), android.R.anim.slide_out_right);
         flipper.setFlipInterval(2000);//플리핑 간격(1000ms)
         flipper.startFlipping();//자동 Flipping 시작
         return view;
-    }
-
-    class Background extends Thread{
-        @Override
-        public void run(){
-            super.run();
-            DataInfo.getData();
-        }
     }
 
 }

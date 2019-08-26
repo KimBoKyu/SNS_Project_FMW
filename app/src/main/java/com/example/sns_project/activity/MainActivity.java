@@ -7,10 +7,11 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 
+import com.example.sns_project.DataInfo;
 import com.example.sns_project.R;
 import com.example.sns_project.fragment.HomeFragment;
-import com.example.sns_project.fragment.UserInfoFragment;
 import com.example.sns_project.fragment.PerformanceInfo;
+import com.example.sns_project.fragment.UserInfoFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -28,8 +29,9 @@ public class MainActivity extends BasicActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setToolbarTitle(getResources().getString(R.string.app_name));
-
         init();
+        Background thread = new Background();
+        thread.start();
     }
 
     @Override
@@ -109,6 +111,14 @@ public class MainActivity extends BasicActivity {
                     return false;
                 }
             });
+        }
+    }
+
+    class Background extends Thread{
+        @Override
+        public void run(){
+            super.run();
+            DataInfo.getData();
         }
     }
 
