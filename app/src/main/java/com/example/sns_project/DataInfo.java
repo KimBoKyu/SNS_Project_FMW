@@ -10,15 +10,16 @@ import java.util.ArrayList;
 
 public class DataInfo {
     public static boolean inPerforList = false, inTitle = false, inStartDate = false, inEndDate = false, inPlace = false;
-    public static boolean inRealmName = false, inArea = false, inThumbnail = false;
+    public static boolean inRealmName = false, inArea = false, inThumbnail = false, inSeqNum = false;
     public static final String serviceKey = "nPNS96E9tPdBbuORe7jyzvIx9NxrNVmvAV1e5vh%2B2lItx%2F9mmlcqmEZeTCt%2FYL84UEsuGXUO3fFhuTL8kG4Tzg%3D%3D";
     public static ArrayList<String> title= new ArrayList<>();
     public static ArrayList<String> startDate = new ArrayList<>();
     public static ArrayList<String> endDate = new ArrayList<>();
     public static ArrayList<String> place = new ArrayList<>();
-    public static ArrayList<String> realmNama = new ArrayList<>();
+    public static ArrayList<String> realmName = new ArrayList<>();
     public static ArrayList<String> area = new ArrayList<>();
     public static ArrayList<String> thumbNail = new ArrayList<>();
+    public static ArrayList<String> seqNum = new ArrayList<>();
     public static String temp = "";
     public static String errMsg = "";
     public DataInfo() {};
@@ -27,23 +28,24 @@ public class DataInfo {
         return title;
     }
     public static ArrayList<String> getStartDate(){
-        return title;
+        return startDate;
     }
     public static ArrayList<String> getEndDate(){
-        return title;
+        return endDate;
     }
     public static ArrayList<String> getPlace(){
-        return title;
+        return place;
     }
-    public static ArrayList<String> getRealmNama(){
-        return title;
+    public static ArrayList<String> getRealmName(){
+        return realmName;
     }
     public static ArrayList<String> getArea(){
-        return title;
+        return area;
     }
     public static ArrayList<String> getThumbNail(){
-        return title;
+        return thumbNail;
     }
+    public static ArrayList<String> getSeqNum() { return seqNum; }
 
     public static void getData(){
         try{
@@ -59,6 +61,9 @@ public class DataInfo {
             while (parserEvent != XmlPullParser.END_DOCUMENT){
                 switch(parserEvent){
                     case XmlPullParser.START_TAG://parser가 시작 태그를 만나면 실행
+                        if(parser.getName().equals("seq")){
+                            inSeqNum = true;
+                        }
                         if(parser.getName().equals("title")){
                             inTitle = true;
                         }
@@ -110,7 +115,7 @@ public class DataInfo {
                         }
                         if(inRealmName){
                             temp = parser.getText();
-                            realmNama.add(temp);
+                            realmName.add(temp);
                             inRealmName = false;
                         }
                         if(inArea) {
