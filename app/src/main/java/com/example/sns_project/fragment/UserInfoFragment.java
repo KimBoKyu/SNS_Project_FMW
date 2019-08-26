@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -21,7 +22,7 @@ import com.bumptech.glide.Glide;
 import com.example.sns_project.R;
 import com.example.sns_project.activity.LoginActivity;
 import com.example.sns_project.activity.MemberModifyActivity;
-import com.example.sns_project.adapter.HomeAdapter;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,6 +36,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 public class UserInfoFragment extends Fragment {
+
 
 
     private ListView mListView;
@@ -54,7 +56,7 @@ public class UserInfoFragment extends Fragment {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.fragment_user_info) ;
 
-        //ListView mListView = (ListView) findViewById(R.id.listView) ;
+
 
 
     }
@@ -113,6 +115,7 @@ public class UserInfoFragment extends Fragment {
                         if(mAuth.getUid().equals(document.getData().get("publisher"))){
                             mList.add(document.getData().get("title").toString());
                             mAdapter.notifyDataSetChanged();
+
                             System.out.println(mList.get(i++));
 
                         }
@@ -123,22 +126,23 @@ public class UserInfoFragment extends Fragment {
             }
         });
 
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView parent, View v, int position, long id) {
-
-                // get TextView's Text.
-                String strText = (String) parent.getItemAtPosition(position) ;
-
-                // TODO : use strText
-            }
-        }) ;
 
 
+        ListView mListView = (ListView) view.findViewById(R.id.listview) ;
         mAdapter =  new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, mList);
-        //ListView mListView = (ListView) findViewById(R.id.listview) ;
         mListView.setAdapter(mAdapter);
-        //mAdapter.notifyDataSetChanged();
+
+
+
+//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView parent, View v, int position, long id) {
+//
+//
+//            }
+//        }) ;
+
+
 
         return view;
     }
