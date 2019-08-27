@@ -11,14 +11,19 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ViewFlipper;
-
+import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.sns_project.DataInfo;
 import com.example.sns_project.R;
 import com.example.sns_project.activity.PerformanceDetailInfoActivity;
+import com.example.sns_project.activity.PersonItem;
+import com.example.sns_project.activity.RecyclerViewAdapter;
+import com.example.sns_project.activity.RecyclerViewHolder;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 
@@ -36,6 +41,7 @@ public class PerformanceInfo extends Fragment {
     private ArrayAdapter mAdapter;
     private ArrayList<String> mList = new ArrayList<>();
 
+    private RecyclerViewAdapter adapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,19 +61,19 @@ public class PerformanceInfo extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_performance_info, container, false);
         ViewFlipper flipper;
-        view.findViewById(R.id.button).setOnClickListener(onClickListener);
+//        view.findViewById(R.id.button).setOnClickListener(onClickListener);
         super.onCreate(savedInstanceState);
         init();
         for(int i=0; i<title.size(); i++){
             System.out.println("title : " + title.get(i));
         }
-        mListView=  view.findViewById(R.id.listView);
-        mAdapter =  new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, mList);
-        mListView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
-        for(int i=0; i<title.size(); i++){
-            mList.add(title.get(i));
-        }
+//        mListView=  view.findViewById(R.id.listView);
+//        mAdapter =  new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, mList);
+//        mListView.setAdapter(mAdapter);
+//        mAdapter.notifyDataSetChanged();
+//        for(int i=0; i<title.size(); i++){
+//            mList.add(title.get(i));
+//        }
 
         flipper= view.findViewById(R.id.flipper);
         Animation showIn= AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_in_left);
@@ -75,18 +81,42 @@ public class PerformanceInfo extends Fragment {
         flipper.setOutAnimation(getActivity(), android.R.anim.slide_out_right);
         flipper.setFlipInterval(2000);//플리핑 간격(1000ms)
         flipper.startFlipping();//자동 Flipping 시작
+
+        RecyclerView recyclerView;
+        recyclerView=view.findViewById(R.id.recycler_view);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
+                LinearLayoutManager.HORIZONTAL, false);
+
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new RecyclerViewAdapter(getContext()); //여기애매함
+        adapter.addItem(new PersonItem("보규"));
+        adapter.addItem(new PersonItem("성수"));
+        adapter.addItem(new PersonItem("수진"));
+        recyclerView.setAdapter(adapter);   // 어뎁터 설정
+
+        adapter.setOnItemClickListener(new RecyclerViewAdapter.itemClickListener() {
+            @Override
+            public void onItemClick(RecyclerViewHolder holder, View view, int position) {
+                PersonItem item = adapter.getItem(position);
+//                Toast.makeText(getContext(), "제목: "+item.getName(), Toast.LENGTH_SHORT).show();
+                myStartActivity(PerformanceDetailInfoActivity.class );
+            }
+
+        });
+
         return view;
     }
-    View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.button:
-                    myStartActivity(PerformanceDetailInfoActivity.class );
-                    break;
-            }
-        }
-    };
+//    View.OnClickListener onClickListener = new View.OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//            switch (v.getId()) {
+//                case R.id.button:
+//                    myStartActivity(PerformanceDetailInfoActivity.class );
+//                    break;
+//            }
+//        }
+//    };
 
     private void myStartActivity(Class c) {
         Intent intent = new Intent(getActivity(), c);
@@ -94,4 +124,3 @@ public class PerformanceInfo extends Fragment {
     }
 
 }
-
