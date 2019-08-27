@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -30,12 +31,19 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class UserInfoFragment extends Fragment {
+
+
+
+    //  *** 내가 쓴 게시물 알파벳순 정렬 -> 시간순 정렬로 수정 해야함 ***
+
 
 
 
@@ -104,6 +112,9 @@ public class UserInfoFragment extends Fragment {
             }
         });
 
+
+
+
         final FirebaseAuth mAuth = FirebaseAuth.getInstance();
         CollectionReference posts = FirebaseFirestore.getInstance().collection("posts");
         posts.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -134,13 +145,18 @@ public class UserInfoFragment extends Fragment {
 
 
 
-//        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView parent, View v, int position, long id) {
-//
-//
-//            }
-//        }) ;
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
+
+
+                //Toast.makeText(getContext(),,Toast.LENGTH_LONG).show();
+
+
+
+
+            }
+        }) ;
 
 
 
