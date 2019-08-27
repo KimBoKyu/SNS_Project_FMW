@@ -7,14 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -23,7 +21,6 @@ import com.bumptech.glide.Glide;
 import com.example.sns_project.R;
 import com.example.sns_project.activity.LoginActivity;
 import com.example.sns_project.activity.MemberModifyActivity;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,28 +28,17 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class UserInfoFragment extends Fragment {
-
-
-
     //  *** 내가 쓴 게시물 알파벳순 정렬 -> 시간순 정렬로 수정 해야함 ***
-
-
-
 
     private ListView mListView;
     private ArrayList<String> mList = new ArrayList();
     private ArrayAdapter mAdapter;
-
-
-
     private static final String TAG = "UserInfoFragment";
     public UserInfoFragment() {
         // Required empty public constructor
@@ -60,13 +46,7 @@ public class UserInfoFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.fragment_user_info) ;
-
-
-
-
     }
 
     @Override
@@ -112,9 +92,6 @@ public class UserInfoFragment extends Fragment {
             }
         });
 
-
-
-
         final FirebaseAuth mAuth = FirebaseAuth.getInstance();
         CollectionReference posts = FirebaseFirestore.getInstance().collection("posts");
         posts.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -137,37 +114,22 @@ public class UserInfoFragment extends Fragment {
             }
         });
 
-
-
-        ListView mListView = (ListView) view.findViewById(R.id.listview) ;
+        mListView = view.findViewById(R.id.myTitleListView);
         mAdapter =  new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, mList);
         mListView.setAdapter(mAdapter);
-
-
-
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
-
-
                 //Toast.makeText(getContext(),,Toast.LENGTH_LONG).show();
-
-
-
 
             }
         }) ;
-
-
-
         return view;
     }
 
 
 
     public void updateUser(){
-
-
         final ImageView profileImageView = getView().findViewById(R.id.profileImageView);
         final TextView nameTextView = getView().findViewById(R.id.nameTextView);
         final TextView phoneNumberTextView = getView().findViewById(R.id.phoneNumberTextView);

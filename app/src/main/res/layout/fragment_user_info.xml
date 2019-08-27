@@ -110,11 +110,9 @@
                 android:layout_height="482dp">
 
                 <ListView
-
-                    android:id="@+id/listview"
+                    android:id="@+id/myTitleListView"
                     android:layout_width="match_parent"
                     android:layout_height="243dp">
-
                 </ListView>
 
 
