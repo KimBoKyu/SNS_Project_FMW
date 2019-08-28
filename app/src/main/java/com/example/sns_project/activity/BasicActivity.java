@@ -2,6 +2,7 @@ package com.example.sns_project.activity;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+
 import androidx.annotation.LayoutRes;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;

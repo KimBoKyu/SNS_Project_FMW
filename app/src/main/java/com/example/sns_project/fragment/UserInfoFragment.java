@@ -7,9 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -25,13 +23,10 @@ import com.example.sns_project.R;
 import com.example.sns_project.activity.LoginActivity;
 import com.example.sns_project.activity.MemberModifyActivity;
 import com.example.sns_project.activity.PostActivity;
-import com.example.sns_project.adapter.CommentAdapter;
-import com.example.sns_project.adapter.HomeAdapter;
 import com.example.sns_project.adapter.MlistAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -263,5 +258,3 @@ public class UserInfoFragment extends Fragment {
     }
 
 }
-
-

@@ -1,0 +1,48 @@
+package com.example.sns_project.adapter;
+
+
+import android.view.View;
+import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.sns_project.PersonItem;
+import com.example.sns_project.R;
+
+/*
+ * 화면에 보일 때 사용되는 각각의 뷰는 뷰홀더에 담아두게 된다.
+ * 뷰홀더 객체가 생성될 때 뷰가 전달되는데, 뷰홀더 객체는 뷰를 담아두고 뷰에 표시될 데이터를 설정한다.
+ * 뷰홀더는 재사용된다.
+ */
+public class RecyclerViewHolder extends RecyclerView.ViewHolder {
+
+    private TextView textView1;
+    private RecyclerViewAdapter.itemClickListener listener;
+
+    RecyclerViewHolder(View itemView) {
+        super(itemView);
+
+        textView1 = itemView.findViewById(R.id.text1);
+
+
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int position = getAdapterPosition();
+                if (listener != null) {
+                    listener.onItemClick(RecyclerViewHolder.this, view, position);
+                }
+            }
+        });
+    }
+
+    // PersonItem 객체를 전달받아 뷰홀더 안에 있는 뷰에 데이터 설정
+    void setItem(PersonItem item) {
+        textView1.setText(item.getName());
+    }
+
+    void setOnItemClickListener(RecyclerViewAdapter.itemClickListener listener) {
+        this.listener = listener;
+    }
+}
+

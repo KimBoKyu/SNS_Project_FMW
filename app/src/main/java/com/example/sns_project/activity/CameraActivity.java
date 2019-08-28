@@ -21,7 +21,6 @@ import android.content.Intent;
 import android.media.Image;
 import android.media.ImageReader;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.example.sns_project.R;
 import com.example.sns_project.fragment.Camera2BasicFragment;

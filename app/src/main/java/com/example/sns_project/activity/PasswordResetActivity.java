@@ -1,10 +1,11 @@
 package com.example.sns_project.activity;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+
+import androidx.annotation.NonNull;
 
 import com.example.sns_project.R;
 import com.google.android.gms.tasks.OnCompleteListener;

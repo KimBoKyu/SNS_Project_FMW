@@ -11,19 +11,19 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ViewFlipper;
-import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import com.example.sns_project.DataInfo;
-import com.example.sns_project.R;
-import com.example.sns_project.activity.PerformanceDetailInfoActivity;
-import com.example.sns_project.activity.PersonItem;
-import com.example.sns_project.activity.RecyclerViewAdapter;
-import com.example.sns_project.activity.RecyclerViewHolder;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.sns_project.DataInfo;
+import com.example.sns_project.PersonItem;
+import com.example.sns_project.R;
+import com.example.sns_project.activity.PerformanceDetailInfoActivity;
+import com.example.sns_project.adapter.RecyclerViewAdapter;
+import com.example.sns_project.adapter.RecyclerViewHolder;
+
 import java.util.ArrayList;
 
 
@@ -124,3 +124,4 @@ public class PerformanceInfo extends Fragment {
     }
 
 }
+
