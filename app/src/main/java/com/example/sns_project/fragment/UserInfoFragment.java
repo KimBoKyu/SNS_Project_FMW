@@ -47,6 +47,8 @@ public class UserInfoFragment extends Fragment {
 
 
 
+
+
     private static final String TAG = "UserInfoFragment";
     public UserInfoFragment() {
         // Required empty public constructor
@@ -116,6 +118,7 @@ public class UserInfoFragment extends Fragment {
         final FirebaseAuth mAuth = FirebaseAuth.getInstance();
         final CollectionReference posts = FirebaseFirestore.getInstance().collection("posts");
 
+        //sort 넣어주기
         posts.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -123,7 +126,8 @@ public class UserInfoFragment extends Fragment {
                     //int i = 0;
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         if(mAuth.getUid().equals(document.getData().get("publisher"))){
-                            list.add(new MlistInfo(document.getData().get("title").toString(), new Date(document.getDate("createdAt").getTime())));
+                            list.add(new MlistInfo(document.getData().get("title").toString(),
+                                    new Date(document.getDate("createdAt").getTime())));
                             adapter.notifyDataSetChanged();
                             //System.out.println(mList.get(i++));
 
@@ -149,8 +153,10 @@ public class UserInfoFragment extends Fragment {
                         if (task.isSuccessful()) {
                             //int i = 0;
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                if(item.getTitle().equals(document.getData().get("title"))&& item.getDate().compareTo(new Date(document.getDate("createdAt").getTime()))==0){
-                                    PostInfo postInfo =new PostInfo(
+                                PostInfo postInfo;
+                                if(item.getTitle().equals(document.getData().get("title"))&& item.getDate().
+                                        compareTo(new Date(document.getDate("createdAt").getTime()))==0){
+                                    postInfo = new PostInfo(
                                             document.getData().get("title").toString(),
                                             (ArrayList<String>) document.getData().get("contents"),
                                             (ArrayList<String>) document.getData().get("formats"),
@@ -161,10 +167,13 @@ public class UserInfoFragment extends Fragment {
                                     intent.putExtra("postInfo", postInfo);
                                     startActivity(intent);
 
+
                                 }else{
                                     Log.d("강성수","강성수");
                                 }
+
                             }
+
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }

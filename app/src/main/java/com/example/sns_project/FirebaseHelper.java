@@ -1,6 +1,10 @@
 package com.example.sns_project;
 
 import android.app.Activity;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+
 import androidx.annotation.NonNull;
 
 import com.example.sns_project.listener.OnPostListener;
@@ -86,4 +90,6 @@ public class FirebaseHelper {
         }
 
     }
+
+    
 }
