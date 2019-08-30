@@ -12,6 +12,7 @@ import java.util.Locale;
 public class APIData {
     public static boolean inPerforList = false, inTitle = false, inStartDate = false, inEndDate = false, inPlace = false;
     public static boolean inRealmName = false, inArea = false, inThumbnail = false, inSeqNum = false;
+    public static boolean inPrice = false, inUrl = false, ingpsX = false, ingpsY = false, inplaceAddr = false;
     public static final String serviceKey = "nPNS96E9tPdBbuORe7jyzvIx9NxrNVmvAV1e5vh%2B2lItx%2F9mmlcqmEZeTCt%2FYL84UEsuGXUO3fFhuTL8kG4Tzg%3D%3D";
     public static final int rows = 10;
     public static ArrayList<PerformanceInfo> performanceInfos = new ArrayList<>();
@@ -23,6 +24,7 @@ public class APIData {
     public static ArrayList<String> area = new ArrayList<>();
     public static ArrayList<String> thumbNail = new ArrayList<>();
     public static ArrayList<String> seqNum = new ArrayList<>();
+    public static ArrayList<String> detailInfo;
     public static String errMsg = "";
 
     public APIData() {};
@@ -31,7 +33,7 @@ public class APIData {
         return performanceInfos;
     }
 
-    public static void getData(){
+    public static void getAllData(){
         SimpleDateFormat ydf = new SimpleDateFormat("yyyyMMdd", Locale.KOREA);
         SimpleDateFormat ydf2 = new SimpleDateFormat("yyyy", Locale.KOREA);
         String sDate = ydf.format(new Date());
@@ -125,6 +127,71 @@ public class APIData {
         }
         setData();
     }
+
+    public static void getDetailData(String seqNum){
+        detailInfo = new ArrayList<>();
+        try{
+            URL url = new URL("http://www.culture.go.kr/openapi/rest/publicperformancedisplays/d/?serviceKey="+serviceKey+"&seq="+seqNum);
+            XmlPullParserFactory parserCreator = XmlPullParserFactory.newInstance();
+            XmlPullParser parser = parserCreator.newPullParser();
+            parser.setInput(url.openStream(), null);
+            int parserEvent = parser.getEventType();
+            System.out.println("파싱시작합니다.");
+            while (parserEvent != XmlPullParser.END_DOCUMENT){
+                switch(parserEvent) {
+                    case XmlPullParser.START_TAG://parser가 시작 태그를 만나면 실행
+                        if (parser.getName().equals("price")) {
+                            inPrice = true;
+                        }
+                        if (parser.getName().equals("url")) {
+                            inUrl = true;
+                        }
+                        if (parser.getName().equals("gpsX")) {
+                            ingpsX = true;
+                        }
+                        if (parser.getName().equals("gpsY")) {
+                            ingpsY = true;
+                        }
+                        if (parser.getName().equals("placeAddr")) {
+                            inplaceAddr = true;
+                        }
+                        break;
+
+                    case XmlPullParser.TEXT://parser가 내용에 접근했을때
+                        if (inPrice) {
+                            detailInfo.add(parser.getText());
+                            inPrice = false;
+                        }
+                        if (inUrl) {
+                            detailInfo.add(parser.getText());
+                        }
+                        if (ingpsX) {
+                            detailInfo.add(parser.getText());
+                        }
+                        if (ingpsY) {
+                            detailInfo.add(parser.getText());
+                        }
+                        if (inplaceAddr) {
+                            detailInfo.add(parser.getText());
+                        }
+                        break;
+                    case XmlPullParser.END_TAG:
+                        break;
+                }
+                parserEvent = parser.next();
+            }
+        } catch(Exception e){
+            errMsg = e.toString();
+        }
+        /*for(int i=0; i<detailInfo.size(); i++){
+            System.out.println(detailInfo.get(i));
+        }*/
+    }
+
+    public static ArrayList<String> getDetailInfo(){
+        return detailInfo;
+    }
+
 
     public static void setData(){
         for(int i=0; i<rows; i++){

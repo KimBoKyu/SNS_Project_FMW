@@ -52,23 +52,21 @@ public class PerformanceInfoFragment extends Fragment {
                 LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new RecyclerViewAdapter(getContext()); //여기애매함
-//        for(int i=0; i<APIData.rows; i++){
-//            adapter.addItem(performanceInfos.get(i));
-//        }
         adapter.addItems(performanceInfos);
         recyclerView.setAdapter(adapter);   // 어뎁터 설정
 
         adapter.setOnItemClickListener(new RecyclerViewAdapter.itemClickListener() {
             @Override
             public void onItemClick(RecyclerViewHolder holder, View view, int position) {
-                myStartActivity(PerformanceDetailInfoActivity.class );
+                myStartActivity(PerformanceDetailInfoActivity.class, position);
             }
         });
         return view;
     }
 
-    private void myStartActivity(Class c) {
+    private void myStartActivity(Class c, int postion) {
         Intent intent = new Intent(getActivity(), c);
+        intent.putExtra("seqNum", performanceInfos.get(postion).getSeqNum());
         startActivityForResult(intent, 0);
     }
 

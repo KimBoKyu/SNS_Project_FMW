@@ -121,7 +121,7 @@ public class MainActivity extends BasicActivity {
         @Override
         public void run(){
             super.run();
-            APIData.getData();
+            APIData.getAllData();
         }
     }
 
