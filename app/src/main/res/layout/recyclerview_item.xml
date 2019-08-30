@@ -34,7 +34,8 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:textColor="#010101"
-            android:textSize="25sp"
+            android:textSize="20sp"
+            android:singleLine="true"
             tools:text="제목 들어갈곳" />
 
         <LinearLayout
@@ -51,6 +52,7 @@
                 android:layout_gravity="end"
                 android:layout_weight="2"
                 android:text="장소 들어갈곳"
+                android:singleLine="true"
                 android:textAlignment="viewEnd"
                 android:textColor="@android:color/black"
                 android:textSize="15sp" />
@@ -70,6 +72,8 @@
                 android:layout_height="25dp"
                 android:layout_weight="2"
                 android:text="거리 들어갈곳"
+                android:singleLine="true"
+                android:textSize="15sp"
                 android:textColor="@android:color/black" />
 
 
