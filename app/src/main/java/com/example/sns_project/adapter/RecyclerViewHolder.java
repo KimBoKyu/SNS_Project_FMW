@@ -2,11 +2,13 @@ package com.example.sns_project.adapter;
 
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sns_project.PersonItem;
+import com.bumptech.glide.Glide;
+import com.example.sns_project.PerformanceInfo;
 import com.example.sns_project.R;
 
 /*
@@ -16,14 +18,17 @@ import com.example.sns_project.R;
  */
 public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
-    private TextView textView1;
+    private TextView textTitle;
+    private TextView textLocation;
+    private ImageView imgPerformance;
     private RecyclerViewAdapter.itemClickListener listener;
 
     RecyclerViewHolder(View itemView) {
         super(itemView);
 
-        textView1 = itemView.findViewById(R.id.text1);
-
+        textTitle = itemView.findViewById(R.id.textTitle);
+        textLocation = itemView.findViewById(R.id.textLocation);
+        imgPerformance = itemView.findViewById(R.id.imgPerformance);
 
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,8 +42,10 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
     }
 
     // PersonItem 객체를 전달받아 뷰홀더 안에 있는 뷰에 데이터 설정
-    void setItem(PersonItem item) {
-        textView1.setText(item.getName());
+    void setItem(PerformanceInfo item) {
+        textTitle.setText(item.getTitle());
+        textLocation.setText(item.getPlace());
+        Glide.with(itemView).load(item.getThumbNail()).into(imgPerformance);
     }
 
     void setOnItemClickListener(RecyclerViewAdapter.itemClickListener listener) {

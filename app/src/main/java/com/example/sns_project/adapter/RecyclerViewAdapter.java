@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.sns_project.PersonItem;
+import com.example.sns_project.PerformanceInfo;
 import com.example.sns_project.R;
 
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder>  {
 
     private Context context;
-    private ArrayList<PersonItem> items = new ArrayList<>();
+    private ArrayList<PerformanceInfo> items = new ArrayList<>();
     private itemClickListener listener;
 
     public interface itemClickListener {
@@ -45,20 +45,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
     @Override
     public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
         // 뷰홀더에 각 아이템의 데이터를 설정
-        PersonItem item = items.get(position);
+        PerformanceInfo item = items.get(position);
         holder.setItem(item);
         holder.setOnItemClickListener(listener);
     }
 
-    public void addItem(PersonItem item) {
+    public void addItem(PerformanceInfo item) {
         items.add(item);    // 아이템 추가
     }
 
-    public void addItems(ArrayList<PersonItem> items) {
+    public void addItems(ArrayList<PerformanceInfo> items) {
         this.items = items; // 아이템 배열 추가
     }
 
-    public PersonItem getItem(int position) {
+    public PerformanceInfo getItem(int position) {
         return items.get(position); // 아이템 가져오기
     }
 

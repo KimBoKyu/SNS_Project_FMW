@@ -1,18 +1,21 @@
 package com.example.sns_project;
 
-import android.util.Log;
-
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
-public class DataInfo {
+public class APIData {
     public static boolean inPerforList = false, inTitle = false, inStartDate = false, inEndDate = false, inPlace = false;
     public static boolean inRealmName = false, inArea = false, inThumbnail = false, inSeqNum = false;
     public static final String serviceKey = "nPNS96E9tPdBbuORe7jyzvIx9NxrNVmvAV1e5vh%2B2lItx%2F9mmlcqmEZeTCt%2FYL84UEsuGXUO3fFhuTL8kG4Tzg%3D%3D";
-    public static ArrayList<String> title= new ArrayList<>();
+    public static final int rows = 10;
+    public static ArrayList<PerformanceInfo> performanceInfos = new ArrayList<>();
+    public static ArrayList<String> title = new ArrayList<>();
     public static ArrayList<String> startDate = new ArrayList<>();
     public static ArrayList<String> endDate = new ArrayList<>();
     public static ArrayList<String> place = new ArrayList<>();
@@ -20,44 +23,28 @@ public class DataInfo {
     public static ArrayList<String> area = new ArrayList<>();
     public static ArrayList<String> thumbNail = new ArrayList<>();
     public static ArrayList<String> seqNum = new ArrayList<>();
-    public static String temp = "";
     public static String errMsg = "";
-    public DataInfo() {};
 
-    public static ArrayList<String> getTitle(){
-        return title;
+    public APIData() {};
+
+    public static ArrayList<PerformanceInfo> getPerformanceInfos(){
+        return performanceInfos;
     }
-    public static ArrayList<String> getStartDate(){
-        return startDate;
-    }
-    public static ArrayList<String> getEndDate(){
-        return endDate;
-    }
-    public static ArrayList<String> getPlace(){
-        return place;
-    }
-    public static ArrayList<String> getRealmName(){
-        return realmName;
-    }
-    public static ArrayList<String> getArea(){
-        return area;
-    }
-    public static ArrayList<String> getThumbNail(){
-        return thumbNail;
-    }
-    public static ArrayList<String> getSeqNum() { return seqNum; }
 
     public static void getData(){
+        SimpleDateFormat ydf = new SimpleDateFormat("yyyyMMdd", Locale.KOREA);
+        SimpleDateFormat ydf2 = new SimpleDateFormat("yyyy", Locale.KOREA);
+        String sDate = ydf.format(new Date());
+        String eDate = ydf2.format(new Date())+"1231";
         try{
             URL url = new URL("http://www.culture.go.kr/openapi/rest/publicperformancedisplays/period?"
-                    + "serviceKey="+serviceKey+"&from=20180101&to=20180819&cPage=1&rows=50&place=&gpsxfrom=&gpsyfrom=&gpsxto=&gpsyto=&keyword=&sortStdr=1"
+                    + "serviceKey="+serviceKey+"&from="+sDate+"&to="+eDate+"&cPage=1&rows="+rows+"&place=&gpsxfrom=&gpsyfrom=&gpsxto=&gpsyto=&keyword=&sortStdr=3"
             );
             XmlPullParserFactory parserCreator = XmlPullParserFactory.newInstance();
             XmlPullParser parser = parserCreator.newPullParser();
             parser.setInput(url.openStream(), null);
             int parserEvent = parser.getEventType();
             System.out.println("파싱시작합니다.");
-
             while (parserEvent != XmlPullParser.END_DOCUMENT){
                 switch(parserEvent){
                     case XmlPullParser.START_TAG://parser가 시작 태그를 만나면 실행
@@ -81,45 +68,39 @@ public class DataInfo {
                         }
                         if(parser.getName().equals("area") && !parser.getName().contains("/")) {
                             inArea = true;
-                            Log.e("DFDFD ", parser.getName());
                         }
                         if(parser.getName().equals("thumbnail")) {
                             inThumbnail = true;
                         }
-                        if(parser.getName().equals("message")){
-
-                        }
                         break;
 
                     case XmlPullParser.TEXT://parser가 내용에 접근했을때
+                        if(inSeqNum){
+                            seqNum.add(parser.getText());
+                            inSeqNum = false;
+                        }
                         if(inTitle){
-                            temp = parser.getText();
-                            System.out.println(temp);
-                            title.add(temp);
+                            title.add(parser.getText());
                             inTitle = false;
                         }
                         if(inStartDate){
-                            temp = parser.getText();
-                            startDate.add(temp);
+                            startDate.add(parser.getText());
                             inStartDate = false;
                         }
                         if(inEndDate){
-                            temp = parser.getText();
-                            endDate.add(temp);
+                            endDate.add(parser.getText());
                             inEndDate = false;
                         }
                         if(inPlace){
-                            temp = parser.getText();
-                            place.add(temp);
+                            place.add(parser.getText());
                             inPlace = false;
                         }
                         if(inRealmName){
-                            temp = parser.getText();
-                            realmName.add(temp);
+                            realmName.add(parser.getText());
                             inRealmName = false;
                         }
                         if(inArea) {
-                            temp = parser.getText();
+                            String temp = parser.getText();
                             if(temp.contains("www.")){
                                 temp = "";
                             }
@@ -127,8 +108,7 @@ public class DataInfo {
                             inArea = false;
                         }
                         if(inThumbnail) {
-                            area.add(temp);
-                            thumbNail.add(temp);
+                            thumbNail.add(parser.getText());
                             inThumbnail = false;
                         }
                         break;
@@ -142,6 +122,15 @@ public class DataInfo {
             }
         } catch(Exception e){
             errMsg = e.toString();
+        }
+        setData();
+    }
+
+    public static void setData(){
+        for(int i=0; i<rows; i++){
+            PerformanceInfo performanceInfo = new PerformanceInfo(seqNum.get(i), title.get(i), startDate.get(i), endDate.get(i),
+                                                                    place.get(i), realmName.get(i), area.get(i), thumbNail.get(i));
+            performanceInfos.add(performanceInfo);
         }
     }
 }

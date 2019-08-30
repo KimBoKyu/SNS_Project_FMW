@@ -7,10 +7,10 @@ import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 
-import com.example.sns_project.DataInfo;
+import com.example.sns_project.APIData;
 import com.example.sns_project.R;
 import com.example.sns_project.fragment.HomeFragment;
-import com.example.sns_project.fragment.PerformanceInfo;
+import com.example.sns_project.fragment.PerformanceInfoFragment;
 import com.example.sns_project.fragment.UserInfoFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -105,9 +105,9 @@ public class MainActivity extends BasicActivity {
                                     .commit();
                             return true;
                         case R.id.userList:
-                            PerformanceInfo performanceInfo = new PerformanceInfo();
+                            PerformanceInfoFragment performanceInfoFragment = new PerformanceInfoFragment();
                             getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.container, performanceInfo)
+                                    .replace(R.id.container, performanceInfoFragment)
                                     .commit();
                             return true;
                     }
@@ -121,7 +121,7 @@ public class MainActivity extends BasicActivity {
         @Override
         public void run(){
             super.run();
-            DataInfo.getData();
+            APIData.getData();
         }
     }
 
