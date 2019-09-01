@@ -34,7 +34,7 @@ public class FirebaseHelper {
         this.onPostListener = onPostListener;
     }
 
-    
+
 
     public void storageDelete(final PostInfo postInfo){
         FirebaseStorage storage = FirebaseStorage.getInstance();

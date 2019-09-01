@@ -19,8 +19,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCE4X-mIZd5CiNQIa8U41tqnIm3vdyfLCA"/>
-        <activity android:name=".activity.LoadingActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
