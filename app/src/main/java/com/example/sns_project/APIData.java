@@ -24,11 +24,11 @@ public class APIData {
     public static ArrayList<String> area = new ArrayList<>();
     public static ArrayList<String> thumbNail = new ArrayList<>();
     public static ArrayList<String> seqNum = new ArrayList<>();
+    public static ArrayList<String> gpsX = new ArrayList<>();
+    public static ArrayList<String> gpsY = new ArrayList<>();
     public static PerformanceDetailInfo performanceDetailInfo;
     public static String detailPrice;
     public static String detailUrl;
-    public static String detailGpsx;
-    public static String detailGpsy;
     public static String detailAddr;
     public static String errMsg = "";
     public APIData() {};
@@ -75,6 +75,12 @@ public class APIData {
                         if(parser.getName().equals("area") && !parser.getName().contains("/")) {
                             inArea = true;
                         }
+                        if (parser.getName().equals("gpsX")){
+                            ingpsX = true;
+                        }
+                        if (parser.getName().equals("gpsY")){
+                            ingpsY = true;
+                        }
                         if(parser.getName().equals("thumbnail")) {
                             inThumbnail = true;
                         }
@@ -113,6 +119,14 @@ public class APIData {
                             area.add(temp);
                             inArea = false;
                         }
+                        if(ingpsX) {
+                            gpsX.add(parser.getText());
+                            ingpsX = false;
+                        }
+                        if(ingpsY) {
+                            gpsY.add(parser.getText());
+                            ingpsY = false;
+                        }
                         if(inThumbnail) {
                             thumbNail.add(parser.getText());
                             inThumbnail = false;
@@ -149,12 +163,6 @@ public class APIData {
                         if (parser.getName().equals("url")) {
                             inUrl = true;
                         }
-                        if (parser.getName().equals("gpsX")) {
-                            ingpsX = true;
-                        }
-                        if (parser.getName().equals("gpsY")) {
-                            ingpsY = true;
-                        }
                         if (parser.getName().equals("placeAddr")) {
                             inplaceAddr = true;
                         }
@@ -168,14 +176,6 @@ public class APIData {
                         if (inUrl) {
                             detailUrl = parser.getText();
                             inUrl = false;
-                        }
-                        if (ingpsX) {
-                            detailGpsx = parser.getText();
-                            ingpsX = false;
-                        }
-                        if (ingpsY) {
-                            detailGpsy = parser.getText();
-                            ingpsY = false;
                         }
                         if (inplaceAddr) {
                             detailAddr = parser.getText();
@@ -198,13 +198,14 @@ public class APIData {
     }
 
     public static void setDetailData(){
-        performanceDetailInfo = new PerformanceDetailInfo(detailPrice, detailUrl, detailGpsx, detailGpsy, detailAddr);
+        performanceDetailInfo = new PerformanceDetailInfo(detailPrice, detailUrl,  detailAddr);
     }
 
     public static void setData(){
         for(int i=0; i<rows; i++){
             PerformanceInfo performanceInfo = new PerformanceInfo(seqNum.get(i), title.get(i), startDate.get(i), endDate.get(i),
-                                                                    place.get(i), realmName.get(i), area.get(i), thumbNail.get(i));
+                                                                    place.get(i), realmName.get(i), area.get(i), thumbNail.get(i),
+                                                                    gpsX.get(i), gpsY.get(i));
             performanceInfos.add(performanceInfo);
         }
     }

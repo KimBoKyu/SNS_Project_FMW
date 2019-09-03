@@ -14,6 +14,8 @@ public class Util {
 
     public static final int GALLERY_IMAGE = 0;
     public static final int GALLERY_VIDEO = 1;
+    public static double myPosX;
+    public static double myPosY;
 
     public static void showToast(Activity activity, String msg){
         Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show();

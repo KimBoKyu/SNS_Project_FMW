@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.example.sns_project.MlistInfo;
 import com.example.sns_project.PostInfo;
 import com.example.sns_project.R;
+import com.example.sns_project.Util;
 import com.example.sns_project.activity.LoginActivity;
 import com.example.sns_project.activity.MemberModifyActivity;
 import com.example.sns_project.activity.PostActivity;
@@ -38,34 +39,17 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class UserInfoFragment extends Fragment {
-
-
     private ListView mListView;
-    private ArrayList<String> mList = new ArrayList();
     private ArrayList<MlistInfo> list;
-    //private ArrayAdapter mAdapter;
-
-
-
-
-
     private static final String TAG = "UserInfoFragment";
     public UserInfoFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.fragment_user_info) ;
-
-
-
-
     }
-
-
 
     @Override
     public void onResume(){
@@ -76,20 +60,19 @@ public class UserInfoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-
         View view = inflater.inflate(R.layout.fragment_user_info, container, false);
         final ImageView profileImageView = view.findViewById(R.id.profileImageView);
         final TextView nameTextView = view.findViewById(R.id.nameTextView);
         final TextView phoneNumberTextView = view.findViewById(R.id.phoneNumberTextView);
         final TextView birthDayTextView = view.findViewById(R.id.birthDayTextView);
         final Button logoutButton = view.findViewById(R.id.button_signOut);
+        final TextView myPos = view.findViewById(R.id.myPosition);
+        myPos.setText(Double.toString(Util.myPosX)+ "  /   " + Double.toString(Util.myPosY));
         logoutButton.setOnClickListener(onClickListener);
         final Button modifyButton = view.findViewById(R.id.button_modify);
         modifyButton.setOnClickListener(onClickListener);
         mListView = view.findViewById(R.id.myTitleListView) ;
         list = new ArrayList<>();
-
         DocumentReference documentReference = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -123,14 +106,11 @@ public class UserInfoFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
-                    //int i = 0;
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         if(mAuth.getUid().equals(document.getData().get("publisher"))){
                             list.add(new MlistInfo(document.getData().get("title").toString(),
                                     new Date(document.getDate("createdAt").getTime())));
                             adapter.notifyDataSetChanged();
-                            //System.out.println(mList.get(i++));
-
                         }
                     }
                 } else {
@@ -139,19 +119,15 @@ public class UserInfoFragment extends Fragment {
             }
         });
         mListView.setAdapter(adapter);
-
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView parent, View v, int position, long id) {
                 final MlistInfo item = (MlistInfo) adapter.getItem(position);
-                Log.d("멍청이", "멍청이");
-                //CollectionReference posts = FirebaseFirestore.getInstance().collection("posts");
                 posts.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
-                            //int i = 0;
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 PostInfo postInfo;
                                 if(item.getTitle().equals(document.getData().get("title"))&& item.getDate().
@@ -167,11 +143,8 @@ public class UserInfoFragment extends Fragment {
                                     intent.putExtra("postInfo", postInfo);
                                     startActivity(intent);
 
-
-                                }else{
-                                    Log.d("강성수","강성수");
                                 }
-
+                                else{}
                             }
 
                         } else {
@@ -182,16 +155,10 @@ public class UserInfoFragment extends Fragment {
 
             }
         }) ;
-        //mAdapter.notifyDataSetChanged();
-
         return view;
     }
 
-
-
-    public void updateUser(){
-
-
+    public void updateUser() {
         final ImageView profileImageView = getView().findViewById(R.id.profileImageView);
         final TextView nameTextView = getView().findViewById(R.id.nameTextView);
         final TextView phoneNumberTextView = getView().findViewById(R.id.phoneNumberTextView);
@@ -204,7 +171,7 @@ public class UserInfoFragment extends Fragment {
                     DocumentSnapshot document = task.getResult();
                     if (document != null) {
                         if (document.exists()) {
-                            if(document.getData().get("photoUrl") != null){
+                            if (document.getData().get("photoUrl") != null) {
                                 Glide.with(getActivity()).load(document.getData().get("photoUrl")).centerCrop().override(500).into(profileImageView);
                             }
                             nameTextView.setText(document.getData().get("name").toString());
@@ -219,8 +186,6 @@ public class UserInfoFragment extends Fragment {
                 }
             }
         });
-
-
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {

@@ -1,8 +1,6 @@
 package com.example.sns_project;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 
 public class PerformanceInfo implements Serializable {
     private String title;
@@ -13,8 +11,11 @@ public class PerformanceInfo implements Serializable {
     private String area;
     private String thumbNail;
     private String seqNum;
+    private String gpsX;
+    private String gpsY;
 
-    public PerformanceInfo(String seqNum, String title, String startDate, String endDate, String place, String realmName, String area, String thumbNail){
+    public PerformanceInfo(String seqNum, String title, String startDate, String endDate, String place, String realmName, String area, String thumbNail,
+                           String gpsX, String gpsY){
         this.seqNum = seqNum;
         this.title = title;
         this.startDate = startDate;
@@ -23,19 +24,8 @@ public class PerformanceInfo implements Serializable {
         this.realmName = realmName;
         this.area = area;
         this.thumbNail = thumbNail;
-    }
-
-    public Map<String, Object> getPerformanceInfo(){
-        Map<String, Object> docData = new HashMap<>();
-        docData.put("seqNum",seqNum);
-        docData.put("title",title);
-        docData.put("startDate",startDate);
-        docData.put("endDate",endDate);
-        docData.put("place",place);
-        docData.put("realmName",realmName);
-        docData.put("area", area);
-        docData.put("thumbNail", thumbNail);
-        return  docData;
+        this.gpsX = gpsX;
+        this.gpsY = gpsY;
     }
 
     public String getTitle() {
@@ -100,5 +90,21 @@ public class PerformanceInfo implements Serializable {
 
     public void setSeqNum(String seqNum) {
         this.seqNum = seqNum;
+    }
+
+    public String getGpsX() {
+        return gpsX;
+    }
+
+    public void setGpsX(String gpsX) {
+        this.gpsX = gpsX;
+    }
+
+    public String getGpsY() {
+        return gpsY;
+    }
+
+    public void setGpsY(String gpsY) {
+        this.gpsY = gpsY;
     }
 }

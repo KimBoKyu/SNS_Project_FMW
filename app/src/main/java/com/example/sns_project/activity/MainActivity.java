@@ -1,14 +1,21 @@
 package com.example.sns_project.activity;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 
 import com.example.sns_project.APIData;
 import com.example.sns_project.R;
+import com.example.sns_project.Util;
 import com.example.sns_project.fragment.HomeFragment;
 import com.example.sns_project.fragment.PerformanceInfoFragment;
 import com.example.sns_project.fragment.UserInfoFragment;
@@ -23,6 +30,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends BasicActivity {
     private static final String TAG = "MainActivity";
+    private LocationManager locationManager;
+    private static final int REQUEST_CODE_LOCATION = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +39,42 @@ public class MainActivity extends BasicActivity {
         setContentView(R.layout.activity_main);
         //Intent intent = new Intent(this, LoadingActivity.class);
         //startActivity(intent);
-
         setToolbarTitle(getResources().getString(R.string.app_name));
         init();
         Background thread = new Background();
         thread.start();
+        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        Location userLocation = getMyLocation();
+        if( userLocation != null ) {
+            Util.myPosX = userLocation.getLatitude();
+            Util.myPosY = userLocation.getLongitude();
+        }
+
     }
+
+    private Location getMyLocation() {
+        Location currentLocation = null;
+        // Register the listener with the Location Manager to receive location updates
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            System.out.println("////////////사용자에게 권한을 요청해야함");
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, this.REQUEST_CODE_LOCATION);
+            getMyLocation(); //이건 써도되고 안써도 되지만, 전 권한 승인하면 즉시 위치값 받아오려고 썼습니다!
+        }
+        else {
+            System.out.println("////////////권한요청 안해도됨");
+
+            // 수동으로 위치 구하기
+            String locationProvider = LocationManager.GPS_PROVIDER;
+            currentLocation = locationManager.getLastKnownLocation(locationProvider);
+            if (currentLocation != null) {
+                double lng = currentLocation.getLongitude();
+                double lat = currentLocation.getLatitude();
+            }
+        }
+        return currentLocation;
+    }
+
+
 
     @Override
     protected void onResume() {

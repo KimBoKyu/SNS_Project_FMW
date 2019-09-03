@@ -37,8 +37,6 @@ public class PerformanceDetailInfoActivity extends FragmentActivity implements O
         }
         performanceDetailInfo = APIData.getDetailInfo();
         System.out.println(performanceDetailInfo.getPrice());
-        System.out.println(performanceDetailInfo.getGpsx());
-        System.out.println(performanceDetailInfo.getGpsy());
         System.out.println(performanceDetailInfo.getUrl());
         System.out.println(performanceDetailInfo.getPlaceAddr());
         setContentView(R.layout.activity_performance_detail);
@@ -76,14 +74,13 @@ public class PerformanceDetailInfoActivity extends FragmentActivity implements O
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
-        gpsY = Double.parseDouble(performanceDetailInfo.getGpsy());
-        gpsX = Double.parseDouble(performanceDetailInfo.getGpsx());
+        gpsY = Double.parseDouble(getIntent().getStringExtra("gpsY"));
+        gpsX = Double.parseDouble(getIntent().getStringExtra("gpsX"));
         LatLng addr = new LatLng(gpsY, gpsX);
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(addr);
         markerOptions.title("공연장소");
         mMap.addMarker(markerOptions);
-
         mMap.moveCamera(CameraUpdateFactory.newLatLng(addr));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
     }

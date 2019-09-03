@@ -22,6 +22,7 @@ import com.example.sns_project.adapter.RecyclerViewAdapter;
 import com.example.sns_project.adapter.RecyclerViewHolder;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class PerformanceInfoFragment extends Fragment {
@@ -40,9 +41,11 @@ public class PerformanceInfoFragment extends Fragment {
         super.onCreate(savedInstanceState);
         performanceInfos = APIData.getPerformanceInfos();
         imgPerformance = view.findViewById(R.id.imgRandom);
-        for(int count = 0; ;count++){
-            if(performanceInfos.get(count).getThumbNail() != null){
-                Glide.with(getActivity()).load(performanceInfos.get(count).getThumbNail()).into(imgPerformance);
+        Random random = new Random();
+        while(true){
+            int rand = random.nextInt(performanceInfos.size());
+            if(performanceInfos.get(rand).getThumbNail() != null){
+                Glide.with(getActivity()).load(performanceInfos.get(rand).getThumbNail()).into(imgPerformance);
                 break;
             }
         }
@@ -67,6 +70,8 @@ public class PerformanceInfoFragment extends Fragment {
     private void myStartActivity(Class c, int postion) {
         Intent intent = new Intent(getActivity(), c);
         intent.putExtra("seqNum", performanceInfos.get(postion).getSeqNum());
+        intent.putExtra("gpsX", performanceInfos.get(postion).getGpsX());
+        intent.putExtra("gpsY", performanceInfos.get(postion).getGpsY());
         startActivityForResult(intent, 0);
     }
 
