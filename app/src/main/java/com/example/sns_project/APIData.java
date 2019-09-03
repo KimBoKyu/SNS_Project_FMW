@@ -24,9 +24,13 @@ public class APIData {
     public static ArrayList<String> area = new ArrayList<>();
     public static ArrayList<String> thumbNail = new ArrayList<>();
     public static ArrayList<String> seqNum = new ArrayList<>();
-    public static ArrayList<String> detailInfo;
+    public static PerformanceDetailInfo performanceDetailInfo;
+    public static String detailPrice;
+    public static String detailUrl;
+    public static String detailGpsx;
+    public static String detailGpsy;
+    public static String detailAddr;
     public static String errMsg = "";
-
     public APIData() {};
 
     public static ArrayList<PerformanceInfo> getPerformanceInfos(){
@@ -129,7 +133,6 @@ public class APIData {
     }
 
     public static void getDetailData(String seqNum){
-        detailInfo = new ArrayList<>();
         try{
             URL url = new URL("http://www.culture.go.kr/openapi/rest/publicperformancedisplays/d/?serviceKey="+serviceKey+"&seq="+seqNum);
             XmlPullParserFactory parserCreator = XmlPullParserFactory.newInstance();
@@ -159,20 +162,24 @@ public class APIData {
 
                     case XmlPullParser.TEXT://parser가 내용에 접근했을때
                         if (inPrice) {
-                            detailInfo.add(parser.getText());
+                            detailPrice = parser.getText();
                             inPrice = false;
                         }
                         if (inUrl) {
-                            detailInfo.add(parser.getText());
+                            detailUrl = parser.getText();
+                            inUrl = false;
                         }
                         if (ingpsX) {
-                            detailInfo.add(parser.getText());
+                            detailGpsx = parser.getText();
+                            ingpsX = false;
                         }
                         if (ingpsY) {
-                            detailInfo.add(parser.getText());
+                            detailGpsy = parser.getText();
+                            ingpsY = false;
                         }
                         if (inplaceAddr) {
-                            detailInfo.add(parser.getText());
+                            detailAddr = parser.getText();
+                            inplaceAddr = false;
                         }
                         break;
                     case XmlPullParser.END_TAG:
@@ -183,15 +190,16 @@ public class APIData {
         } catch(Exception e){
             errMsg = e.toString();
         }
-        /*for(int i=0; i<detailInfo.size(); i++){
-            System.out.println(detailInfo.get(i));
-        }*/
+        setDetailData();
     }
 
-    public static ArrayList<String> getDetailInfo(){
-        return detailInfo;
+    public static PerformanceDetailInfo getDetailInfo(){
+        return performanceDetailInfo;
     }
 
+    public static void setDetailData(){
+        performanceDetailInfo = new PerformanceDetailInfo(detailPrice, detailUrl, detailGpsx, detailGpsy, detailAddr);
+    }
 
     public static void setData(){
         for(int i=0; i<rows; i++){
