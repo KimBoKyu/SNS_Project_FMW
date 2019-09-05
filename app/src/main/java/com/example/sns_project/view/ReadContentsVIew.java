@@ -79,10 +79,20 @@ public class ReadContentsVIew extends LinearLayout {
             String contents = contentsList.get(i);
             String formats = formatList.get(i);
 
+
+
+
+
+
+
+
+
             if(formats.equals("image")){
                 ImageView imageView = (ImageView)layoutInflater.inflate(R.layout.view_contents_image, this, false);
                 contentsLayout.addView(imageView);
                 Glide.with(this).load(contents).override(1000).thumbnail(0.1f).into(imageView);
+
+
             }else if(formats.equals("video")){
                 final PlayerView playerView = (PlayerView) layoutInflater.inflate(R.layout.view_contents_player, this, false);
 
