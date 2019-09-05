@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.example.sns_project.APIData;
 import com.example.sns_project.PerformanceInfo;
 import com.example.sns_project.R;
+import com.example.sns_project.Util;
 import com.example.sns_project.activity.PerformanceDetailInfoActivity;
 import com.example.sns_project.adapter.RecyclerViewAdapter;
 import com.example.sns_project.adapter.RecyclerViewHolder;
@@ -45,15 +46,24 @@ public class PerformanceInfoFragment extends Fragment {
         super.onCreate(savedInstanceState);
         performanceInfos = APIData.getPerformanceInfos();
         settingPerformaceArray();
-        imgPerformance = view.findViewById(R.id.imgRandom);
-        Random random = new Random();
-        while(true){
-            int rand = random.nextInt(usingPerformanceInfos.size());
-            if(usingPerformanceInfos.get(rand).getThumbNail() != null){
-                Glide.with(getActivity()).load(performanceInfos.get(rand).getThumbNail()).into(imgPerformance);
-                break;
+        Collections.sort(usingPerformanceInfos, new Comparator<PerformanceInfo>() {
+            @Override
+            public int compare(PerformanceInfo o1, PerformanceInfo o2) {
+                if(Float.parseFloat(o1.getDistance()) > Float.parseFloat(o2.getDistance())){
+                    return 1;
+                }
+                else if(Float.parseFloat(o1.getDistance()) == Float.parseFloat(o2.getDistance())){
+                    return 0;
+                }
+                else {
+                    return -1;
+                }
+                //return Float.parseFloat(o1.getDistance()).compareTo(Float.parseFloat(o2.getDistance()));
             }
-        }
+        });
+        imgPerformance = view.findViewById(R.id.imgRandom);
+        imgPerformance.setOnClickListener(onClickListener);
+        settingImg();
         RecyclerView recyclerView;
         recyclerView=view.findViewById(R.id.recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
@@ -71,14 +81,36 @@ public class PerformanceInfoFragment extends Fragment {
         return view;
     }
 
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.imgRandom:
+                    settingImg();
+                    break;
+            }
+        }
+    };
+
+    public void settingImg(){
+        Random random = new Random();
+        while(true){
+            int rand = random.nextInt(usingPerformanceInfos.size());
+            if(usingPerformanceInfos.get(rand).getThumbNail() != null){
+                Glide.with(getActivity()).load(performanceInfos.get(rand).getThumbNail()).into(imgPerformance);
+                break;
+            }
+        }
+    }
+
     public void settingPerformaceArray(){
         Location myPos = new Location("MyPos");
         Location performancePos = new Location("PerPos");
         // GpsX = Latitude , GpsY = Longitude
-        //myPos.setLongitude(Util.myPosY);
-        //myPos.setLatitude(Util.myPosX);
-        myPos.setLatitude(37.602938);
-        myPos.setLongitude(126.955007);
+        myPos.setLongitude(Util.myPosY);
+        myPos.setLatitude(Util.myPosX);
+        //myPos.setLatitude(37.602938);
+        //myPos.setLongitude(126.955007);
         for(int i=0; i<APIData.rows; i++){
             performancePos.setLatitude(Double.parseDouble(performanceInfos.get(i).getGpsY()));
             performancePos.setLongitude(Double.parseDouble(performanceInfos.get(i).getGpsX()));
@@ -91,33 +123,18 @@ public class PerformanceInfoFragment extends Fragment {
                 usingPerformanceInfos.add(performanceInfos.get(i));
             }
         }
-        Collections.sort(usingPerformanceInfos, new Comparator<PerformanceInfo>() {
-            @Override
-            public int compare(PerformanceInfo o1, PerformanceInfo o2) {
-                if(Float.parseFloat(o1.getDistance()) > Float.parseFloat(o2.getDistance())){
-                    return 1;
-                }
-                else if(Float.parseFloat(o1.getDistance()) == Float.parseFloat(o2.getDistance())){
-                    return 0;
-                }
-                else {
-                    return -1;
-                }
-                //return Float.parseFloat(o1.getDistance()).compareTo(Float.parseFloat(o2.getDistance()));
-            }
-        });
     }
 
     private void myStartActivity(Class c, int postion) {
         Intent intent = new Intent(getActivity(), c);
-        intent.putExtra("thumbNail", performanceInfos.get(postion).getThumbNail());
-        intent.putExtra("seqNum", performanceInfos.get(postion).getSeqNum());
-        intent.putExtra("title", performanceInfos.get(postion).getTitle());
-        intent.putExtra("startDate", performanceInfos.get(postion).getStartDate());
-        intent.putExtra("endDate", performanceInfos.get(postion).getEndDate());
-        intent.putExtra("realmName", performanceInfos.get(postion).getRealmName());
-        intent.putExtra("gpsX", performanceInfos.get(postion).getGpsX());
-        intent.putExtra("gpsY", performanceInfos.get(postion).getGpsY());
+        intent.putExtra("thumbNail", usingPerformanceInfos.get(postion).getThumbNail());
+        intent.putExtra("seqNum", usingPerformanceInfos.get(postion).getSeqNum());
+        intent.putExtra("title", usingPerformanceInfos.get(postion).getTitle());
+        intent.putExtra("startDate", usingPerformanceInfos.get(postion).getStartDate());
+        intent.putExtra("endDate", usingPerformanceInfos.get(postion).getEndDate());
+        intent.putExtra("realmName", usingPerformanceInfos.get(postion).getRealmName());
+        intent.putExtra("gpsX", usingPerformanceInfos.get(postion).getGpsX());
+        intent.putExtra("gpsY", usingPerformanceInfos.get(postion).getGpsY());
         startActivityForResult(intent, 0);
     }
 

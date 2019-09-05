@@ -107,9 +107,9 @@ public class PerformanceDetailInfoActivity extends FragmentActivity implements O
         LatLng addr = new LatLng(gpsY, gpsX);
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(addr);
-        markerOptions.title("공연장소");
+        markerOptions.title(performanceDetailInfo.getPlaceAddr().toString());
         mMap.addMarker(markerOptions);
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(addr));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(addr, 15));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
     }
 
