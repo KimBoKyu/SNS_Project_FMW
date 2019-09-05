@@ -2,6 +2,7 @@ package com.example.sns_project.fragment;
 
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,12 +23,15 @@ import com.example.sns_project.adapter.RecyclerViewAdapter;
 import com.example.sns_project.adapter.RecyclerViewHolder;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Random;
 
 
 public class PerformanceInfoFragment extends Fragment {
     private static final String TAG = "PerformanceInfoFragment";
     private ArrayList<PerformanceInfo> performanceInfos;
+    private ArrayList<PerformanceInfo> usingPerformanceInfos = new ArrayList<>();
     private ImageView imgPerformance;
     private RecyclerViewAdapter adapter;
     @Override
@@ -40,11 +44,12 @@ public class PerformanceInfoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_performance_info, container, false);
         super.onCreate(savedInstanceState);
         performanceInfos = APIData.getPerformanceInfos();
+        settingPerformaceArray();
         imgPerformance = view.findViewById(R.id.imgRandom);
         Random random = new Random();
         while(true){
-            int rand = random.nextInt(performanceInfos.size());
-            if(performanceInfos.get(rand).getThumbNail() != null){
+            int rand = random.nextInt(usingPerformanceInfos.size());
+            if(usingPerformanceInfos.get(rand).getThumbNail() != null){
                 Glide.with(getActivity()).load(performanceInfos.get(rand).getThumbNail()).into(imgPerformance);
                 break;
             }
@@ -55,9 +60,8 @@ public class PerformanceInfoFragment extends Fragment {
                 LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new RecyclerViewAdapter(getContext()); //여기애매함
-        adapter.addItems(performanceInfos);
+        adapter.addItems(usingPerformanceInfos);
         recyclerView.setAdapter(adapter);   // 어뎁터 설정
-
         adapter.setOnItemClickListener(new RecyclerViewAdapter.itemClickListener() {
             @Override
             public void onItemClick(RecyclerViewHolder holder, View view, int position) {
@@ -67,9 +71,51 @@ public class PerformanceInfoFragment extends Fragment {
         return view;
     }
 
+    public void settingPerformaceArray(){
+        Location myPos = new Location("MyPos");
+        Location performancePos = new Location("PerPos");
+        // GpsX = Latitude , GpsY = Longitude
+        //myPos.setLongitude(Util.myPosY);
+        //myPos.setLatitude(Util.myPosX);
+        myPos.setLatitude(37.602938);
+        myPos.setLongitude(126.955007);
+        for(int i=0; i<APIData.rows; i++){
+            performancePos.setLatitude(Double.parseDouble(performanceInfos.get(i).getGpsY()));
+            performancePos.setLongitude(Double.parseDouble(performanceInfos.get(i).getGpsX()));
+            double temp = myPos.distanceTo(performancePos)/1000;
+            performanceInfos.get(i).setDistance(String.format("%.2f", temp));
+        }
+
+        for(int i=0; i<performanceInfos.size(); i++){
+            if(Double.parseDouble(performanceInfos.get(i).getDistance()) < 20.0){
+                usingPerformanceInfos.add(performanceInfos.get(i));
+            }
+        }
+        Collections.sort(usingPerformanceInfos, new Comparator<PerformanceInfo>() {
+            @Override
+            public int compare(PerformanceInfo o1, PerformanceInfo o2) {
+                if(Float.parseFloat(o1.getDistance()) > Float.parseFloat(o2.getDistance())){
+                    return 1;
+                }
+                else if(Float.parseFloat(o1.getDistance()) == Float.parseFloat(o2.getDistance())){
+                    return 0;
+                }
+                else {
+                    return -1;
+                }
+                //return Float.parseFloat(o1.getDistance()).compareTo(Float.parseFloat(o2.getDistance()));
+            }
+        });
+    }
+
     private void myStartActivity(Class c, int postion) {
         Intent intent = new Intent(getActivity(), c);
+        intent.putExtra("thumbNail", performanceInfos.get(postion).getThumbNail());
         intent.putExtra("seqNum", performanceInfos.get(postion).getSeqNum());
+        intent.putExtra("title", performanceInfos.get(postion).getTitle());
+        intent.putExtra("startDate", performanceInfos.get(postion).getStartDate());
+        intent.putExtra("endDate", performanceInfos.get(postion).getEndDate());
+        intent.putExtra("realmName", performanceInfos.get(postion).getRealmName());
         intent.putExtra("gpsX", performanceInfos.get(postion).getGpsX());
         intent.putExtra("gpsY", performanceInfos.get(postion).getGpsY());
         startActivityForResult(intent, 0);

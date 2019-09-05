@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.FragmentActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.sns_project.APIData;
 import com.example.sns_project.PerformanceDetailInfo;
 import com.example.sns_project.R;
@@ -20,10 +22,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class PerformanceDetailInfoActivity extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
-    private TextView textViewSeqNum;
+    private TextView textViewTitle;
+    private TextView textViewStartDate;
+    private TextView textViewEndDate;
+    private TextView textViewPlace;
+    private TextView textViewAddress;
+    private TextView textViewRealmName;
     private PerformanceDetailInfo performanceDetailInfo;
-    private double gpsY;
-    private double gpsX;
+    private float gpsY;
+    private float gpsX;
+    private String thumbNail;
+    private ImageView performanceImageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,18 +44,39 @@ public class PerformanceDetailInfoActivity extends FragmentActivity implements O
         catch (InterruptedException e){
             e.printStackTrace();
         }
-        performanceDetailInfo = APIData.getDetailInfo();
-        System.out.println(performanceDetailInfo.getPrice());
-        System.out.println(performanceDetailInfo.getUrl());
-        System.out.println(performanceDetailInfo.getPlaceAddr());
         setContentView(R.layout.activity_performance_detail);
-        textViewSeqNum = findViewById(R.id.textSeqNum);
-        textViewSeqNum.setText(getIntent().getStringExtra("seqNum"));
+        init();
+        textSetting();
         findViewById(R.id.buttonBuyLink).setOnClickListener(onClickListener);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
+
+    public void init(){
+        performanceDetailInfo = APIData.getDetailInfo();
+        gpsY = Float.parseFloat(getIntent().getStringExtra("gpsY"));
+        gpsX = Float.parseFloat(getIntent().getStringExtra("gpsX"));
+        thumbNail = getIntent().getStringExtra("thumbNail");
+        textViewTitle = findViewById(R.id.textTitle);
+        performanceImageView = findViewById(R.id.performanceImageView);
+        textViewStartDate = findViewById(R.id.textStartDate);
+        textViewEndDate = findViewById(R.id.textEndDate);
+        textViewPlace = findViewById(R.id.textPlace);
+        textViewAddress = findViewById(R.id.textAddress);
+        textViewRealmName = findViewById(R.id.textRealmName);
+    }
+
+    public void textSetting(){
+        Glide.with(this).load(thumbNail).into(performanceImageView);
+        textViewTitle.setText(getIntent().getStringExtra("title"));
+        textViewAddress.setText(performanceDetailInfo.getPlaceAddr());
+        textViewRealmName.setText(getIntent().getStringExtra("realmName"));
+        textViewStartDate.setText(getIntent().getStringExtra("startDate"));
+        textViewEndDate.setText(getIntent().getStringExtra("endDate"));
+        textViewPlace.setText(performanceDetailInfo.getPrice());
+    }
+
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -74,8 +104,6 @@ public class PerformanceDetailInfoActivity extends FragmentActivity implements O
     public void onMapReady(final GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
-        gpsY = Double.parseDouble(getIntent().getStringExtra("gpsY"));
-        gpsX = Double.parseDouble(getIntent().getStringExtra("gpsX"));
         LatLng addr = new LatLng(gpsY, gpsX);
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(addr);

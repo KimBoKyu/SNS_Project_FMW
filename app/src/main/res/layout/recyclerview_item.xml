@@ -67,7 +67,7 @@
                 android:src="@drawable/ic_24px" />
 
             <TextView
-                android:id="@+id/meter"
+                android:id="@+id/textDistance"
                 android:layout_width="20dp"
                 android:layout_height="25dp"
                 android:layout_weight="2"

@@ -14,7 +14,7 @@ public class APIData {
     public static boolean inRealmName = false, inArea = false, inThumbnail = false, inSeqNum = false;
     public static boolean inPrice = false, inUrl = false, ingpsX = false, ingpsY = false, inplaceAddr = false;
     public static final String serviceKey = "nPNS96E9tPdBbuORe7jyzvIx9NxrNVmvAV1e5vh%2B2lItx%2F9mmlcqmEZeTCt%2FYL84UEsuGXUO3fFhuTL8kG4Tzg%3D%3D";
-    public static final int rows = 10;
+    public static final int rows = 50;
     public static ArrayList<PerformanceInfo> performanceInfos = new ArrayList<>();
     public static ArrayList<String> title = new ArrayList<>();
     public static ArrayList<String> startDate = new ArrayList<>();
@@ -66,9 +66,9 @@ public class APIData {
                         if(parser.getName().equals("endDate")){
                             inEndDate = true;
                         }
-                        if(parser.getName().equals("place")){
+                        /*if(parser.getName().equals("place")){
                             inPlace = true;
-                        }
+                        }*/
                         if(parser.getName().equals("realmName")){
                             inRealmName = true;
                         }
@@ -103,10 +103,10 @@ public class APIData {
                             endDate.add(parser.getText());
                             inEndDate = false;
                         }
-                        if(inPlace){
+                        /*if(inPlace){
                             place.add(parser.getText());
                             inPlace = false;
-                        }
+                        }*/
                         if(inRealmName){
                             realmName.add(parser.getText());
                             inRealmName = false;
@@ -204,7 +204,7 @@ public class APIData {
     public static void setData(){
         for(int i=0; i<rows; i++){
             PerformanceInfo performanceInfo = new PerformanceInfo(seqNum.get(i), title.get(i), startDate.get(i), endDate.get(i),
-                                                                    place.get(i), realmName.get(i), area.get(i), thumbNail.get(i),
+                                                                    realmName.get(i), area.get(i), thumbNail.get(i),
                                                                     gpsX.get(i), gpsY.get(i));
             performanceInfos.add(performanceInfo);
         }

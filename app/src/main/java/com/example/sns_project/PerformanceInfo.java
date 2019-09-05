@@ -13,19 +13,21 @@ public class PerformanceInfo implements Serializable {
     private String seqNum;
     private String gpsX;
     private String gpsY;
+    private String distance;
 
-    public PerformanceInfo(String seqNum, String title, String startDate, String endDate, String place, String realmName, String area, String thumbNail,
+    public PerformanceInfo(String seqNum, String title, String startDate, String endDate, String realmName, String area, String thumbNail,
                            String gpsX, String gpsY){
         this.seqNum = seqNum;
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.place = place;
+        this.place = "";
         this.realmName = realmName;
         this.area = area;
         this.thumbNail = thumbNail;
         this.gpsX = gpsX;
         this.gpsY = gpsY;
+        this.distance = "";
     }
 
     public String getTitle() {
@@ -106,5 +108,13 @@ public class PerformanceInfo implements Serializable {
 
     public void setGpsY(String gpsY) {
         this.gpsY = gpsY;
+    }
+
+    public void setDistance(String distance){
+        this.distance = distance;
+    }
+
+    public String getDistance(){
+        return distance;
     }
 }
