@@ -6,10 +6,12 @@ public class PerformanceDetailInfo implements Serializable {
     private String price;
     private String url;
     private String placeAddr;
+    private String place;
 
-    public PerformanceDetailInfo(String price, String url, String placeAddr){
+    public PerformanceDetailInfo(String price, String url, String place, String placeAddr){
         this.price = price;
         this.url = url;
+        this.place = place;
         this.placeAddr = placeAddr;
     }
 
@@ -29,6 +31,13 @@ public class PerformanceDetailInfo implements Serializable {
         this.url = url;
     }
 
+    public String getPlace(){
+        return place;
+    }
+
+    public void setPlace(String place){
+        this.place = place;
+    }
     public String getPlaceAddr() {
         return placeAddr;
     }

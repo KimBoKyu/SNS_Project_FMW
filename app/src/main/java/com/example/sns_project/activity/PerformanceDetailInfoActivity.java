@@ -26,7 +26,7 @@ public class PerformanceDetailInfoActivity extends FragmentActivity implements O
     private TextView textViewStartDate;
     private TextView textViewEndDate;
     private TextView textViewPlace;
-    private TextView textViewAddress;
+    private TextView textViewPrice;
     private TextView textViewRealmName;
     private PerformanceDetailInfo performanceDetailInfo;
     private float gpsY;
@@ -63,18 +63,19 @@ public class PerformanceDetailInfoActivity extends FragmentActivity implements O
         textViewStartDate = findViewById(R.id.textStartDate);
         textViewEndDate = findViewById(R.id.textEndDate);
         textViewPlace = findViewById(R.id.textPlace);
-        textViewAddress = findViewById(R.id.textAddress);
+        textViewPrice = findViewById(R.id.textPrice);
         textViewRealmName = findViewById(R.id.textRealmName);
     }
 
     public void textSetting(){
         Glide.with(this).load(thumbNail).into(performanceImageView);
         textViewTitle.setText(getIntent().getStringExtra("title"));
-        textViewAddress.setText(performanceDetailInfo.getPlaceAddr());
+        textViewPrice.setText(performanceDetailInfo.getPrice());
         textViewRealmName.setText(getIntent().getStringExtra("realmName"));
         textViewStartDate.setText(getIntent().getStringExtra("startDate"));
         textViewEndDate.setText(getIntent().getStringExtra("endDate"));
-        textViewPlace.setText(performanceDetailInfo.getPrice());
+        textViewPlace.setText(performanceDetailInfo.getPlace());
+        System.out.println(getIntent().getStringExtra("seqNum"));
     }
 
 
@@ -107,7 +108,12 @@ public class PerformanceDetailInfoActivity extends FragmentActivity implements O
         LatLng addr = new LatLng(gpsY, gpsX);
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(addr);
-        markerOptions.title(performanceDetailInfo.getPlaceAddr().toString());
+        if(performanceDetailInfo.getPlaceAddr().length() <=5 ){
+            markerOptions.title(performanceDetailInfo.getPlace());
+        }
+        else{
+            markerOptions.title(performanceDetailInfo.getPlaceAddr());
+        }
         mMap.addMarker(markerOptions);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(addr, 15));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));

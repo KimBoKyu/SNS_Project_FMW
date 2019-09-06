@@ -18,7 +18,6 @@ import com.bumptech.glide.Glide;
 import com.example.sns_project.APIData;
 import com.example.sns_project.PerformanceInfo;
 import com.example.sns_project.R;
-import com.example.sns_project.Util;
 import com.example.sns_project.activity.PerformanceDetailInfoActivity;
 import com.example.sns_project.adapter.RecyclerViewAdapter;
 import com.example.sns_project.adapter.RecyclerViewHolder;
@@ -45,7 +44,7 @@ public class PerformanceInfoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_performance_info, container, false);
         super.onCreate(savedInstanceState);
         performanceInfos = APIData.getPerformanceInfos();
-        settingPerformaceArray();
+        usingPerformanceInfos = settingPerformaceArray();
         Collections.sort(usingPerformanceInfos, new Comparator<PerformanceInfo>() {
             @Override
             public int compare(PerformanceInfo o1, PerformanceInfo o2) {
@@ -58,12 +57,10 @@ public class PerformanceInfoFragment extends Fragment {
                 else {
                     return -1;
                 }
-                //return Float.parseFloat(o1.getDistance()).compareTo(Float.parseFloat(o2.getDistance()));
             }
         });
         imgPerformance = view.findViewById(R.id.imgRandom);
         imgPerformance.setOnClickListener(onClickListener);
-        settingImg();
         RecyclerView recyclerView;
         recyclerView=view.findViewById(R.id.recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
@@ -78,6 +75,7 @@ public class PerformanceInfoFragment extends Fragment {
                 myStartActivity(PerformanceDetailInfoActivity.class, position);
             }
         });
+        settingImg();
         return view;
     }
 
@@ -97,32 +95,33 @@ public class PerformanceInfoFragment extends Fragment {
         while(true){
             int rand = random.nextInt(usingPerformanceInfos.size());
             if(usingPerformanceInfos.get(rand).getThumbNail() != null){
-                Glide.with(getActivity()).load(performanceInfos.get(rand).getThumbNail()).into(imgPerformance);
+                Glide.with(getActivity()).load(usingPerformanceInfos.get(rand).getThumbNail()).into(imgPerformance);
                 break;
             }
         }
     }
 
-    public void settingPerformaceArray(){
+    public ArrayList<PerformanceInfo> settingPerformaceArray(){
+        ArrayList<PerformanceInfo> usingPerformanceInfos = new ArrayList<>();
         Location myPos = new Location("MyPos");
         Location performancePos = new Location("PerPos");
         // GpsX = Latitude , GpsY = Longitude
-        myPos.setLongitude(Util.myPosY);
-        myPos.setLatitude(Util.myPosX);
-        //myPos.setLatitude(37.602938);
-        //myPos.setLongitude(126.955007);
+        //myPos.setLongitude(Util.myPosY);
+        //myPos.setLatitude(Util.myPosX);
+        myPos.setLatitude(37.602938);
+        myPos.setLongitude(126.955007);
         for(int i=0; i<APIData.rows; i++){
             performancePos.setLatitude(Double.parseDouble(performanceInfos.get(i).getGpsY()));
             performancePos.setLongitude(Double.parseDouble(performanceInfos.get(i).getGpsX()));
             double temp = myPos.distanceTo(performancePos)/1000;
             performanceInfos.get(i).setDistance(String.format("%.2f", temp));
         }
-
         for(int i=0; i<performanceInfos.size(); i++){
             if(Double.parseDouble(performanceInfos.get(i).getDistance()) < 20.0){
                 usingPerformanceInfos.add(performanceInfos.get(i));
             }
         }
+        return usingPerformanceInfos;
     }
 
     private void myStartActivity(Class c, int postion) {

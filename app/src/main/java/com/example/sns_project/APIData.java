@@ -14,12 +14,13 @@ public class APIData {
     public static boolean inRealmName = false, inArea = false, inThumbnail = false, inSeqNum = false;
     public static boolean inPrice = false, inUrl = false, ingpsX = false, ingpsY = false, inplaceAddr = false;
     public static final String serviceKey = "nPNS96E9tPdBbuORe7jyzvIx9NxrNVmvAV1e5vh%2B2lItx%2F9mmlcqmEZeTCt%2FYL84UEsuGXUO3fFhuTL8kG4Tzg%3D%3D";
-    public static final int rows = 50;
+    public static final int rows = 200;
     public static ArrayList<PerformanceInfo> performanceInfos = new ArrayList<>();
     public static ArrayList<String> title = new ArrayList<>();
     public static ArrayList<String> startDate = new ArrayList<>();
     public static ArrayList<String> endDate = new ArrayList<>();
-    public static ArrayList<String> place = new ArrayList<>();
+    //public static ArrayList<String> place = new ArrayList<>();
+    public static String place;
     public static ArrayList<String> realmName = new ArrayList<>();
     public static ArrayList<String> area = new ArrayList<>();
     public static ArrayList<String> thumbNail = new ArrayList<>();
@@ -157,6 +158,9 @@ public class APIData {
             while (parserEvent != XmlPullParser.END_DOCUMENT){
                 switch(parserEvent) {
                     case XmlPullParser.START_TAG://parser가 시작 태그를 만나면 실행
+                        if(parser.getName().equals("place")){
+                            inPlace = true;
+                        }
                         if (parser.getName().equals("price")) {
                             inPrice = true;
                         }
@@ -169,6 +173,10 @@ public class APIData {
                         break;
 
                     case XmlPullParser.TEXT://parser가 내용에 접근했을때
+                        if(inPlace){
+                            place = parser.getText();
+                            inPlace = false;
+                        }
                         if (inPrice) {
                             detailPrice = parser.getText();
                             inPrice = false;
@@ -198,7 +206,7 @@ public class APIData {
     }
 
     public static void setDetailData(){
-        performanceDetailInfo = new PerformanceDetailInfo(detailPrice, detailUrl,  detailAddr);
+        performanceDetailInfo = new PerformanceDetailInfo(detailPrice, detailUrl, place, detailAddr);
     }
 
     public static void setData(){
