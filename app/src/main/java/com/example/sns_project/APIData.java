@@ -6,6 +6,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -39,10 +40,13 @@ public class APIData {
     }
 
     public static void getAllData(){
-        SimpleDateFormat ydf = new SimpleDateFormat("yyyyMMdd", Locale.KOREA);
-        SimpleDateFormat ydf2 = new SimpleDateFormat("yyyy", Locale.KOREA);
-        String sDate = ydf.format(new Date());
-        String eDate = ydf2.format(new Date())+"1231";
+        SimpleDateFormat sm = new SimpleDateFormat("yyyyMMdd", Locale.KOREA);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        String sDate = sm.format(cal.getTime());
+        cal.add(Calendar.YEAR, 1);
+        String eDate = sm.format(cal.getTime());
+        System.out.println(sDate + " ////// " + eDate);
         try{
             URL url = new URL("http://www.culture.go.kr/openapi/rest/publicperformancedisplays/period?"
                     + "serviceKey="+serviceKey+"&from="+sDate+"&to="+eDate+"&cPage=1&rows="+rows+"&place=&gpsxfrom=&gpsyfrom=&gpsxto=&gpsyto=&keyword=&sortStdr=3"

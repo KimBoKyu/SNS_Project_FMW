@@ -2,6 +2,8 @@ package com.example.sns_project.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,8 +37,10 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class UserInfoFragment extends Fragment {
     private ListView mListView;
@@ -67,7 +71,6 @@ public class UserInfoFragment extends Fragment {
         final TextView birthDayTextView = view.findViewById(R.id.birthDayTextView);
         final Button logoutButton = view.findViewById(R.id.button_signOut);
         final TextView myPos = view.findViewById(R.id.myPosition);
-        myPos.setText(Double.toString(Util.myPosX)+ "  /   " + Double.toString(Util.myPosY));
         logoutButton.setOnClickListener(onClickListener);
         final Button modifyButton = view.findViewById(R.id.button_modify);
         modifyButton.setOnClickListener(onClickListener);
@@ -155,8 +158,28 @@ public class UserInfoFragment extends Fragment {
 
             }
         }) ;
+        getMyPos(myPos);
         return view;
     }
+    public void getMyPos(TextView myPos){
+        final Geocoder geocoder = new Geocoder(getActivity());
+        List<Address> alist = null;
+        try{
+            alist = geocoder.getFromLocation(Util.myPosX, Util.myPosY, 3);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        if(alist!=null){
+            if(alist.size() ==0){
+                myPos.setText("FAIL");
+
+            } else{
+                myPos.setText(alist.get(0).getAddressLine(0).toString());
+            }
+        }
+    }
+
 
     public void updateUser() {
         final ImageView profileImageView = getView().findViewById(R.id.profileImageView);
