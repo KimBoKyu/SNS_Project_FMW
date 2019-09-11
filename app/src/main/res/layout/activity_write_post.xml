@@ -22,7 +22,7 @@
             android:padding="10dp">
 
             <RatingBar
-                android:id="@+id/StarRatingView2"
+                android:id="@+id/StarRatingView3"
                 style="@android:style/Widget.Holo.RatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"

@@ -73,7 +73,6 @@ public class PostActivity extends BasicActivity {
             switch (v.getId()) {
                 case R.id.button:
                     commentUpdate();
-
                     break;
             }
         }
@@ -117,7 +116,6 @@ public class PostActivity extends BasicActivity {
                 if(firebaseAuth.getUid().equals(postInfo.getPublisher())){
                     myStartActivity(WritePostActivity.class, postInfo);
                     finish();
-                    showToast(this, "수정되었습니다.");
                 }
                 else{
                     showToast(this, "글쓴이가 다릅니다.");

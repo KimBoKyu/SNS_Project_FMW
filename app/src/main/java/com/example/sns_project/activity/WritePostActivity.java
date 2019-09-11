@@ -71,7 +71,7 @@ public class WritePostActivity extends BasicActivity {
         setToolbarTitle("게시글 작성");
         mcontext = this;
 
-        rating = (RatingBar) findViewById(R.id.StarRatingView2);
+        rating = (RatingBar) findViewById(R.id.StarRatingView3);
 
         rating.setStepSize((float) 0.5);        //별 색깔이 1칸씩줄어들고 늘어남 0.5로하면 반칸씩 들어감
         rating.setRating((float) 2.5);      // 처음보여줄때(색깔이 한개도없음) default 값이 0  이다
@@ -214,7 +214,7 @@ public class WritePostActivity extends BasicActivity {
             loaderLayout.setVisibility(View.VISIBLE);
             final ArrayList<String> contentsList = new ArrayList<>();
             final ArrayList<String> formatList = new ArrayList<>();
-            final int star = rating.getNumStars();
+            final float star = rating.getRating();
             user = FirebaseAuth.getInstance().getCurrentUser();
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReference();
@@ -225,13 +225,13 @@ public class WritePostActivity extends BasicActivity {
                 LinearLayout linearLayout = (LinearLayout) parent.getChildAt(i);
                 for (int ii = 0; ii < linearLayout.getChildCount(); ii++) {
                     View view = linearLayout.getChildAt(ii);
-                    contentsList.add(Integer.toString(star));
-                    formatList.add("star");
                     if (view instanceof EditText) {
                         String text = ((EditText) view).getText().toString();
                         if (text.length() > 0) {
                             contentsList.add(text);
                             formatList.add("text");
+                            //contentsList.add(Integer.toString(star));
+                            //formatList.add("star");
                         }
                     } else if (!isStorageUrl(pathList.get(pathCount))) {
                         String path = pathList.get(pathCount);

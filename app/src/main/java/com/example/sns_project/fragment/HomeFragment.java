@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -180,7 +181,8 @@ public class HomeFragment extends Fragment {
                                         (ArrayList<String>) document.getData().get("formats"),
                                         document.getData().get("publisher").toString(),
                                         new Date(document.getDate("createdAt").getTime()),
-                                        document.getId()
+                                        document.getId(),
+                                        Float.parseFloat(document.getData().get("star").toString())
                                         ));
                             }
                             homeAdapter.notifyDataSetChanged();

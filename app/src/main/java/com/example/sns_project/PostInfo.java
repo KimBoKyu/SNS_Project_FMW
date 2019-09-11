@@ -13,9 +13,9 @@ public class PostInfo implements Serializable {
     private String publisher;
     private Date createdAt;
     private String id;
-    private int star;
+    private float star;
 
-    public PostInfo(String title, ArrayList<String> contents, ArrayList<String> formats, String publisher, Date createdAt, String id, int star){
+    public PostInfo(String title, ArrayList<String> contents, ArrayList<String> formats, String publisher, Date createdAt, String id, float star){
         this.title = title;
         this.contents = contents;
         this.formats = formats;
@@ -25,7 +25,7 @@ public class PostInfo implements Serializable {
         this.star = star;
     }
 
-    public PostInfo(String title, ArrayList<String> contents, ArrayList<String> formats, String publisher, Date createdAt, int star){
+    public PostInfo(String title, ArrayList<String> contents, ArrayList<String> formats, String publisher, Date createdAt, float star){
         this.title = title;
         this.contents = contents;
         this.formats = formats;
@@ -99,6 +99,6 @@ public class PostInfo implements Serializable {
     public void setId(String id){
         this.id = id;
     }
-    public int getStar(){ return this.star; }
-    public void setStar(int star){ this.star = star; }
+    public float getStar(){ return this.star; }
+    public void setStar(float star){ this.star = star; }
 }
