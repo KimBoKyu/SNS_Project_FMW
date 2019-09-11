@@ -10,7 +10,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -61,6 +63,11 @@ public class WritePostActivity extends BasicActivity {
     private PostInfo postInfo;
     private int pathCount, successCount;
     public static Context mcontext;
+    RatingBar rating;
+    TextView tv01;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +75,25 @@ public class WritePostActivity extends BasicActivity {
         setContentView(R.layout.activity_write_post);
         setToolbarTitle("게시글 작성");
         mcontext = this;
+
+        rating = (RatingBar) findViewById(R.id.StarRatingView2);
+        tv01 = (TextView) findViewById(R.id.star);
+
+        rating.setStepSize((float) 0.5);        //별 색깔이 1칸씩줄어들고 늘어남 0.5로하면 반칸씩 들어감
+        rating.setRating((float) 2.5);      // 처음보여줄때(색깔이 한개도없음) default 값이 0  이다
+        rating.setIsIndicator(false);           //true - 별점만 표시 사용자가 변경 불가 , false - 사용자가 변경가능
+        rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                tv01.setText("평점 : " + rating);
+
+            }
+        });
+
+
+
+
 
         parent = findViewById(R.id.contentsLayout);
         buttonsBackgroundLayout = findViewById(R.id.buttonsBackgroundLayout);

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="170dp"
     android:layout_margin="5dp"
     app:cardCornerRadius="10dp">
 
@@ -22,13 +22,35 @@
 
             <TextView
                 android:id="@+id/titleTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textColor="#000000"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                tools:text="타이블" />
+                android:singleLine="true"
+                tools:text="타이틀" />
+
+            <TextView
+                android:id="@+id/PerformanceTitleView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="공연제목"
+                android:singleLine="true"
+                android:textSize="18sp" />
+
+            <RatingBar
+                android:id="@+id/StarRatingView2"
+                style="@android:style/Widget.Holo.RatingBar.Small"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:rating="3"
+                android:stepSize="0.5"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/menu"
@@ -51,12 +73,12 @@
             android:layout_height="1dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:background="#DDDDDD"/>
+            android:background="#DDDDDD" />
 
         <com.example.sns_project.view.ReadContentsVIew
+            android:id="@+id/readContentsView"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:id="@+id/readContentsView">
+            android:layout_height="80dp">
 
         </com.example.sns_project.view.ReadContentsVIew>
 
