@@ -13,14 +13,25 @@ public class PostInfo implements Serializable {
     private String publisher;
     private Date createdAt;
     private String id;
+    private int star;
 
-    public PostInfo(String title, ArrayList<String> contents, ArrayList<String> formats, String publisher, Date createdAt, String id){
+    public PostInfo(String title, ArrayList<String> contents, ArrayList<String> formats, String publisher, Date createdAt, String id, int star){
         this.title = title;
         this.contents = contents;
         this.formats = formats;
         this.publisher = publisher;
         this.createdAt = createdAt;
         this.id = id;
+        this.star = star;
+    }
+
+    public PostInfo(String title, ArrayList<String> contents, ArrayList<String> formats, String publisher, Date createdAt, int star){
+        this.title = title;
+        this.contents = contents;
+        this.formats = formats;
+        this.publisher = publisher;
+        this.createdAt = createdAt;
+        this.star = star;
     }
 
     public PostInfo(String title, ArrayList<String> contents, ArrayList<String> formats, String publisher, Date createdAt){
@@ -31,6 +42,16 @@ public class PostInfo implements Serializable {
         this.createdAt = createdAt;
     }
 
+    public PostInfo(String title, ArrayList<String> contents, ArrayList<String> formats, String publisher, Date createdAt, String id){
+        this.title = title;
+        this.contents = contents;
+        this.formats = formats;
+        this.publisher = publisher;
+        this.createdAt = createdAt;
+        this.id = id;
+    }
+
+
     public Map<String, Object> getPostInfo(){
         Map<String, Object> docData = new HashMap<>();
         docData.put("title",title);
@@ -38,6 +59,7 @@ public class PostInfo implements Serializable {
         docData.put("formats",formats);
         docData.put("publisher",publisher);
         docData.put("createdAt",createdAt);
+        docData.put("star", star);
         return  docData;
     }
 
@@ -77,4 +99,6 @@ public class PostInfo implements Serializable {
     public void setId(String id){
         this.id = id;
     }
+    public int getStar(){ return this.star; }
+    public void setStar(int star){ this.star = star; }
 }

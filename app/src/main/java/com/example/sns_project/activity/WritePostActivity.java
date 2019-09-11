@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
@@ -63,11 +62,7 @@ public class WritePostActivity extends BasicActivity {
     private PostInfo postInfo;
     private int pathCount, successCount;
     public static Context mcontext;
-    RatingBar rating;
-    TextView tv01;
-
-
-
+    public RatingBar rating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,30 +72,15 @@ public class WritePostActivity extends BasicActivity {
         mcontext = this;
 
         rating = (RatingBar) findViewById(R.id.StarRatingView2);
-        tv01 = (TextView) findViewById(R.id.star);
 
         rating.setStepSize((float) 0.5);        //별 색깔이 1칸씩줄어들고 늘어남 0.5로하면 반칸씩 들어감
         rating.setRating((float) 2.5);      // 처음보여줄때(색깔이 한개도없음) default 값이 0  이다
         rating.setIsIndicator(false);           //true - 별점만 표시 사용자가 변경 불가 , false - 사용자가 변경가능
-        rating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                tv01.setText("평점 : " + rating);
-
-            }
-        });
-
-
-
-
-
         parent = findViewById(R.id.contentsLayout);
         buttonsBackgroundLayout = findViewById(R.id.buttonsBackgroundLayout);
         loaderLayout = findViewById(R.id.loaderLyaout);
         contentsEditText = findViewById(R.id.contentsEditText);
         titleEditText = findViewById(R.id.titleEditText);
-
         findViewById(R.id.check).setOnClickListener(onClickListener);
         findViewById(R.id.image).setOnClickListener(onClickListener);
         findViewById(R.id.video).setOnClickListener(onClickListener);
@@ -234,6 +214,7 @@ public class WritePostActivity extends BasicActivity {
             loaderLayout.setVisibility(View.VISIBLE);
             final ArrayList<String> contentsList = new ArrayList<>();
             final ArrayList<String> formatList = new ArrayList<>();
+            final int star = rating.getNumStars();
             user = FirebaseAuth.getInstance().getCurrentUser();
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReference();
@@ -244,6 +225,8 @@ public class WritePostActivity extends BasicActivity {
                 LinearLayout linearLayout = (LinearLayout) parent.getChildAt(i);
                 for (int ii = 0; ii < linearLayout.getChildCount(); ii++) {
                     View view = linearLayout.getChildAt(ii);
+                    contentsList.add(Integer.toString(star));
+                    formatList.add("star");
                     if (view instanceof EditText) {
                         String text = ((EditText) view).getText().toString();
                         if (text.length() > 0) {
@@ -281,7 +264,7 @@ public class WritePostActivity extends BasicActivity {
                                             successCount--;
                                             contentsList.set(index, uri.toString());
                                             if (successCount == 0) {
-                                                PostInfo postInfo = new PostInfo(title, contentsList, formatList, user.getUid(), date);
+                                                PostInfo postInfo = new PostInfo(title, contentsList, formatList, user.getUid(), date, star);
                                                 storeUpload(documentReference, postInfo);
                                             }
                                         }
@@ -296,7 +279,7 @@ public class WritePostActivity extends BasicActivity {
                 }
             }
             if (successCount == 0) {
-                storeUpload(documentReference, new PostInfo(title, contentsList, formatList, user.getUid(), date));
+                storeUpload(documentReference, new PostInfo(title, contentsList, formatList, user.getUid(), date, star));
             }
         } else {
             showToast(WritePostActivity.this, "제목을 입력해주세요.");
