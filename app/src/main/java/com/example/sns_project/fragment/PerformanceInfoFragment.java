@@ -30,6 +30,7 @@ import java.util.Random;
 
 public class PerformanceInfoFragment extends Fragment {
     private static final String TAG = "PerformanceInfoFragment";
+    private final int max_count = 20;
     private ArrayList<PerformanceInfo> performanceInfos;
     private ArrayList<PerformanceInfo> usingPerformanceInfos = new ArrayList<>();
     private ImageView imgPerformance;
@@ -95,13 +96,14 @@ public class PerformanceInfoFragment extends Fragment {
         while(true){
             int rand = random.nextInt(usingPerformanceInfos.size());
             if(usingPerformanceInfos.get(rand).getThumbNail() != null){
-                Glide.with(getActivity()).load(usingPerformanceInfos.get(rand).getThumbNail()).into(imgPerformance);
+                Glide.with(getActivity()).load(usingPerformanceInfos.get(rand).getThumbNail()).override(2000).into(imgPerformance);
                 break;
             }
         }
     }
 
     public ArrayList<PerformanceInfo> settingPerformaceArray(){
+        int count = 0;
         ArrayList<PerformanceInfo> usingPerformanceInfos = new ArrayList<>();
         Location myPos = new Location("MyPos");
         Location performancePos = new Location("PerPos");
@@ -118,9 +120,19 @@ public class PerformanceInfoFragment extends Fragment {
         }
         for(int i=0; i<performanceInfos.size(); i++){
             if(Double.parseDouble(performanceInfos.get(i).getDistance()) < 20.0){
-                usingPerformanceInfos.add(performanceInfos.get(i));
+                    usingPerformanceInfos.add(performanceInfos.get(i));
+            }
+            if(count++ >= max_count){
+                break;
             }
         }
+        for(int i=1; i<usingPerformanceInfos.size(); i++){
+            if(usingPerformanceInfos.get(i).getTitle().equals(usingPerformanceInfos.get(i-1).getTitle())){
+                usingPerformanceInfos.remove(i);
+            }
+        }
+
+
         return usingPerformanceInfos;
     }
 
