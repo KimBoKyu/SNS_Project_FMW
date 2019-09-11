@@ -45,6 +45,25 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
+                    <TextView
+                        android:id="@+id/star"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:text="당신의 별점은" />
+
+                    <RatingBar
+                        android:id="@+id/StarRatingView2"
+                        style="@android:style/Widget.Holo.RatingBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:numStars="5"
+                        android:rating="3"
+                        android:stepSize="2"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
                 </LinearLayout>
 
             </LinearLayout>
