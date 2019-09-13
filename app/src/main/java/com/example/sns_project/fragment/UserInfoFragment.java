@@ -38,6 +38,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -109,10 +110,13 @@ public class UserInfoFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    SimpleDateFormat sdf;
+                    sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         if(mAuth.getUid().equals(document.getData().get("publisher"))){
-                            list.add(new MlistInfo(document.getData().get("title").toString(),
-                                    new Date(document.getDate("createdAt").getTime())));
+                            list.add(new MlistInfo(document.getData().get("title").toString()+"\n",
+                                    sdf.format(new Date(document.getDate("createdAt").getTime()))
+                                    ));
                             adapter.notifyDataSetChanged();
                         }
                     }
@@ -134,7 +138,7 @@ public class UserInfoFragment extends Fragment {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 PostInfo postInfo;
                                 if(item.getTitle().equals(document.getData().get("title"))&& item.getDate().
-                                        compareTo(new Date(document.getDate("createdAt").getTime()))==0){
+                                        compareTo(new Date(document.getDate("createdAt").getTime()).toString())==0){
                                     postInfo = new PostInfo(
                                             document.getData().get("title").toString(),
                                             (ArrayList<String>) document.getData().get("contents"),
