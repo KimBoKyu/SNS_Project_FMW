@@ -3,9 +3,9 @@ import java.util.Date;
 
 public class MlistInfo {
     String title;
-    Date date;
+    String date;
 
-    public MlistInfo(String title, Date date) {
+    public MlistInfo(String title, String date) {
         this.title = title;
         this.date = date;
     }
@@ -18,11 +18,11 @@ public class MlistInfo {
         this.title = title;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
