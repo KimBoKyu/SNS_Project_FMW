@@ -221,7 +221,7 @@ public class WritePostActivity extends BasicActivity {
     private void storageUpload() {
         final String title = ((EditText) findViewById(R.id.titleEditText)).getText().toString();
         final String performanceTitle = ((EditText) findViewById(R.id.performanceTitleEditText)).getText().toString();
-        if (title.length() > 0) {
+        if (title.length() > 0 && performanceTitle.length() > 0) {
             loaderLayout.setVisibility(View.VISIBLE);
             final ArrayList<String> contentsList = new ArrayList<>();
             final ArrayList<String> formatList = new ArrayList<>();
@@ -291,7 +291,7 @@ public class WritePostActivity extends BasicActivity {
                 storeUpload(documentReference, new PostInfo(title, performanceTitle, contentsList, formatList, user.getUid(), date, star));
             }
         } else {
-            showToast(WritePostActivity.this, "제목을 입력해주세요.");
+            showToast(WritePostActivity.this, "글의 제목 또는 공연 제목을 입력해주세요.");
         }
     }
 
