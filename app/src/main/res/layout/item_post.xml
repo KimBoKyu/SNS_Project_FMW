@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="170dp"
+    android:layout_height="wrap_content"
     android:layout_margin="5dp"
     app:cardCornerRadius="10dp">
 
@@ -20,26 +20,6 @@
             android:orientation="horizontal"
             android:padding="5dp">
 
-            <TextView
-                android:id="@+id/titleTextView"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textColor="#000000"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:singleLine="true"
-                tools:text="타이틀" />
-
-            <TextView
-                android:id="@+id/PerformanceTitleView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="공연제목"
-                android:singleLine="true"
-                android:textSize="18sp" />
-
             <RatingBar
                 android:id="@+id/mini_star"
                 style="@android:style/Widget.Holo.RatingBar.Small"
@@ -48,6 +28,26 @@
                 android:numStars="5"
                 android:rating="3"
                 android:stepSize="2" />
+
+            <TextView
+                android:id="@+id/performanceTitleView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:text="공연제목"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:text="타이틀" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/menu"
@@ -75,7 +75,7 @@
         <com.example.sns_project.view.ReadContentsVIew
             android:id="@+id/readContentsView"
             android:layout_width="match_parent"
-            android:layout_height="80dp">
+            android:layout_height="wrap_content">
 
         </com.example.sns_project.view.ReadContentsVIew>
 

@@ -59,6 +59,7 @@ public class WritePostActivity extends BasicActivity {
     private EditText selectedEditText;
     private EditText contentsEditText;
     private EditText titleEditText;
+    private EditText performanceTitleEditText;
     private PostInfo postInfo;
     private int pathCount, successCount;
     public static Context mcontext;
@@ -81,6 +82,7 @@ public class WritePostActivity extends BasicActivity {
         loaderLayout = findViewById(R.id.loaderLyaout);
         contentsEditText = findViewById(R.id.contentsEditText);
         titleEditText = findViewById(R.id.titleEditText);
+        performanceTitleEditText = findViewById(R.id.performanceTitleEditText);
         findViewById(R.id.check).setOnClickListener(onClickListener);
         findViewById(R.id.image).setOnClickListener(onClickListener);
         findViewById(R.id.video).setOnClickListener(onClickListener);
@@ -90,6 +92,14 @@ public class WritePostActivity extends BasicActivity {
         buttonsBackgroundLayout.setOnClickListener(onClickListener);
         contentsEditText.setOnFocusChangeListener(onFocusChangeListener);
         titleEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    selectedEditText = null;
+                }
+            }
+        });
+        performanceTitleEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -210,6 +220,7 @@ public class WritePostActivity extends BasicActivity {
 
     private void storageUpload() {
         final String title = ((EditText) findViewById(R.id.titleEditText)).getText().toString();
+        final String performanceTitle = ((EditText) findViewById(R.id.performanceTitleEditText)).getText().toString();
         if (title.length() > 0) {
             loaderLayout.setVisibility(View.VISIBLE);
             final ArrayList<String> contentsList = new ArrayList<>();
@@ -230,8 +241,6 @@ public class WritePostActivity extends BasicActivity {
                         if (text.length() > 0) {
                             contentsList.add(text);
                             formatList.add("text");
-                            //contentsList.add(Integer.toString(star));
-                            //formatList.add("star");
                         }
                     } else if (!isStorageUrl(pathList.get(pathCount))) {
                         String path = pathList.get(pathCount);
@@ -264,7 +273,7 @@ public class WritePostActivity extends BasicActivity {
                                             successCount--;
                                             contentsList.set(index, uri.toString());
                                             if (successCount == 0) {
-                                                PostInfo postInfo = new PostInfo(title, contentsList, formatList, user.getUid(), date, star);
+                                                PostInfo postInfo = new PostInfo(title, performanceTitle, contentsList, formatList, user.getUid(), date, star);
                                                 storeUpload(documentReference, postInfo);
                                             }
                                         }
@@ -279,7 +288,7 @@ public class WritePostActivity extends BasicActivity {
                 }
             }
             if (successCount == 0) {
-                storeUpload(documentReference, new PostInfo(title, contentsList, formatList, user.getUid(), date, star));
+                storeUpload(documentReference, new PostInfo(title, performanceTitle, contentsList, formatList, user.getUid(), date, star));
             }
         } else {
             showToast(WritePostActivity.this, "제목을 입력해주세요.");

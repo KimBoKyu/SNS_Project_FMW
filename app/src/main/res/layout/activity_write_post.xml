@@ -41,6 +41,14 @@
                 android:hint="제목"
                 android:inputType="textPersonName" />
 
+            <EditText
+                android:id="@+id/performanceTitleEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="공연 제목"
+                android:textSize="18sp" />
+
             <LinearLayout
                 android:id="@+id/contentsLayout"
                 android:layout_width="match_parent"

@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RatingBar;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -177,6 +176,7 @@ public class HomeFragment extends Fragment {
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                                 postList.add(new PostInfo(
                                         document.getData().get("title").toString(),
+                                        document.getData().get("performanceTitle").toString(),
                                         (ArrayList<String>) document.getData().get("contents"),
                                         (ArrayList<String>) document.getData().get("formats"),
                                         document.getData().get("publisher").toString(),

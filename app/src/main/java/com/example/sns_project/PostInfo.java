@@ -8,6 +8,7 @@ import java.util.Map;
 
 public class PostInfo implements Serializable {
     private String title;
+    private String performanceTitle;
     private ArrayList<String> contents;
     private ArrayList<String> formats;
     private String publisher;
@@ -15,8 +16,9 @@ public class PostInfo implements Serializable {
     private String id;
     private float star;
 
-    public PostInfo(String title, ArrayList<String> contents, ArrayList<String> formats, String publisher, Date createdAt, String id, float star){
+    public PostInfo(String title, String performanceTitle, ArrayList<String> contents, ArrayList<String> formats, String publisher, Date createdAt, String id, float star){
         this.title = title;
+        this.performanceTitle = performanceTitle;
         this.contents = contents;
         this.formats = formats;
         this.publisher = publisher;
@@ -25,8 +27,9 @@ public class PostInfo implements Serializable {
         this.star = star;
     }
 
-    public PostInfo(String title, ArrayList<String> contents, ArrayList<String> formats, String publisher, Date createdAt, float star){
+    public PostInfo(String title, String performanceTitle, ArrayList<String> contents, ArrayList<String> formats, String publisher, Date createdAt, float star){
         this.title = title;
+        this.performanceTitle = performanceTitle;
         this.contents = contents;
         this.formats = formats;
         this.publisher = publisher;
@@ -55,6 +58,7 @@ public class PostInfo implements Serializable {
     public Map<String, Object> getPostInfo(){
         Map<String, Object> docData = new HashMap<>();
         docData.put("title",title);
+        docData.put("performanceTitle", performanceTitle);
         docData.put("contents",contents);
         docData.put("formats",formats);
         docData.put("publisher",publisher);
@@ -68,6 +72,10 @@ public class PostInfo implements Serializable {
     }
     public void setTitle(String title){
         this.title = title;
+    }
+    public String getPerformanceTitle() {return this.performanceTitle; }
+    public void setPerformanceTitle(String performanceTitle){
+        this.performanceTitle = performanceTitle;
     }
     public ArrayList<String> getContents(){
         return this.contents;

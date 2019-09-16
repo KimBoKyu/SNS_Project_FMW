@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.example.sns_project.APIData;
 import com.example.sns_project.PerformanceInfo;
 import com.example.sns_project.R;
+import com.example.sns_project.Util;
 import com.example.sns_project.activity.PerformanceDetailInfoActivity;
 import com.example.sns_project.adapter.RecyclerViewAdapter;
 import com.example.sns_project.adapter.RecyclerViewHolder;
@@ -108,10 +109,10 @@ public class PerformanceInfoFragment extends Fragment {
         Location myPos = new Location("MyPos");
         Location performancePos = new Location("PerPos");
         // GpsX = Latitude , GpsY = Longitude
-        //myPos.setLongitude(Util.myPosY);
-        //myPos.setLatitude(Util.myPosX);
-        myPos.setLatitude(37.602938);
-        myPos.setLongitude(126.955007);
+        myPos.setLongitude(Util.myPosY);
+        myPos.setLatitude(Util.myPosX);
+        //myPos.setLatitude(37.602938);
+        //myPos.setLongitude(126.955007);
         for(int i=0; i<APIData.rows; i++){
             performancePos.setLatitude(Double.parseDouble(performanceInfos.get(i).getGpsY()));
             performancePos.setLongitude(Double.parseDouble(performanceInfos.get(i).getGpsX()));

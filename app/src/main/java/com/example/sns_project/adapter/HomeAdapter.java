@@ -89,8 +89,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MainViewHolder
     public void onBindViewHolder(@NonNull final MainViewHolder holder, int position) {
         CardView cardView = holder.cardView;
         RatingBar rating = cardView.findViewById(R.id.mini_star);
+        TextView performanceTitleView = cardView.findViewById(R.id.performanceTitleView);
         TextView titleTextView = cardView.findViewById(R.id.titleTextView);
         PostInfo postInfo = mDataset.get(position);
+        performanceTitleView.setText(postInfo.getPerformanceTitle());
         titleTextView.setText(postInfo.getTitle());
         rating.setStepSize((float) 0.5);
         rating.setRating(postInfo.getStar());
