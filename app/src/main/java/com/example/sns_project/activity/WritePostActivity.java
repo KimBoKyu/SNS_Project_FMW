@@ -320,6 +320,7 @@ public class WritePostActivity extends BasicActivity {
     private void postInit() {
         if (postInfo != null) {
             titleEditText.setText(postInfo.getTitle());
+            performanceTitleEditText.setText(postInfo.getPerformanceTitle());
             ArrayList<String> contentsList = postInfo.getContents();
             for (int i = 0; i < contentsList.size(); i++) {
                 String contents = contentsList.get(i);
