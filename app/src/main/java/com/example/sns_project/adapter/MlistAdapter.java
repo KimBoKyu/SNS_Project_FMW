@@ -10,12 +10,14 @@ import android.widget.TextView;
 import com.example.sns_project.MlistInfo;
 import com.example.sns_project.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class MlistAdapter  extends BaseAdapter {
     private Context context;
     private int layout;
     private ArrayList<MlistInfo> items = new ArrayList<MlistInfo>();
+    SimpleDateFormat mFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss aa");
 
     public MlistAdapter(Context context, int layout, ArrayList<MlistInfo> mList) {
         this.context = context;
@@ -61,7 +63,7 @@ public class MlistAdapter  extends BaseAdapter {
         }
 
         MlistInfo mlistInfo = items.get(position);
-        holder.txtCreate_time.setText(mlistInfo.getDate().toString());
+        holder.txtCreate_time.setText(mFormat.format(mlistInfo.getDate()));
         holder.txtContent.setText(mlistInfo.getTitle());
 
         return row;
