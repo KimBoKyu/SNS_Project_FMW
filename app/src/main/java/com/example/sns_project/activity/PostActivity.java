@@ -41,36 +41,26 @@ public class PostActivity extends BasicActivity {
     private FirebaseHelper firebaseHelper;
     private ReadContentsVIew readContentsVIew;
     private LinearLayout contentsLayout;
-    private EditText editText;
+    private EditText commentEditText;
     private FirebaseUser User;
     private String msg;
     private ListView listView;
     private ArrayList<CommentInfo> list;
     private String[] photoUrl = new String[2];
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
-
         postInfo = (PostInfo) getIntent().getSerializableExtra("postInfo");
         listView = findViewById(R.id.listview);
         commentList();
         contentsLayout = findViewById(R.id.contentsLayout);
         readContentsVIew = findViewById(R.id.readContentsView);
-
-        editText = findViewById(R.id.editText);
-        findViewById(R.id.button).setOnClickListener(onClickListener);
-
+        commentEditText = findViewById(R.id.commentEditText);
+        findViewById(R.id.commentbutton).setOnClickListener(onClickListener);
         firebaseHelper = new FirebaseHelper(this);
         firebaseHelper.setOnPostListener(onPostListener);
-
-
-
-
         uiUpdate();
     }
 
@@ -78,8 +68,9 @@ public class PostActivity extends BasicActivity {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.button:
+                case R.id.commentbutton:
                     commentUpdate();
+                    commentEditText.setText("");
                     break;
             }
         }
@@ -150,19 +141,10 @@ public class PostActivity extends BasicActivity {
         readContentsVIew.setPostInfo(postInfo);
     }
 
-    public void setPhotoUrl(String photoUrl){
-        this.photoUrl[1] = photoUrl;
-    }
-
-    public String getPhotoUrl(){
-        return this.photoUrl[1];
-    }
-
     private void commentUpdate(){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final FirebaseFirestore db2= FirebaseFirestore.getInstance();
         User = FirebaseAuth.getInstance().getCurrentUser();
-
         db.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -172,20 +154,18 @@ public class PostActivity extends BasicActivity {
                         if(document.getId().equals(User.getUid())){
                             if(document.getData().get("photoUrl")!=null){
                                 photoUrl[1] = new String(document.getData().get("photoUrl").toString());
-                                msg = editText.getText().toString();
+                                msg = commentEditText.getText().toString();
                                 Map<String, Object> user = new HashMap<>();
                                 user.put("comment", msg);
                                 user.put("user", User.getEmail().toString());
                                 user.put("publisher", User.getUid());
                                 user.put("createAt", new Date());
                                 user.put("photoUrl", photoUrl[1]);
-
                                 db2.collection("posts").document(postInfo.getId()).collection("comments2").add(user);
                                 commentList();
-                                editText.setText("");
                             }
                             else{
-                                msg = editText.getText().toString();
+                                msg = commentEditText.getText().toString();
                                 Map<String, Object> user = new HashMap<>();
                                 user.put("comment", msg);
                                 user.put("user", User.getEmail().toString());
@@ -195,28 +175,20 @@ public class PostActivity extends BasicActivity {
 
                                 db2.collection("posts").document(postInfo.getId()).collection("comments2").add(user);
                                 commentList();
-                                editText.setText("");
                             }
                         }
                     }
                 }
                 else{
-
                 }
-
             }
         });
-
 
     }
 
     private void commentList(){
-
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         User = FirebaseAuth.getInstance().getCurrentUser();
-
-
-
         db.collection("posts").document(postInfo.getId()).collection("comments2")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -230,14 +202,10 @@ public class PostActivity extends BasicActivity {
 
                         } else {
                             Log.w("바보", "Error getting documents.", task.getException());
-
                         }
 
                     }
                 });
-
-
-
 
     }
 
@@ -287,9 +255,7 @@ public class PostActivity extends BasicActivity {
             }
         });
         listView.setAdapter(adapter);
-
     }
-
 
     private void myStartActivity(Class c, PostInfo postInfo) {
         Intent intent = new Intent(this, c);

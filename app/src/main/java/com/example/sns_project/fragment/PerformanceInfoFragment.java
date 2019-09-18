@@ -18,7 +18,6 @@ import com.bumptech.glide.Glide;
 import com.example.sns_project.APIData;
 import com.example.sns_project.PerformanceInfo;
 import com.example.sns_project.R;
-import com.example.sns_project.Util;
 import com.example.sns_project.activity.PerformanceDetailInfoActivity;
 import com.example.sns_project.adapter.RecyclerViewAdapter;
 import com.example.sns_project.adapter.RecyclerViewHolder;
@@ -31,7 +30,7 @@ import java.util.Random;
 
 public class PerformanceInfoFragment extends Fragment {
     private static final String TAG = "PerformanceInfoFragment";
-    private final int max_count = 20;
+    private final int max_count = 50;
     private ArrayList<PerformanceInfo> performanceInfos;
     private ArrayList<PerformanceInfo> usingPerformanceInfos = new ArrayList<>();
     private ImageView imgPerformance;
@@ -46,6 +45,10 @@ public class PerformanceInfoFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_performance_info, container, false);
         super.onCreate(savedInstanceState);
         performanceInfos = APIData.getPerformanceInfos();
+        System.out.println("사이즈는 ㅣ " + performanceInfos.size());
+        System.out.println("ㅇㅇㅇㅇㅇ " + performanceInfos.get(performanceInfos.size()-99).getTitle());
+        System.out.println("ㅇㅇㅇㅇㅇ " + performanceInfos.get(performanceInfos.size()-98).getTitle());
+        System.out.println("ㅇㅇㅇㅇㅇ " + performanceInfos.get(performanceInfos.size()-97).getTitle());
         usingPerformanceInfos = settingPerformaceArray();
         Collections.sort(usingPerformanceInfos, new Comparator<PerformanceInfo>() {
             @Override
@@ -113,7 +116,7 @@ public class PerformanceInfoFragment extends Fragment {
         //myPos.setLatitude(Util.myPosX);
         myPos.setLatitude(37.602938);
         myPos.setLongitude(126.955007);
-        for(int i=0; i<APIData.rows; i++){
+        for(int i=0; i<performanceInfos.size(); i++){
             performancePos.setLatitude(Double.parseDouble(performanceInfos.get(i).getGpsY()));
             performancePos.setLongitude(Double.parseDouble(performanceInfos.get(i).getGpsX()));
             double temp = myPos.distanceTo(performancePos)/1000;

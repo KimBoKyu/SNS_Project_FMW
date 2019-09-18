@@ -32,7 +32,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/editText"
+                    android:id="@+id/commentEditText"
                     android:layout_width="329dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
@@ -40,7 +40,7 @@
                     android:inputType="textPersonName" />
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/commentbutton"
                     android:layout_width="112dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

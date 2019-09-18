@@ -36,13 +36,9 @@ public class MainActivity extends BasicActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
         Intent intent = new Intent(this,LoadingActivity.class);
         startActivity(intent);
-//        setToolbarTitle(getResources().getString(R.string.app_name));
         init();
         Background thread = new Background();
         thread.start();
@@ -57,7 +53,6 @@ public class MainActivity extends BasicActivity {
 
     private Location getMyLocation() {
         Location currentLocation = null;
-        // Register the listener with the Location Manager to receive location updates
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             System.out.println("////////////사용자에게 권한을 요청해야함");
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, this.REQUEST_CODE_LOCATION);
@@ -65,8 +60,6 @@ public class MainActivity extends BasicActivity {
         }
         else {
             System.out.println("////////////권한요청 안해도됨");
-
-            // 수동으로 위치 구하기
             String locationProvider = LocationManager.GPS_PROVIDER;
             currentLocation = locationManager.getLastKnownLocation(locationProvider);
             if (currentLocation != null) {
@@ -163,13 +156,10 @@ public class MainActivity extends BasicActivity {
         @Override
         public void run(){
             super.run();
-            APIData.getAllData(1);
-            APIData.getAllData(2);
-            APIData.getAllData(3);
-            APIData.getAllData(4);
-            APIData.getAllData(5);
+            APIData.getAllData();
         }
     }
+
 
     private void myStartActivity(Class c) {
         Intent intent = new Intent(this, c);
