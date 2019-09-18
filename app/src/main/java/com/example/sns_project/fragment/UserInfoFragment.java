@@ -19,9 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
-import com.example.sns_project.CommentInfo;
 import com.example.sns_project.MlistInfo;
-import com.example.sns_project.PerformanceInfo;
 import com.example.sns_project.PostInfo;
 import com.example.sns_project.R;
 import com.example.sns_project.Util;
@@ -41,8 +39,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -154,15 +150,14 @@ public class UserInfoFragment extends Fragment {
                                         compareTo(new Date(document.getDate("createdAt").getTime()))==0){
                                     postInfo = new PostInfo(
                                             document.getData().get("title").toString(),
+                                            document.getData().get("performanceTitle").toString(),
                                             (ArrayList<String>) document.getData().get("contents"),
                                             (ArrayList<String>) document.getData().get("formats"),
                                             document.getData().get("publisher").toString(),
                                             new Date(document.getDate("createdAt").getTime()),
-                                            document.getId());
-                                    Intent intent = new Intent(getActivity(), PostActivity.class);
-                                    intent.putExtra("postInfo", postInfo);
-                                    startActivity(intent);
-
+                                            document.getId(),
+                                            Float.parseFloat(document.getData().get("star").toString()));
+                                    myStartActivity(PostActivity.class, postInfo);
                                 }
                                 else{}
                             }
@@ -254,6 +249,12 @@ public class UserInfoFragment extends Fragment {
     private void myStartActivity(Class c) {
         Intent intent = new Intent(getActivity(), c);
         startActivityForResult(intent, 0);
+    }
+
+    private void myStartActivity(Class c, PostInfo postInfo){
+        Intent intent = new Intent(getActivity(), c);
+        intent.putExtra("postInfo", postInfo);
+        startActivity(intent);
     }
 
     @Override
