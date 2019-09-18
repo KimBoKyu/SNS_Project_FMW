@@ -14,9 +14,11 @@ public class Util {
 
     public static final int GALLERY_IMAGE = 0;
     public static final int GALLERY_VIDEO = 1;
-    public static double myPosX;
-    public static double myPosY;
+    public static double myPosX = 37.602938;
+    public static double myPosY = 126.955007;
 
+    //myPos.setLatitude(37.602938);
+    //myPos.setLongitude(126.955007);
     public static void showToast(Activity activity, String msg){
         Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show();
     }

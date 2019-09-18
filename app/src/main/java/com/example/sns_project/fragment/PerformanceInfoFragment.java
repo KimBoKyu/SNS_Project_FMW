@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.example.sns_project.APIData;
 import com.example.sns_project.PerformanceInfo;
 import com.example.sns_project.R;
+import com.example.sns_project.Util;
 import com.example.sns_project.activity.PerformanceDetailInfoActivity;
 import com.example.sns_project.adapter.RecyclerViewAdapter;
 import com.example.sns_project.adapter.RecyclerViewHolder;
@@ -30,6 +31,7 @@ import java.util.Random;
 
 public class PerformanceInfoFragment extends Fragment {
     private static final String TAG = "PerformanceInfoFragment";
+    private final int max_count = 20;
     private ArrayList<PerformanceInfo> performanceInfos;
     private ArrayList<PerformanceInfo> usingPerformanceInfos = new ArrayList<>();
     private ImageView imgPerformance;
@@ -95,21 +97,22 @@ public class PerformanceInfoFragment extends Fragment {
         while(true){
             int rand = random.nextInt(usingPerformanceInfos.size());
             if(usingPerformanceInfos.get(rand).getThumbNail() != null){
-                Glide.with(getActivity()).load(usingPerformanceInfos.get(rand).getThumbNail()).into(imgPerformance);
+                Glide.with(getActivity()).load(usingPerformanceInfos.get(rand).getThumbNail()).override(2000).into(imgPerformance);
                 break;
             }
         }
     }
 
     public ArrayList<PerformanceInfo> settingPerformaceArray(){
+        int count = 0;
         ArrayList<PerformanceInfo> usingPerformanceInfos = new ArrayList<>();
         Location myPos = new Location("MyPos");
         Location performancePos = new Location("PerPos");
         // GpsX = Latitude , GpsY = Longitude
-        //myPos.setLongitude(Util.myPosY);
-        //myPos.setLatitude(Util.myPosX);
-        myPos.setLatitude(37.602938);
-        myPos.setLongitude(126.955007);
+        myPos.setLongitude(Util.myPosY);
+        myPos.setLatitude(Util.myPosX);
+        //myPos.setLatitude(37.602938);
+        //myPos.setLongitude(126.955007);
         for(int i=0; i<APIData.rows; i++){
             performancePos.setLatitude(Double.parseDouble(performanceInfos.get(i).getGpsY()));
             performancePos.setLongitude(Double.parseDouble(performanceInfos.get(i).getGpsX()));
@@ -118,9 +121,19 @@ public class PerformanceInfoFragment extends Fragment {
         }
         for(int i=0; i<performanceInfos.size(); i++){
             if(Double.parseDouble(performanceInfos.get(i).getDistance()) < 20.0){
-                usingPerformanceInfos.add(performanceInfos.get(i));
+                    usingPerformanceInfos.add(performanceInfos.get(i));
+            }
+            if(count++ >= max_count){
+                break;
             }
         }
+        for(int i=1; i<usingPerformanceInfos.size(); i++){
+            if(usingPerformanceInfos.get(i).getTitle().equals(usingPerformanceInfos.get(i-1).getTitle())){
+                usingPerformanceInfos.remove(i);
+            }
+        }
+
+
         return usingPerformanceInfos;
     }
 

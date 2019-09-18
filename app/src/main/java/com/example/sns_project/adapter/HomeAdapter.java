@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -87,11 +88,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.MainViewHolder
     @Override
     public void onBindViewHolder(@NonNull final MainViewHolder holder, int position) {
         CardView cardView = holder.cardView;
+        RatingBar rating = cardView.findViewById(R.id.mini_star);
+        TextView performanceTitleView = cardView.findViewById(R.id.performanceTitleView);
         TextView titleTextView = cardView.findViewById(R.id.titleTextView);
-
         PostInfo postInfo = mDataset.get(position);
+        performanceTitleView.setText(postInfo.getPerformanceTitle());
         titleTextView.setText(postInfo.getTitle());
-
+        rating.setStepSize((float) 0.5);
+        rating.setRating(postInfo.getStar());
+        rating.setIsIndicator(true);
         ReadContentsVIew readContentsVIew = cardView.findViewById(R.id.readContentsView);
         LinearLayout contentsLayout = cardView.findViewById(R.id.contentsLayout);
 

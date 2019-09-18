@@ -135,11 +135,11 @@
 
                 android:id="@+id/myTitleListView"
                 android:layout_width="370dp"
-                android:layout_height="209dp"
+                android:layout_height="271dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:divider="#00000000"
-                android:dividerHeight="30dp">
+                android:dividerHeight="15dp">
 
             </ListView>
 

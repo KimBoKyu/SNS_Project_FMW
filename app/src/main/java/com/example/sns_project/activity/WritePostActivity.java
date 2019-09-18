@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
@@ -58,9 +59,11 @@ public class WritePostActivity extends BasicActivity {
     private EditText selectedEditText;
     private EditText contentsEditText;
     private EditText titleEditText;
+    private EditText performanceTitleEditText;
     private PostInfo postInfo;
     private int pathCount, successCount;
     public static Context mcontext;
+    public RatingBar rating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +72,17 @@ public class WritePostActivity extends BasicActivity {
         setToolbarTitle("게시글 작성");
         mcontext = this;
 
+        rating = (RatingBar) findViewById(R.id.StarRatingView3);
+
+        rating.setStepSize((float) 0.5);        //별 색깔이 1칸씩줄어들고 늘어남 0.5로하면 반칸씩 들어감
+        rating.setRating((float) 2.5);      // 처음보여줄때(색깔이 한개도없음) default 값이 0  이다
+        rating.setIsIndicator(false);           //true - 별점만 표시 사용자가 변경 불가 , false - 사용자가 변경가능
         parent = findViewById(R.id.contentsLayout);
         buttonsBackgroundLayout = findViewById(R.id.buttonsBackgroundLayout);
         loaderLayout = findViewById(R.id.loaderLyaout);
         contentsEditText = findViewById(R.id.contentsEditText);
         titleEditText = findViewById(R.id.titleEditText);
-
+        performanceTitleEditText = findViewById(R.id.performanceTitleEditText);
         findViewById(R.id.check).setOnClickListener(onClickListener);
         findViewById(R.id.image).setOnClickListener(onClickListener);
         findViewById(R.id.video).setOnClickListener(onClickListener);
@@ -84,6 +92,14 @@ public class WritePostActivity extends BasicActivity {
         buttonsBackgroundLayout.setOnClickListener(onClickListener);
         contentsEditText.setOnFocusChangeListener(onFocusChangeListener);
         titleEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    selectedEditText = null;
+                }
+            }
+        });
+        performanceTitleEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -204,10 +220,12 @@ public class WritePostActivity extends BasicActivity {
 
     private void storageUpload() {
         final String title = ((EditText) findViewById(R.id.titleEditText)).getText().toString();
-        if (title.length() > 0) {
+        final String performanceTitle = ((EditText) findViewById(R.id.performanceTitleEditText)).getText().toString();
+        if (title.length() > 0 && performanceTitle.length() > 0) {
             loaderLayout.setVisibility(View.VISIBLE);
             final ArrayList<String> contentsList = new ArrayList<>();
             final ArrayList<String> formatList = new ArrayList<>();
+            final float star = rating.getRating();
             user = FirebaseAuth.getInstance().getCurrentUser();
             FirebaseStorage storage = FirebaseStorage.getInstance();
             StorageReference storageRef = storage.getReference();
@@ -255,7 +273,7 @@ public class WritePostActivity extends BasicActivity {
                                             successCount--;
                                             contentsList.set(index, uri.toString());
                                             if (successCount == 0) {
-                                                PostInfo postInfo = new PostInfo(title, contentsList, formatList, user.getUid(), date);
+                                                PostInfo postInfo = new PostInfo(title, performanceTitle, contentsList, formatList, user.getUid(), date, star);
                                                 storeUpload(documentReference, postInfo);
                                             }
                                         }
@@ -270,10 +288,10 @@ public class WritePostActivity extends BasicActivity {
                 }
             }
             if (successCount == 0) {
-                storeUpload(documentReference, new PostInfo(title, contentsList, formatList, user.getUid(), date));
+                storeUpload(documentReference, new PostInfo(title, performanceTitle, contentsList, formatList, user.getUid(), date, star));
             }
         } else {
-            showToast(WritePostActivity.this, "제목을 입력해주세요.");
+            showToast(WritePostActivity.this, "글의 제목 또는 공연 제목을 입력해주세요.");
         }
     }
 
@@ -302,6 +320,7 @@ public class WritePostActivity extends BasicActivity {
     private void postInit() {
         if (postInfo != null) {
             titleEditText.setText(postInfo.getTitle());
+            performanceTitleEditText.setText(postInfo.getPerformanceTitle());
             ArrayList<String> contentsList = postInfo.getContents();
             for (int i = 0; i < contentsList.size(); i++) {
                 String contents = contentsList.get(i);

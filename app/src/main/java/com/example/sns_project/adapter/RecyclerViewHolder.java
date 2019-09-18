@@ -47,7 +47,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
     void setItem(PerformanceInfo item) {
         textTitle.setText(item.getTitle());
         textLocation.setText(item.getArea());
-        textDistance.setText(item.getDistance());
+        textDistance.setText(item.getDistance() + " km");
         Glide.with(itemView).load(item.getThumbNail()).into(imgPerformance);
     }
 

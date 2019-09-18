@@ -21,6 +21,18 @@
             android:orientation="vertical"
             android:padding="10dp">
 
+            <RatingBar
+                android:id="@+id/StarRatingView3"
+                style="@android:style/Widget.Holo.RatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:numStars="5"
+                android:rating="3"
+                android:stepSize="2"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <EditText
                 android:id="@+id/titleEditText"
                 android:layout_width="match_parent"
@@ -28,6 +40,14 @@
                 android:ems="10"
                 android:hint="제목"
                 android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/performanceTitleEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="공연 제목"
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:id="@+id/contentsLayout"
@@ -44,6 +64,7 @@
                         layout="@layout/view_contents_edit_text"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
+
 
                 </LinearLayout>
 

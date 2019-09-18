@@ -1,9 +1,6 @@
 package com.example.sns_project.view;
 
 import android.content.Context;
-
-import androidx.annotation.Nullable;
-
 import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -11,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
 import com.example.sns_project.PostInfo;
@@ -75,18 +74,8 @@ public class ReadContentsVIew extends LinearLayout {
                 contentsLayout.addView(textView);
                 break;
             }
-
             String contents = contentsList.get(i);
             String formats = formatList.get(i);
-
-
-
-
-
-
-
-
-
             if(formats.equals("image")){
                 ImageView imageView = (ImageView)layoutInflater.inflate(R.layout.view_contents_image, this, false);
                 contentsLayout.addView(imageView);
