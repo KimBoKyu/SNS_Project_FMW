@@ -17,11 +17,9 @@ import com.example.sns_project.CommentInfo;
 import com.example.sns_project.FirebaseHelper;
 import com.example.sns_project.PostInfo;
 import com.example.sns_project.R;
-import com.example.sns_project.UserPhotoInfo;
 import com.example.sns_project.adapter.CommentAdapter;
 import com.example.sns_project.listener.OnPostListener;
 import com.example.sns_project.view.ReadContentsVIew;
-import com.google.android.exoplayer2.C;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,8 +27,6 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import org.w3c.dom.Comment;
 
 import java.util.ArrayList;
 import java.util.Date;
