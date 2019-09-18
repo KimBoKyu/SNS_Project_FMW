@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
+import com.example.sns_project.CommentInfo;
 import com.example.sns_project.MlistInfo;
 import com.example.sns_project.PostInfo;
 import com.example.sns_project.R;
@@ -114,6 +115,18 @@ public class UserInfoFragment extends Fragment {
                             list.add(new MlistInfo(document.getData().get("title").toString(),
                                     new Date(document.getDate("createdAt").getTime())));
                             adapter.notifyDataSetChanged();
+                        }
+                    }
+                    if (list.size() != 0) {
+                        for (int i = 0; i < list.size() - 1; i++) {
+                            for (int j = i + 1; j < list.size(); j++) {
+                                if (list.get(i).getDate().compareTo(list.get(j).getDate()) > 0) {
+                                    MlistInfo temp = list.get(i);
+                                    list.set(i, list.get(j));
+                                    list.set(j, temp);
+                                }
+
+                            }
                         }
                     }
                 } else {

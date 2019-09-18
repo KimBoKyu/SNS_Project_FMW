@@ -109,10 +109,10 @@ public class PerformanceInfoFragment extends Fragment {
         Location myPos = new Location("MyPos");
         Location performancePos = new Location("PerPos");
         // GpsX = Latitude , GpsY = Longitude
-        myPos.setLongitude(Util.myPosY);
-        myPos.setLatitude(Util.myPosX);
-        //myPos.setLatitude(37.602938);
-        //myPos.setLongitude(126.955007);
+        //myPos.setLongitude(Util.myPosY);
+        //myPos.setLatitude(Util.myPosX);
+        myPos.setLatitude(37.602938);
+        myPos.setLongitude(126.955007);
         for(int i=0; i<APIData.rows; i++){
             performancePos.setLatitude(Double.parseDouble(performanceInfos.get(i).getGpsY()));
             performancePos.setLongitude(Double.parseDouble(performanceInfos.get(i).getGpsX()));
