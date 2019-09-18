@@ -5,11 +5,22 @@ public class CommentInfo {
     String comment;
     Date date;
     String user;
+    String photoUrl;
+    String id;
 
-    public CommentInfo(String comment, Date date, String user) {
+    public CommentInfo(String comment, Date date, String user, String photoUrl, String id) {
         this.comment = comment;
         this.date = date;
         this.user = user;
+        this.photoUrl = photoUrl;
+        this.id = id;
+    }
+    public CommentInfo(String comment, Date date, String user, String id){
+        this.comment = comment;
+        this.date = date;
+        this.user = user;
+        this.photoUrl = null;
+        this.id = id;
     }
 
     public String getComment() {
@@ -34,5 +45,17 @@ public class CommentInfo {
 
     public void setUser(String user) {
         this.user = user;
+    }
+
+    public String getPhotoUrl(){return photoUrl;}
+
+    public void setPhotoUrl(String photoUrl){ this.photoUrl = photoUrl;}
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

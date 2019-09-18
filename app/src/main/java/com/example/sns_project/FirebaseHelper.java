@@ -2,20 +2,27 @@ package com.example.sns_project;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 
 import com.example.sns_project.listener.OnPostListener;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import static com.example.sns_project.Util.isStorageUrl;
 import static com.example.sns_project.Util.showToast;
@@ -67,6 +74,23 @@ public class FirebaseHelper {
     private void storeDelete(final String id, final PostInfo postInfo) {
         FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        firebaseFirestore.collection("posts").document(postInfo.getId()).collection("comments2")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                commentDelete(postInfo.getId(), document.getId());
+                            }
+
+                        } else {
+                            Log.w("바보", "Error getting documents.", task.getException());
+
+                        }
+
+                    }
+                });
         if(firebaseAuth.getUid().equals(postInfo.getPublisher())){
             if (successCount == 0) {
                 firebaseFirestore.collection("posts").document(id)
@@ -92,6 +116,9 @@ public class FirebaseHelper {
         }
 
     }
-
+    private void commentDelete(String postInfo_id, String comment_id){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("posts").document(postInfo_id).collection("comments2").document(comment_id).delete();
+    }
 
 }
