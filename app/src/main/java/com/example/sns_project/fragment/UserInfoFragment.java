@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.example.sns_project.CommentInfo;
 import com.example.sns_project.MlistInfo;
+import com.example.sns_project.PerformanceInfo;
 import com.example.sns_project.PostInfo;
 import com.example.sns_project.R;
 import com.example.sns_project.Util;
@@ -40,6 +41,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -77,6 +80,7 @@ public class UserInfoFragment extends Fragment {
         modifyButton.setOnClickListener(onClickListener);
         mListView = view.findViewById(R.id.myTitleListView) ;
         list = new ArrayList<>();
+
         DocumentReference documentReference = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid());
         documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
