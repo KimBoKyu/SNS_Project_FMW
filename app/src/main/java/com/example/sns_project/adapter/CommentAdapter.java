@@ -1,10 +1,7 @@
 package com.example.sns_project.adapter;
-import android.graphics.drawable.Drawable;
-
-
+import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.DialogInterface;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.sns_project.CommentInfo;
@@ -20,14 +18,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import org.w3c.dom.Comment;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.text.SimpleDateFormat;
-import android.content.DialogInterface;
-import android.app.AlertDialog;
-import android.widget.Toast;
+import java.util.ArrayList;
 
 
 public class CommentAdapter  extends BaseAdapter {
@@ -67,6 +59,8 @@ public class CommentAdapter  extends BaseAdapter {
         TextView txtCreate_time, txtContent, txtUser_id;
         ImageView comment_delete, user_photo;
     }
+
+
 
     @Override
     public View getView(final int position, View view, ViewGroup viewGroup) {

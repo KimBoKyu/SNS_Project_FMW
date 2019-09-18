@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -44,7 +45,7 @@ public class PostActivity extends BasicActivity {
     private FirebaseUser User;
     private String msg;
     private ListView listView;
-    ArrayList<CommentInfo> list;
+    private ArrayList<CommentInfo> list;
     private String[] photoUrl = new String[2];
 
 
@@ -245,13 +246,11 @@ public class PostActivity extends BasicActivity {
         final CommentAdapter adapter = new CommentAdapter(this, R.layout.item_comment, list, postInfo.getId());
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final FirebaseFirestore db2 = FirebaseFirestore.getInstance();
-
         db.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
                     for(QueryDocumentSnapshot document : task.getResult()){
-
                         if(document.getId().equals(user_id) && document.getData().get("photoUrl")!=null){
                             photoUrl[0] = document.getData().get("photoUrl").toString();
                             db2.collection("posts").document(postInfo.getId()).collection("comments2").document(comments_id).update("photoUrl",photoUrl[0]);
@@ -277,16 +276,20 @@ public class PostActivity extends BasicActivity {
                             }
                         }
                     }
-
+                    ViewGroup.LayoutParams params = listView.getLayoutParams();
+                    params.height = list.size()*140;
+                    listView.setLayoutParams(params);
+                    listView.requestLayout();
                 }
                 else{
                     Log.w("바보", "Error getting documents.", task.getException());
                 }
             }
         });
-
         listView.setAdapter(adapter);
+
     }
+
 
     private void myStartActivity(Class c, PostInfo postInfo) {
         Intent intent = new Intent(this, c);

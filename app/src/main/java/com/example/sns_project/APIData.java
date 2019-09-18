@@ -15,12 +15,11 @@ public class APIData {
     public static boolean inRealmName = false, inArea = false, inThumbnail = false, inSeqNum = false;
     public static boolean inPrice = false, inUrl = false, ingpsX = false, ingpsY = false, inplaceAddr = false;
     public static final String serviceKey = "nPNS96E9tPdBbuORe7jyzvIx9NxrNVmvAV1e5vh%2B2lItx%2F9mmlcqmEZeTCt%2FYL84UEsuGXUO3fFhuTL8kG4Tzg%3D%3D";
-    public static final int rows = 200;
+    public static final int rows = 100;
     public static ArrayList<PerformanceInfo> performanceInfos = new ArrayList<>();
     public static ArrayList<String> title = new ArrayList<>();
     public static ArrayList<String> startDate = new ArrayList<>();
     public static ArrayList<String> endDate = new ArrayList<>();
-    //public static ArrayList<String> place = new ArrayList<>();
     public static String place;
     public static ArrayList<String> realmName = new ArrayList<>();
     public static ArrayList<String> area = new ArrayList<>();
@@ -39,7 +38,7 @@ public class APIData {
         return performanceInfos;
     }
 
-    public static void getAllData(){
+    public static void getAllData(int cPage){
         SimpleDateFormat sm = new SimpleDateFormat("yyyyMMdd", Locale.KOREA);
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Date());
@@ -49,7 +48,7 @@ public class APIData {
         System.out.println(sDate + " ////// " + eDate);
         try{
             URL url = new URL("http://www.culture.go.kr/openapi/rest/publicperformancedisplays/period?"
-                    + "serviceKey="+serviceKey+"&from="+sDate+"&to="+eDate+"&cPage=1&rows="+rows+"&place=&gpsxfrom=&gpsyfrom=&gpsxto=&gpsyto=&keyword=&sortStdr=3"
+                    + "serviceKey="+serviceKey+"&from="+sDate+"&to="+eDate+"&cPage="+cPage+"&rows="+rows+"&place=&gpsxfrom=&gpsyfrom=&gpsxto=&gpsyto=&keyword=&sortStdr=3"
             );
             XmlPullParserFactory parserCreator = XmlPullParserFactory.newInstance();
             XmlPullParser parser = parserCreator.newPullParser();
@@ -214,11 +213,17 @@ public class APIData {
     }
 
     public static void setData(){
-        for(int i=0; i<rows; i++){
-            PerformanceInfo performanceInfo = new PerformanceInfo(seqNum.get(i), title.get(i), startDate.get(i), endDate.get(i),
-                                                                    realmName.get(i), area.get(i), thumbNail.get(i),
-                                                                    gpsX.get(i), gpsY.get(i));
-            performanceInfos.add(performanceInfo);
+        try{
+            for(int i=0; i<rows; i++){
+                PerformanceInfo performanceInfo = new PerformanceInfo(seqNum.get(i), title.get(i), startDate.get(i), endDate.get(i),
+                        realmName.get(i), area.get(i), thumbNail.get(i),
+                        gpsX.get(i), gpsY.get(i));
+                performanceInfos.add(performanceInfo);
+            }
         }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 }

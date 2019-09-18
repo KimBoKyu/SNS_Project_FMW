@@ -127,6 +127,11 @@ public class PerformanceInfoFragment extends Fragment {
                 break;
             }
         }
+        if(usingPerformanceInfos.size() == 0){
+            for(int i=0; i<max_count; i++){
+                usingPerformanceInfos.add(performanceInfos.get(i));
+            }
+        }
         for(int i=1; i<usingPerformanceInfos.size(); i++){
             if(usingPerformanceInfos.get(i).getTitle().equals(usingPerformanceInfos.get(i-1).getTitle())){
                 usingPerformanceInfos.remove(i);

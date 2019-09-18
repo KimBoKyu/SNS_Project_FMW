@@ -163,7 +163,11 @@ public class MainActivity extends BasicActivity {
         @Override
         public void run(){
             super.run();
-            APIData.getAllData();
+            APIData.getAllData(1);
+            APIData.getAllData(2);
+            APIData.getAllData(3);
+            APIData.getAllData(4);
+            APIData.getAllData(5);
         }
     }
 
