@@ -23,8 +23,9 @@ public class Util {
         Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show();
     }
 
+
     public static boolean isStorageUrl(String url){
-        return Patterns.WEB_URL.matcher(url).matches() && url.contains("https://firebasestorage.googleapis.com/v0/b/sns-project-3e2c2.appspot.com/o/post");
+        return Patterns.WEB_URL.matcher(url).matches() && url.contains("https://firebasestorage.googleapis.com/v0/b/fmwsns.appspot.com/o/post");
     }
 
     public static String storageUrlToName(String url){
