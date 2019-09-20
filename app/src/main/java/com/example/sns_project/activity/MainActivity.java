@@ -18,6 +18,7 @@ import com.example.sns_project.R;
 import com.example.sns_project.Util;
 import com.example.sns_project.fragment.HomeFragment;
 import com.example.sns_project.fragment.PerformanceInfoFragment;
+import com.example.sns_project.fragment.SearchFragment;
 import com.example.sns_project.fragment.UserInfoFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -139,7 +140,13 @@ public class MainActivity extends BasicActivity {
                                     .replace(R.id.container, userInfoFragment)
                                     .commit();
                             return true;
-                        case R.id.userList:
+                        case R.id.searchPerformance:
+                            SearchFragment searchFragment = new SearchFragment();
+                            getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.container, searchFragment)
+                                    .commit();
+                            return true;
+                        case R.id.performanceInfo:
                             PerformanceInfoFragment performanceInfoFragment = new PerformanceInfoFragment();
                             getSupportFragmentManager().beginTransaction()
                                     .replace(R.id.container, performanceInfoFragment)

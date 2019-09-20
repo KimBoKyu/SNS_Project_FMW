@@ -11,12 +11,12 @@
         android:title="내정보"
         />
     <item
-        android:id="@+id/userList"
-        android:icon="@drawable/search"
-        android:title="공연정보"
-         />
-
-
-
+        android:id="@+id/searchPerformance"
+        android:icon="@drawable/places_ic_search"
+        android:title="공연검색" />
+    <item
+        android:id="@+id/performanceInfo"
+        android:icon="@drawable/exo_notification_small_icon"
+        android:title="공연정보" />
 
 </menu>
