@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -35,6 +38,10 @@ public class PerformanceInfoFragment extends Fragment {
     private ArrayList<PerformanceInfo> usingPerformanceInfos = new ArrayList<>();
     private ImageView imgPerformance;
     private RecyclerViewAdapter adapter;
+    private EditText searchEditText;
+    private Button searchButton;
+    private RelativeLayout loaderLayout;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,11 +51,8 @@ public class PerformanceInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_performance_info, container, false);
         super.onCreate(savedInstanceState);
+        loaderLayout = view.findViewById(R.id.loaderLyaout);
         performanceInfos = APIData.getPerformanceInfos();
-        System.out.println("사이즈는 ㅣ " + performanceInfos.size());
-        System.out.println("ㅇㅇㅇㅇㅇ " + performanceInfos.get(performanceInfos.size()-99).getTitle());
-        System.out.println("ㅇㅇㅇㅇㅇ " + performanceInfos.get(performanceInfos.size()-98).getTitle());
-        System.out.println("ㅇㅇㅇㅇㅇ " + performanceInfos.get(performanceInfos.size()-97).getTitle());
         usingPerformanceInfos = settingPerformaceArray();
         Collections.sort(usingPerformanceInfos, new Comparator<PerformanceInfo>() {
             @Override
@@ -66,6 +70,9 @@ public class PerformanceInfoFragment extends Fragment {
         });
         imgPerformance = view.findViewById(R.id.imgRandom);
         imgPerformance.setOnClickListener(onClickListener);
+        searchButton = view.findViewById(R.id.searchButton);
+        searchButton.setOnClickListener(onClickListener);
+        searchEditText = view.findViewById(R.id.searchEditText);
         RecyclerView recyclerView;
         recyclerView=view.findViewById(R.id.recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
@@ -77,7 +84,7 @@ public class PerformanceInfoFragment extends Fragment {
         adapter.setOnItemClickListener(new RecyclerViewAdapter.itemClickListener() {
             @Override
             public void onItemClick(RecyclerViewHolder holder, View view, int position) {
-                myStartActivity(PerformanceDetailInfoActivity.class, position);
+                myStartActivity(PerformanceDetailInfoActivity.class, usingPerformanceInfos,position);
             }
         });
         settingImg();
@@ -91,11 +98,28 @@ public class PerformanceInfoFragment extends Fragment {
                 case R.id.imgRandom:
                     settingImg();
                     break;
+                case R.id.searchButton:
+                    loaderLayout.setVisibility(View.VISIBLE);
+                    searching();
+
+                    break;
             }
         }
     };
 
-    public void settingImg(){
+    private void searching(){
+        String temp = String.valueOf(searchEditText.getText());
+        for(int i=0; i<performanceInfos.size(); i++){
+            if(performanceInfos.get(i).getTitle().contains(temp)){
+                loaderLayout.setVisibility(View.GONE);
+                myStartActivity(PerformanceDetailInfoActivity.class, performanceInfos, i);
+                break;
+            }
+        }
+
+    }
+
+    private void settingImg(){
         Random random = new Random();
         while(true){
             int rand = random.nextInt(usingPerformanceInfos.size());
@@ -106,7 +130,7 @@ public class PerformanceInfoFragment extends Fragment {
         }
     }
 
-    public ArrayList<PerformanceInfo> settingPerformaceArray(){
+    private ArrayList<PerformanceInfo> settingPerformaceArray(){
         int count = 0;
         ArrayList<PerformanceInfo> usingPerformanceInfos = new ArrayList<>();
         Location myPos = new Location("MyPos");
@@ -145,16 +169,16 @@ public class PerformanceInfoFragment extends Fragment {
         return usingPerformanceInfos;
     }
 
-    private void myStartActivity(Class c, int postion) {
+    private void myStartActivity(Class c, ArrayList<PerformanceInfo> performanceInfos ,int postion) {
         Intent intent = new Intent(getActivity(), c);
-        intent.putExtra("thumbNail", usingPerformanceInfos.get(postion).getThumbNail());
-        intent.putExtra("seqNum", usingPerformanceInfos.get(postion).getSeqNum());
-        intent.putExtra("title", usingPerformanceInfos.get(postion).getTitle());
-        intent.putExtra("startDate", usingPerformanceInfos.get(postion).getStartDate());
-        intent.putExtra("endDate", usingPerformanceInfos.get(postion).getEndDate());
-        intent.putExtra("realmName", usingPerformanceInfos.get(postion).getRealmName());
-        intent.putExtra("gpsX", usingPerformanceInfos.get(postion).getGpsX());
-        intent.putExtra("gpsY", usingPerformanceInfos.get(postion).getGpsY());
+        intent.putExtra("thumbNail", performanceInfos.get(postion).getThumbNail());
+        intent.putExtra("seqNum", performanceInfos.get(postion).getSeqNum());
+        intent.putExtra("title", performanceInfos.get(postion).getTitle());
+        intent.putExtra("startDate", performanceInfos.get(postion).getStartDate());
+        intent.putExtra("endDate", performanceInfos.get(postion).getEndDate());
+        intent.putExtra("realmName", performanceInfos.get(postion).getRealmName());
+        intent.putExtra("gpsX", performanceInfos.get(postion).getGpsX());
+        intent.putExtra("gpsY", performanceInfos.get(postion).getGpsY());
         startActivityForResult(intent, 0);
     }
 
