@@ -18,6 +18,7 @@ import com.example.sns_project.CommentInfo;
 import com.example.sns_project.FirebaseHelper;
 import com.example.sns_project.PostInfo;
 import com.example.sns_project.R;
+import com.example.sns_project.Util;
 import com.example.sns_project.adapter.CommentAdapter;
 import com.example.sns_project.listener.OnPostListener;
 import com.example.sns_project.view.ReadContentsVIew;
@@ -71,6 +72,7 @@ public class PostActivity extends BasicActivity {
                 case R.id.commentbutton:
                     commentUpdate();
                     commentEditText.setText("");
+                    Util.downKeyboard(getApplicationContext(), commentEditText);
                     break;
             }
         }
