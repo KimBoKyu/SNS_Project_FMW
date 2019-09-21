@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
+    android:background="#CD050505"
     tools:context="com.example.sns_project.activity.MainActivity">
 
     <com.gelitenight.waveview.library.WaveView

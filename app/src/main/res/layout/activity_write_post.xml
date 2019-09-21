@@ -1,113 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_below="@+id/toolbar">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp">
-
-            <RatingBar
-                android:id="@+id/StarRatingView3"
-                style="@android:style/Widget.Holo.RatingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:numStars="5"
-                android:rating="3"
-                android:stepSize="2"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <EditText
-                android:id="@+id/titleEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="제목"
-                android:inputType="textPersonName" />
-
-            <EditText
-                android:id="@+id/performanceTitleEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="공연 제목"
-                android:textSize="18sp" />
-
-            <LinearLayout
-                android:id="@+id/contentsLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
-
-                    <include
-                        layout="@layout/view_contents_edit_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="300dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="50dp"
-                android:orientation="horizontal"
-                android:layout_gravity="center">
-
-
-                <ImageButton
-                    android:id="@+id/image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:background="#FFFFFF"
-                    app:srcCompat="@drawable/camera" />
-
-                <ImageButton
-                    android:id="@+id/video"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="#FFFFFF"
-                    android:layout_gravity="center"
-                    app:srcCompat="@drawable/video" />
-
-                <Button
-                    android:id="@+id/check"
-                    android:layout_width="150dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    android:text="확인"
-
-                    android:background="@drawable/button_background"/>
-
-
-            </LinearLayout>
-
-
-
-        </LinearLayout>
-
-    </ScrollView>
+    android:background="#C60F0F0F"
+    android:backgroundTint="#131212">
 
     <RelativeLayout
         android:id="@+id/buttonsBackgroundLayout"
@@ -153,10 +50,133 @@
 
     </RelativeLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_margin="5dp"
+        android:background="#C60F0F0F"
+        android:backgroundTint="#131212"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <EditText
+                android:id="@+id/titleEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="제목"
+                android:inputType="textPersonName"
+                android:text="제목"
+                android:textColor="#FFFFFF" />
+
+            <EditText
+                android:id="@+id/performanceTitleEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="공연 제목"
+                android:text="공연제목"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:id="@+id/contentsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <include
+                        layout="@layout/view_contents_edit_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="내용"
+                        android:text="내용"
+                        android:textColor="#FFFFFF"
+                        android:textColorHint="#FFFFFF" />
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RatingBar
+                android:id="@+id/StarRatingView3"
+                style="@android:style/Widget.Holo.RatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:numStars="5"
+                android:progressDrawable="@android:drawable/btn_star_big_on"
+                android:rating="3"
+                android:stepSize="2"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                android:orientation="horizontal">
+
+
+                <Button
+                    android:id="@+id/check"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+
+                    android:background="#C6DFD7D7"
+                    android:backgroundTint="#FFFFFF"
+                    android:text="확인"
+                    android:textColor="#FFFFFF" />
+
+                <ImageButton
+                    android:id="@+id/video"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#C6DFD7D7"
+                    android:backgroundTint="#FFFFFF"
+                    app:srcCompat="@drawable/video" />
+
+                <ImageButton
+                    android:id="@+id/image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="#C6DFD7D7"
+                    android:backgroundTint="#FFFFFF"
+                    app:srcCompat="@drawable/camera" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
     <include
         layout="@layout/view_loader"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </RelativeLayout>

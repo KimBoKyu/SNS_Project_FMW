@@ -42,9 +42,9 @@ public class LoadingActivity extends Activity {
 
 
 
-        waveView.setWaveColor(Color.parseColor("#1E90FF"),
-                Color.parseColor("#b8f1ed"));
-        mBorderColor = Color.parseColor("#b8f1ed");
+        waveView.setWaveColor(Color.parseColor("#BBB0B0"),//뒤웨이브
+                Color.parseColor("#FFF8D02B"));//앞
+        mBorderColor = Color.parseColor("#C42929");
         waveView.setBorder(mBorderWidth, mBorderColor);
 
         startLoading();

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#222020">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -23,11 +23,13 @@
 
                 <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_marginBottom="20dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="5dp"
+                    android:background="#C2B4B4"
+                    android:padding="7dp"
                     android:text="공연 상세 정보"
                     android:textAlignment="center"
-                    android:textColor="#000000"
+                    android:textColor="#FFFFFF"
                     android:textSize="24sp"
                     android:textStyle="bold" />
             </LinearLayout>
@@ -44,6 +46,7 @@
                     android:layout_height="250dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="20dp"
+                    android:padding="10dp"
                     app:srcCompat="@color/browser_actions_divider_color" />
 
                 <LinearLayout
@@ -52,40 +55,51 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
                         android:id="@+id/textTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="TextView" />
+                        android:text="TextView"
+                        android:textColor="#FFFFFF" />
 
                     <TextView
                         android:id="@+id/textStartDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="TextView" />
+                        android:text="TextView"
+                        android:textColor="#FFFFFF" />
 
                     <TextView
                         android:id="@+id/textEndDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="TextView" />
+                        android:text="TextView"
+                        android:textColor="#FFFFFF" />
 
                     <TextView
                         android:id="@+id/textPlace"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="TextView" />
+                        android:text="TextView"
+                        android:textColor="#FFFFFF" />
 
                     <TextView
                         android:id="@+id/textPrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="TextView" />
+                        android:text="TextView"
+                        android:textColor="#FFFFFF" />
 
                     <TextView
                         android:id="@+id/textRealmName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="TextView" />
+                        android:text="TextView"
+                        android:textColor="#FFFFFF" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -94,21 +108,26 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+                <Button
+                    android:id="@+id/buttonBuyLink"
+                    android:layout_width="230dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/red_button"
+                    android:text="구매 링크"
+                    android:textColor="#FFFFFF"
+                    android:textSize="20dp" />
+
                 <fragment
                     android:id="@+id/map"
                     android:name="com.google.android.gms.maps.SupportMapFragment"
                     android:layout_width="match_parent"
-                    android:layout_height="300dp" />
-
-                <Button
-                    android:id="@+id/buttonBuyLink"
-                    android:layout_width="150dp"
-                    android:layout_height="70dp"
-                    android:layout_gravity="center"
-                    android:text="구매 링크" />
+                    android:layout_height="255dp"
+                    android:layout_margin="30dp" />
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
 
 </RelativeLayout>
+
