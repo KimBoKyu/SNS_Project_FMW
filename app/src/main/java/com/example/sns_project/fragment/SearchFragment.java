@@ -79,12 +79,15 @@ public class SearchFragment extends Fragment {
         }
     }
 
+
+
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.searchButton:
                     search(getView());
+                    Util.downKeyboard(getContext(), textSearch);
                     break;
             }
         }

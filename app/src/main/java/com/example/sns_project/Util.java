@@ -1,7 +1,10 @@
 package com.example.sns_project;
 
 import android.app.Activity;
+import android.content.Context;
 import android.util.Patterns;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.net.URLConnection;
@@ -23,6 +26,9 @@ public class Util {
         Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show();
     }
 
+    public static void downKeyboard(Context context, EditText editText) {
+        InputMethodManager mInputMethodManager = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE); mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+    }
 
     public static boolean isStorageUrl(String url){
         return Patterns.WEB_URL.matcher(url).matches() && url.contains("https://firebasestorage.googleapis.com/v0/b/fmwsns.appspot.com/o/post");
