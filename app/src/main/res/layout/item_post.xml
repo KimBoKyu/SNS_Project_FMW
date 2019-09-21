@@ -59,7 +59,7 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 app:cardCornerRadius="15dp"
-                app:cardBackgroundColor="#B70000">
+                app:cardBackgroundColor="#282828">
 
                 <ImageView
                     android:layout_width="match_parent"
