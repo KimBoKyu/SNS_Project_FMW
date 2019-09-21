@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import com.example.sns_project.APIData;
 import com.example.sns_project.PerformanceInfo;
 import com.example.sns_project.R;
+import com.example.sns_project.Util;
 import com.example.sns_project.activity.PerformanceDetailInfoActivity;
 import com.example.sns_project.adapter.GridViewAdapter;
 
@@ -24,6 +25,7 @@ public class SearchFragment extends Fragment {
     private EditText textSearch;
     private GridView gv;
     private ArrayList<PerformanceInfo> performanceInfosSearch;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,21 +43,40 @@ public class SearchFragment extends Fragment {
     }
 
     public void search(View view){
+        boolean flag1 = false;
+        boolean flag2 = false;
         performanceInfosSearch = new ArrayList<>();
         String search_inp = textSearch.getText().toString();
-        for(int i=0; i<performanceInfos.size(); i++){
-            if(performanceInfos.get(i).getTitle().contains(search_inp)){
-                performanceInfosSearch.add(performanceInfos.get(i));
+        if(search_inp.length() < 0){
+            Util.showToast(getActivity(), "두글자 이상 검색해주세요.");
+        }else{
+            flag1 = true;
+            for(int i=0; i<performanceInfos.size(); i++){
+                if(performanceInfos.get(i).getTitle().contains(search_inp)){
+                    performanceInfosSearch.add(performanceInfos.get(i));
+                }
+            }
+            if(performanceInfosSearch.size() == 0){
+                Util.showToast(getActivity(), "검색 결과가 없습니다.");
+            }
+            else{
+                flag2 = true;
             }
         }
-        GridViewAdapter adapter = new GridViewAdapter(getContext(), R.layout.gridview_item,performanceInfosSearch);
-        gv.setAdapter(adapter);
-        gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                myStartActivity(PerformanceDetailInfoActivity.class, performanceInfosSearch, position);
-            }
-        });
+        if(flag1 && flag2) {
+            GridViewAdapter adapter = new GridViewAdapter(getContext(), R.layout.gridview_item, performanceInfosSearch);
+            gv.setAdapter(adapter);
+            ViewGroup.LayoutParams params = gv.getLayoutParams();
+            params.height = performanceInfosSearch.size()*470;
+            gv.setLayoutParams(params);
+            gv.requestLayout();
+            gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    myStartActivity(PerformanceDetailInfoActivity.class, performanceInfosSearch, position);
+                }
+            });
+        }
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
