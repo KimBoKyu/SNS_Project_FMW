@@ -37,10 +37,15 @@ public class SearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         performanceInfos = APIData.getPerformanceInfos();
         textSearch = view.findViewById(R.id.searchEditText);
+        textSearch.setFocusableInTouchMode(true);
+        if(textSearch.requestFocus()){
+            Util.upKeyboard(getContext());
+        }
         gv = view.findViewById(R.id.performanceGridView);
         view.findViewById(R.id.searchButton).setOnClickListener(onClickListener);
         return view;
     }
+
 
     public void search(View view){
         boolean flag1 = false;

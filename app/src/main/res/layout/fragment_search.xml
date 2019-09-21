@@ -30,8 +30,9 @@
                     android:layout_marginRight="20dp"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="Name" />
+                    android:focusable="auto"
+                    android:hint="검색"
+                    android:inputType="textPersonName" />
 
                 <ImageButton
                     android:id="@+id/searchButton"
@@ -45,13 +46,11 @@
             <GridView
                 android:id="@+id/performanceGridView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
+                android:layout_height="wrap_content"
                 android:columnWidth="100dp"
                 android:horizontalSpacing="10dp"
-                android:numColumns="2"
-                android:verticalSpacing="10dp" />
+                android:verticalSpacing="10dp"
+                android:numColumns="2" />
 
         </LinearLayout>
     </ScrollView>

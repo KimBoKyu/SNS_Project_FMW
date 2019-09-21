@@ -27,7 +27,13 @@ public class Util {
     }
 
     public static void downKeyboard(Context context, EditText editText) {
-        InputMethodManager mInputMethodManager = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE); mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+        InputMethodManager mInputMethodManager = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+    }
+
+    public static void upKeyboard(Context context) {
+        InputMethodManager mInputMethodManager = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        mInputMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
     }
 
     public static boolean isStorageUrl(String url){
