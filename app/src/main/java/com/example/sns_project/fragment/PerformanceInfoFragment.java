@@ -70,9 +70,7 @@ public class PerformanceInfoFragment extends Fragment {
         });
         imgPerformance = view.findViewById(R.id.imgRandom);
         imgPerformance.setOnClickListener(onClickListener);
-        searchButton = view.findViewById(R.id.searchButton);
-        searchButton.setOnClickListener(onClickListener);
-        searchEditText = view.findViewById(R.id.searchEditText);
+        //searchEditText = view.findViewById(R.id.searchEditText);
         RecyclerView recyclerView;
         recyclerView=view.findViewById(R.id.recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
@@ -98,11 +96,11 @@ public class PerformanceInfoFragment extends Fragment {
                 case R.id.imgRandom:
                     settingImg();
                     break;
-                case R.id.searchButton:
+                /*case R.id.searchButton:
                     loaderLayout.setVisibility(View.VISIBLE);
                     searching();
 
-                    break;
+                    break;*/
             }
         }
     };

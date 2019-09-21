@@ -27,9 +27,9 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
     RecyclerViewHolder(View itemView) {
         super(itemView);
 
-        textTitle = itemView.findViewById(R.id.textTitle);
-        textLocation = itemView.findViewById(R.id.textLocation);
-        textDistance = itemView.findViewById(R.id.textDistance);
+        //textTitle = itemView.findViewById(R.id.textTitle);
+        //textLocation = itemView.findViewById(R.id.textLocation);
+        //textDistance = itemView.findViewById(R.id.textDistance);
         imgPerformance = itemView.findViewById(R.id.imgPerformance);
 
         itemView.setOnClickListener(new View.OnClickListener() {
@@ -45,9 +45,9 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
     // PersonItem 객체를 전달받아 뷰홀더 안에 있는 뷰에 데이터 설정
     void setItem(PerformanceInfo item) {
-        textTitle.setText(item.getTitle());
-        textLocation.setText(item.getArea());
-        textDistance.setText(item.getDistance() + " km");
+       //textTitle.setText(item.getTitle());
+        //textLocation.setText(item.getArea());
+        //textDistance.setText(item.getDistance() + " km");
         Glide.with(itemView).load(item.getThumbNail()).into(imgPerformance);
     }
 

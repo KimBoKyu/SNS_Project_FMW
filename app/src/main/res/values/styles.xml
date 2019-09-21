@@ -3,11 +3,11 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#b8f1ed</item>
-        <item name="colorPrimaryDark">#b8f1ed</item>
-        <item name="colorAccent">#b8f1ed</item>
-        <item name="colorControlNormal">#ffffff</item>
-<!--        <item name="android:windowFullscreen">true</item>-->
+        <item name="colorPrimary">#EEBC27</item>
+        <item name="colorPrimaryDark">#FFD10A0A</item>
+        <item name="colorAccent">#C42929</item>
+        <item name="colorControlNormal">#FFFCFC</item>
+        <!--        <item name="android:windowFullscreen">true</item>-->
 
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
