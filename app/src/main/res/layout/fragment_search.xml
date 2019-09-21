@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black">
@@ -29,15 +30,14 @@
                     android:id="@+id/searchEditText"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:layout_marginRight="20dp"
                     android:layout_marginTop="3dp"
+                    android:layout_marginRight="20dp"
                     android:layout_weight="1"
+                    android:background="@drawable/search_rounded"
                     android:ems="10"
                     android:inputType="textPersonName"
-                    android:text="  Name"
-                    android:textColor="#ffffff"
-                    android:background="@drawable/search_rounded"
-                    />
+                    android:text="   name"
+                    android:textColor="#ffffff" />
 
                 <ImageButton
                     android:id="@+id/searchButton"
