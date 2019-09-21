@@ -5,22 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:background="#FDDBD6D6"
+    app:cardBackgroundColor="#333333"
     app:cardCornerRadius="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#E47F8BA0"
+        android:background="#00ff0000"
         android:orientation="vertical"
         android:padding="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#E47F8BA0"
+            android:background="#00ff0000"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:layout_margin="5dp"
             android:padding="5dp">
 
             <TextView
@@ -29,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:singleLine="true"
-                android:textColor="#000000"
+                android:textColor="#ffffff"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 tools:text="타이틀" />
@@ -57,14 +58,13 @@
                 android:id="@+id/menu"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_margin="5dp"
-                app:cardCornerRadius="15dp">
+                app:cardCornerRadius="15dp"
+                app:cardBackgroundColor="#B70000">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="3dp"
-                    android:background="#F50A0A"
                     android:src="@drawable/ic_more_vert_black_24dp" />
             </androidx.cardview.widget.CardView>
 
@@ -73,9 +73,12 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
             android:layout_marginBottom="5dp"
-            android:background="#DDDDDD" />
+            android:background="#282828" />
+
 
         <com.example.sns_project.view.ReadContentsVIew
             android:id="@+id/readContentsView"
