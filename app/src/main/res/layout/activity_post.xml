@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/black">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -17,7 +18,10 @@
             <com.example.sns_project.view.ReadContentsVIew
                 android:id="@+id/readContentsView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:minHeight="60dp"
+                android:background="@drawable/search_rounded"
+                android:layout_margin="8dp">
 
             </com.example.sns_project.view.ReadContentsVIew>
 
@@ -28,25 +32,31 @@
 
                 <EditText
                     android:id="@+id/commentEditText"
-                    android:layout_width="329dp"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
                     android:ems="10"
                     android:hint="댓글"
+                    android:textColor="@color/white"
                     android:inputType="textPersonName" />
 
                 <Button
                     android:id="@+id/commentbutton"
-                    android:layout_width="112dp"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
                     android:layout_weight="1"
-                    android:background="@drawable/button_background"
-                    android:text="등록" />
+                    android:background="@color/black"
+                    android:text="등록"
+                    android:textColor="@color/white"/>
             </LinearLayout>
 
             <ListView
                 android:id="@+id/listview"
                 android:layout_width="match_parent"
-                android:layout_height="60dp" />
+                android:layout_height="60dp"
+                android:layout_marginTop="20dp"
+                android:divider="#00000000"
+                android:dividerHeight="10dp"/>
 
         </LinearLayout>
     </ScrollView>
