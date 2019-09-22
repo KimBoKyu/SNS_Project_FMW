@@ -7,6 +7,8 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Locale;
 
@@ -16,12 +18,14 @@ public class APIData {
     public static boolean inPrice = false, inUrl = false, ingpsX = false, ingpsY = false, inplaceAddr = false;
     public static final String serviceKey = "nPNS96E9tPdBbuORe7jyzvIx9NxrNVmvAV1e5vh%2B2lItx%2F9mmlcqmEZeTCt%2FYL84UEsuGXUO3fFhuTL8kG4Tzg%3D%3D";
     public static final int rows = 500;
+    public static ArrayList<PerformanceInfo> tempPerformanceInfos = new ArrayList<>();
     public static ArrayList<PerformanceInfo> performanceInfos = new ArrayList<>();
     public static ArrayList<String> title = new ArrayList<>();
     public static ArrayList<String> startDate = new ArrayList<>();
     public static ArrayList<String> endDate = new ArrayList<>();
     //public static ArrayList<String> place = new ArrayList<>();
     public static String place;
+    public static ArrayList<String> genres = new ArrayList<>();
     public static ArrayList<String> realmName = new ArrayList<>();
     public static ArrayList<String> area = new ArrayList<>();
     public static ArrayList<String> thumbNail = new ArrayList<>();
@@ -149,6 +153,7 @@ public class APIData {
             errMsg = e.toString();
         }
         setData();
+        sortData();
     }
 
     public static void getDetailData(String seqNum){
@@ -219,12 +224,30 @@ public class APIData {
                 PerformanceInfo performanceInfo = new PerformanceInfo(seqNum.get(i), title.get(i), startDate.get(i), endDate.get(i),
                         realmName.get(i), area.get(i), thumbNail.get(i),
                         gpsX.get(i), gpsY.get(i));
-                performanceInfos.add(performanceInfo);
+                tempPerformanceInfos.add(performanceInfo);
             }
             catch (Exception e){
                 e.printStackTrace();
                 break;
             }
         }
+    }
+
+    public static void sortData(){
+        for(int i=0; i<tempPerformanceInfos.size(); i++){
+            if(!performanceInfos.contains(tempPerformanceInfos.get(i))){
+                performanceInfos.add(tempPerformanceInfos.get(i));
+            }
+            if(!genres.contains(tempPerformanceInfos.get(i).getRealmName())){
+                genres.add(tempPerformanceInfos.get(i).getRealmName());
+                System.out.println(tempPerformanceInfos.get(i).getRealmName());
+            }
+        }
+        Collections.sort(performanceInfos, new Comparator<PerformanceInfo>() {
+            @Override
+            public int compare(PerformanceInfo o1, PerformanceInfo o2) {
+                    return o1.getTitle().compareTo(o2.getTitle());
+            }
+        });
     }
 }

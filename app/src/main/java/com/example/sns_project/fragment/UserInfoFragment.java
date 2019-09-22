@@ -118,6 +118,10 @@ public class UserInfoFragment extends Fragment {
                         }
                     }
                     if (list.size() != 0) {
+                        ViewGroup.LayoutParams params = mListView.getLayoutParams();
+                        params.height = list.size()*340;
+                        mListView.setLayoutParams(params);
+                        mListView.requestLayout();
                         for (int i = 0; i < list.size() - 1; i++) {
                             for (int j = i + 1; j < list.size(); j++) {
                                 if (list.get(i).getDate().compareTo(list.get(j).getDate()) > 0) {
@@ -134,6 +138,8 @@ public class UserInfoFragment extends Fragment {
                 }
             }
         });
+
+
         mListView.setAdapter(adapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
