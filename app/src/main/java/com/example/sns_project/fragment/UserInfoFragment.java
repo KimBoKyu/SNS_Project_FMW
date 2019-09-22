@@ -86,7 +86,12 @@ public class UserInfoFragment extends Fragment {
                     if (document != null) {
                         if (document.exists()) {
                             if(document.getData().get("photoUrl") != null){
-                                Glide.with(getActivity()).load(document.getData().get("photoUrl")).centerCrop().override(500).into(profileImageView);
+                                try{
+                                    Glide.with(getActivity()).load(document.getData().get("photoUrl")).centerCrop().override(500).into(profileImageView);
+                                }
+                                catch (Exception e){
+                                    e.printStackTrace();
+                                }
                             }
                             nameTextView.setText(document.getData().get("name").toString());
                             phoneNumberTextView.setText(document.getData().get("phoneNumber").toString());
@@ -213,7 +218,13 @@ public class UserInfoFragment extends Fragment {
                     if (document != null) {
                         if (document.exists()) {
                             if (document.getData().get("photoUrl") != null) {
-                                Glide.with(getActivity()).load(document.getData().get("photoUrl")).centerCrop().override(500).into(profileImageView);
+                                try{
+                                    Glide.with(getActivity()).load(document.getData().get("photoUrl")).centerCrop().override(500).into(profileImageView);
+                                }
+                                catch (Exception e){
+                                    e.printStackTrace();
+                                }
+
                             }
                             nameTextView.setText(document.getData().get("name").toString());
                             phoneNumberTextView.setText(document.getData().get("phoneNumber").toString());
