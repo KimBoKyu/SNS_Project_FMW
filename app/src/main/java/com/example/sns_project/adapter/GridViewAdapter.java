@@ -47,7 +47,7 @@ public class GridViewAdapter extends BaseAdapter {
         if (convertView==null)
             convertView = inf.inflate(layout, null);
         ImageView iv = (ImageView)convertView.findViewById(R.id.grid_item_image);
-        Glide.with(convertView).load(performanceInfo.get(position).getThumbNail()).override(200,400).into(iv);
+        Glide.with(convertView).load(performanceInfo.get(position).getThumbNail()).override(450,500).into(iv);
         return convertView;
     }
 }
