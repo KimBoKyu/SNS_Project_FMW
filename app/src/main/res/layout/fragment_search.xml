@@ -35,8 +35,8 @@
                     android:layout_weight="1"
                     android:background="@drawable/search_rounded"
                     android:ems="10"
+                    android:hint="검색"
                     android:inputType="textPersonName"
-                    android:text="   name"
                     android:textColor="#ffffff" />
 
                 <ImageButton

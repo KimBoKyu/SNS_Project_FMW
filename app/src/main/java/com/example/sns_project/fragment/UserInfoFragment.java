@@ -86,7 +86,12 @@ public class UserInfoFragment extends Fragment {
                     if (document != null) {
                         if (document.exists()) {
                             if(document.getData().get("photoUrl") != null){
-                                Glide.with(getActivity()).load(document.getData().get("photoUrl")).centerCrop().override(500).into(profileImageView);
+                                try{
+                                    Glide.with(getActivity()).load(document.getData().get("photoUrl")).centerCrop().override(500).into(profileImageView);
+                                }
+                                catch (Exception e){
+                                    e.printStackTrace();
+                                }
                             }
                             nameTextView.setText(document.getData().get("name").toString());
                             phoneNumberTextView.setText(document.getData().get("phoneNumber").toString());
@@ -118,6 +123,10 @@ public class UserInfoFragment extends Fragment {
                         }
                     }
                     if (list.size() != 0) {
+                        ViewGroup.LayoutParams params = mListView.getLayoutParams();
+                        params.height = list.size()*340;
+                        mListView.setLayoutParams(params);
+                        mListView.requestLayout();
                         for (int i = 0; i < list.size() - 1; i++) {
                             for (int j = i + 1; j < list.size(); j++) {
                                 if (list.get(i).getDate().compareTo(list.get(j).getDate()) > 0) {
@@ -134,6 +143,8 @@ public class UserInfoFragment extends Fragment {
                 }
             }
         });
+
+
         mListView.setAdapter(adapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -207,7 +218,13 @@ public class UserInfoFragment extends Fragment {
                     if (document != null) {
                         if (document.exists()) {
                             if (document.getData().get("photoUrl") != null) {
-                                Glide.with(getActivity()).load(document.getData().get("photoUrl")).centerCrop().override(500).into(profileImageView);
+                                try{
+                                    Glide.with(getActivity()).load(document.getData().get("photoUrl")).centerCrop().override(500).into(profileImageView);
+                                }
+                                catch (Exception e){
+                                    e.printStackTrace();
+                                }
+
                             }
                             nameTextView.setText(document.getData().get("name").toString());
                             phoneNumberTextView.setText(document.getData().get("phoneNumber").toString());
