@@ -124,7 +124,7 @@ public class UserInfoFragment extends Fragment {
                     }
                     if (list.size() != 0) {
                         ViewGroup.LayoutParams params = mListView.getLayoutParams();
-                        params.height = list.size()*340;
+                        params.height = list.size()*325;
                         mListView.setLayoutParams(params);
                         mListView.requestLayout();
                         for (int i = 0; i < list.size() - 1; i++) {
