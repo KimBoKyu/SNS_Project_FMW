@@ -147,6 +147,10 @@ public class PostActivity extends BasicActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         final FirebaseFirestore db2= FirebaseFirestore.getInstance();
         User = FirebaseAuth.getInstance().getCurrentUser();
+        msg = commentEditText.getText().toString();
+        if(msg.equals(null)){
+            showToast(this,"DFDFDFDF");
+        }
         db.collection("users").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -156,7 +160,6 @@ public class PostActivity extends BasicActivity {
                         if(document.getId().equals(User.getUid())){
                             if(document.getData().get("photoUrl")!=null){
                                 photoUrl[1] = new String(document.getData().get("photoUrl").toString());
-                                msg = commentEditText.getText().toString();
                                 Map<String, Object> user = new HashMap<>();
                                 user.put("comment", msg);
                                 user.put("user", User.getEmail().toString());
@@ -167,7 +170,6 @@ public class PostActivity extends BasicActivity {
                                 commentList();
                             }
                             else{
-                                msg = commentEditText.getText().toString();
                                 Map<String, Object> user = new HashMap<>();
                                 user.put("comment", msg);
                                 user.put("user", User.getEmail().toString());

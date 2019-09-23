@@ -189,6 +189,7 @@ public class UserInfoFragment extends Fragment {
         List<Address> alist = null;
         try{
             alist = geocoder.getFromLocation(Util.myPosX, Util.myPosY, 3);
+            //Util.showToast(getActivity(), Util.myPosX + "     " +  Util.myPosY);
         }
         catch (IOException e){
             e.printStackTrace();

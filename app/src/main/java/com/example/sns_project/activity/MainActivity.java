@@ -34,22 +34,35 @@ public class MainActivity extends BasicActivity {
     private LocationManager locationManager;
     private static final int REQUEST_CODE_LOCATION = 2;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Intent intent = new Intent(this,LoadingActivity.class);
         startActivity(intent);
-        init();
-        Background thread = new Background();
-        thread.start();
-        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        Location userLocation = getMyLocation();
-        if( userLocation != null ) {
-            Util.myPosX = userLocation.getLatitude();
-            Util.myPosY = userLocation.getLongitude();
+        if(Util.getConnectivityStatus(this) == Util.TYPE_NOT_CONNECTED){
+            Util.showToast(this,"인터넷 연결 상태를 확인해 주세요");
+            finish();
         }
-
+        else{
+            init();
+            if(Util.data_flag){
+                Background thread = new Background();
+                thread.start();
+                Util.data_flag = false;
+            }
+            locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+            Location userLocation = getMyLocation();
+            if( userLocation != null ) {
+                Util.myPosX = userLocation.getLatitude();
+                Util.myPosY = userLocation.getLongitude();
+            }
+            else{
+                Util.myPosX = 37.602938;
+                Util.myPosY = 126.955007;
+            }
+        }
     }
 
     private Location getMyLocation() {
@@ -61,7 +74,7 @@ public class MainActivity extends BasicActivity {
         }
         else {
             System.out.println("////////////권한요청 안해도됨");
-            String locationProvider = LocationManager.GPS_PROVIDER;
+            String locationProvider = LocationManager.NETWORK_PROVIDER;
             currentLocation = locationManager.getLastKnownLocation(locationProvider);
             if (currentLocation != null) {
                 double lng = currentLocation.getLongitude();

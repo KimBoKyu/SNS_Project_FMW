@@ -2,14 +2,14 @@ package com.example.sns_project.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
-
-import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.sns_project.R;
@@ -57,7 +57,7 @@ public class GalleryAdapter  extends RecyclerView.Adapter<GalleryAdapter.Gallery
     public void onBindViewHolder(@NonNull final GalleryViewHolder holder, int position) {
         CardView cardView = holder.cardView;
         ImageView imageView = cardView.findViewById(R.id.imageView);
-        Glide.with(activity).load(mDataset.get(position)).centerCrop().override(500).into(imageView);
+        Glide.with(activity).load(mDataset.get(position)).override(500).into(imageView);
     }
 
     @Override

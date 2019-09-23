@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide;
 import com.example.sns_project.APIData;
 import com.example.sns_project.PerformanceInfo;
 import com.example.sns_project.R;
+import com.example.sns_project.Util;
 import com.example.sns_project.activity.PerformanceDetailInfoActivity;
 import com.example.sns_project.adapter.RecyclerViewAdapter;
 import com.example.sns_project.adapter.RecyclerViewHolder;
@@ -87,6 +88,13 @@ public class PerformanceInfoFragment extends Fragment {
 
     public void arrayInit(){
         performanceInfos = APIData.getPerformanceInfos();
+        if(performanceInfos.size() == 0){
+            Util.showToast(getActivity(), "인터넷 연결 상태를 확인해 주세요");
+            getActivity().finish();
+        }
+
+
+
         usingPerformanceInfos = settingPerformaceArray();
         for(int i=0; i<usingPerformanceInfos.size(); i++){
             switch (usingPerformanceInfos.get(i).getRealmName()){
@@ -239,10 +247,10 @@ public class PerformanceInfoFragment extends Fragment {
         Location myPos = new Location("MyPos");
         Location performancePos = new Location("PerPos");
         // GpsX = Latitude , GpsY = Longitude
-        //myPos.setLongitude(Util.myPosY);
-        //myPos.setLatitude(Util.myPosX);
-        myPos.setLatitude(37.602938);
-        myPos.setLongitude(126.955007);
+        myPos.setLongitude(Util.myPosY);
+        myPos.setLatitude(Util.myPosX);
+        //myPos.setLatitude(37.602938);
+        //myPos.setLongitude(126.955007);
         for(int i=0; i<performanceInfos.size(); i++){
             performancePos.setLatitude(Double.parseDouble(performanceInfos.get(i).getGpsY()));
             performancePos.setLongitude(Double.parseDouble(performanceInfos.get(i).getGpsX()));
