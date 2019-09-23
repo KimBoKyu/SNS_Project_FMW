@@ -99,7 +99,7 @@
                     <include
                         layout="@layout/view_contents_edit_text"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:hint="내용"
                         android:text="내용"
                         android:textColor="#FFFFFF"
@@ -138,10 +138,9 @@
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
 
-                    android:background="#C6DFD7D7"
-                    android:backgroundTint="#FFFFFF"
+                    android:background="@drawable/rounded_gray"
                     android:text="확인"
-                    android:textColor="#FFFFFF" />
+                    android:textColor="#000000" />
 
                 <ImageButton
                     android:id="@+id/video"
@@ -150,8 +149,7 @@
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="#C6DFD7D7"
-                    android:backgroundTint="#FFFFFF"
+                    android:background="@drawable/rounded_gray"
                     app:srcCompat="@drawable/video" />
 
                 <ImageButton
@@ -161,8 +159,7 @@
                     android:layout_gravity="center"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="#C6DFD7D7"
-                    android:backgroundTint="#FFFFFF"
+                    android:background="@drawable/rounded_gray"
                     app:srcCompat="@drawable/camera" />
 
 
