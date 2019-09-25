@@ -70,24 +70,27 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
-                                android:textSize="18dp"
-                                android:textColor="@color/white"/>
+                                android:textColor="@color/white"
+                                android:textColorHint="#FFFFFF"
+                                android:textSize="18dp" />
 
                             <TextView
                                 android:id="@+id/phoneNumberTextView"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
-                                android:textSize="18dp"
-                                android:textColor="@color/white"/>
+                                android:textColor="@color/white"
+                                android:textColorHint="#FFFFFF"
+                                android:textSize="18dp" />
 
                             <TextView
                                 android:id="@+id/birthDayTextView"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
-                                android:textSize="18dp"
-                                android:textColor="@color/white"/>
+                                android:textColor="@color/white"
+                                android:textColorHint="#FFFFFF"
+                                android:textSize="18dp" />
 
 
 
@@ -119,19 +122,19 @@
                             android:layout_width="173dp"
                             android:layout_height="35dp"
                             android:layout_marginRight="4dp"
+                            android:background="@drawable/rounded_gray"
                             android:text="수정하기"
-                            android:textColor="@color/white"
-                            android:background="@drawable/button_background"/>
+                            android:textColor="@color/white" />
 
                         <Button
                             android:id="@+id/button_signOut"
                             android:layout_width="173dp"
                             android:layout_height="35dp"
+                            android:background="@drawable/rounded_gray"
                             android:clickable="true"
                             android:text="로그아웃"
-                            android:textColor="@color/white"
 
-                            android:background="@drawable/button_background"/>
+                            android:textColor="@color/white" />
                     </LinearLayout>
 
                 </LinearLayout>

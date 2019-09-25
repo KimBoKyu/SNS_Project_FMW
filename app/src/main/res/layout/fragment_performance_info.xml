@@ -49,8 +49,7 @@
                 android:id="@+id/performance_recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="30dp"
-                android:background="@drawable/rounded" />
+                android:layout_margin="30dp" />
 
 
         </LinearLayout>

@@ -1,30 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#000000">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_below="@+id/toolbar">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:gravity="center"
-            android:text="회원가입"
-            android:textColor="#000000"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+        android:layout_below="@+id/toolbar"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
+            android:orientation="vertical"
             android:padding="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:background="@color/gray"
+                android:gravity="center"
+                android:text="회원가입"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/emailEditText"
@@ -33,7 +35,10 @@
                 android:layout_marginBottom="5dp"
                 android:ems="10"
                 android:hint="이메일"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:textColor="#FFFFFF"
+                android:textColorHighlight="#FFFFFF"
+                android:textColorHint="#FFFFFF" />
 
             <EditText
                 android:id="@+id/passwordEditText"
@@ -42,7 +47,8 @@
                 android:layout_marginBottom="5dp"
                 android:ems="10"
                 android:hint="비밀번호"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textColorHint="#FFFFFF" />
 
             <EditText
                 android:id="@+id/passwordCheckEditText"
@@ -51,24 +57,34 @@
                 android:layout_marginBottom="5dp"
                 android:ems="10"
                 android:hint="비밀번호 확인"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#FFFFFF" />
+
+            <Button
+                android:id="@+id/gotoLoginButton"
+                android:layout_width="300dp"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/rounded_gray"
+                android:text="로그인"
+                android:textColor="#FFFFFF" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="10dp"
+                android:orientation="vertical"></LinearLayout>
 
             <Button
                 android:id="@+id/signUpButton"
                 android:layout_width="300dp"
                 android:layout_height="35dp"
                 android:layout_gravity="center"
-                android:background="@drawable/button_background"
-                android:text="회원가입" />
+                android:background="@drawable/rounded_gray"
+                android:text="회원가입"
+                android:textColor="#FFFFFF" />
 
-            <Button
-                android:id="@+id/gotoLoginButton"
-                android:layout_marginTop="10dp"
-                android:layout_width="300dp"
-                android:layout_height="35dp"
-                android:layout_gravity="center"
-                android:background="@drawable/button_background"
-                android:text="로그인" />
         </LinearLayout>
 
     </LinearLayout>
@@ -77,6 +93,6 @@
         layout="@layout/view_loader"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 </RelativeLayout>

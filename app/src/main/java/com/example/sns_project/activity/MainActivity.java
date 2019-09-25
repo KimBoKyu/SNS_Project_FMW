@@ -39,8 +39,7 @@ public class MainActivity extends BasicActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Intent intent = new Intent(this,LoadingActivity.class);
-        startActivity(intent);
+
         if(Util.getConnectivityStatus(this) == Util.TYPE_NOT_CONNECTED){
             Util.showToast(this,"인터넷 연결 상태를 확인해 주세요");
             finish();

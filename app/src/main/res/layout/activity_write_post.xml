@@ -72,8 +72,8 @@
                 android:ems="10"
                 android:hint="제목"
                 android:inputType="textPersonName"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white" />
+                android:text="제목"
+                android:textColor="#FFFFFF" />
 
             <EditText
                 android:id="@+id/performanceTitleEditText"
@@ -81,8 +81,8 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="공연 제목"
-                android:textColor="@color/white"
-                android:textColorHint="@color/white"
+                android:text="공연제목"
+                android:textColor="#FFFFFF"
                 android:textSize="18sp" />
 
             <LinearLayout
@@ -101,8 +101,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:hint="내용"
-                        android:textColor="#00000000"
-                        android:textColorHint="#00000000" />
+                        android:text="내용"
+                        android:textColor="#FFFFFF"
+                        android:textColorHint="#FFFFFF" />
 
 
                 </LinearLayout>
@@ -114,10 +115,9 @@
                 style="@android:style/Widget.Holo.RatingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:clickable="true"
                 android:numStars="5"
-                android:progressTint="#D32F2F"
-                android:rating="3.5"
+                android:progressDrawable="@android:drawable/btn_star_big_on"
+                android:rating="3"
                 android:stepSize="2"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
