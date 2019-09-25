@@ -23,7 +23,6 @@ public class APIData {
     public static ArrayList<String> title = new ArrayList<>();
     public static ArrayList<String> startDate = new ArrayList<>();
     public static ArrayList<String> endDate = new ArrayList<>();
-    //public static ArrayList<String> place = new ArrayList<>();
     public static String place;
     public static ArrayList<String> genres = new ArrayList<>();
     public static ArrayList<String> realmName = new ArrayList<>();
@@ -41,6 +40,10 @@ public class APIData {
 
     public static ArrayList<PerformanceInfo> getPerformanceInfos(){
         return performanceInfos;
+    }
+
+    public static ArrayList<String> getGenres(){
+        return genres;
     }
 
     public static void getAllData(){
@@ -243,6 +246,7 @@ public class APIData {
                 System.out.println(tempPerformanceInfos.get(i).getRealmName());
             }
         }
+        Collections.sort(genres);
         Collections.sort(performanceInfos, new Comparator<PerformanceInfo>() {
             @Override
             public int compare(PerformanceInfo o1, PerformanceInfo o2) {

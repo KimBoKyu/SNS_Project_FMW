@@ -7,14 +7,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.sns_project.APIData;
 import com.example.sns_project.PerformanceInfo;
 import com.example.sns_project.R;
@@ -22,36 +24,35 @@ import com.example.sns_project.Util;
 import com.example.sns_project.activity.PerformanceDetailInfoActivity;
 import com.example.sns_project.adapter.RecyclerViewAdapter;
 import com.example.sns_project.adapter.RecyclerViewHolder;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Random;
 
 
-public class PerformanceInfoFragment extends Fragment {
+public class PerformanceInfoFragment extends Fragment implements OnMapReadyCallback {
     private static final String TAG = "PerformanceInfoFragment";
+    private GoogleMap mMap;
     private ArrayList<PerformanceInfo> performanceInfos;
-    private ArrayList<PerformanceInfo> usingPerformanceInfos = new ArrayList<>();
+    private ArrayList<PerformanceInfo> usingPerformanceInfos;
     private ArrayList<PerformanceInfo> koreaMusicInfos = new ArrayList<>();
     private ArrayList<PerformanceInfo> musicInfos = new ArrayList<>();
     private ArrayList<PerformanceInfo> theaterInfos = new ArrayList<>();
     private ArrayList<PerformanceInfo> dancingInfos = new ArrayList<>();
     private ArrayList<PerformanceInfo> artInfos = new ArrayList<>();
     private ArrayList<PerformanceInfo> otherInfos = new ArrayList<>();
-    private ImageView imgPerformance;
-    private RecyclerViewAdapter adapter1;
-    private RecyclerViewAdapter adapter2;
-    private RecyclerViewAdapter adapter3;
-    private RecyclerViewAdapter adapter4;
-    private RecyclerViewAdapter adapter5;
-    private RecyclerViewAdapter adapter6;
-    private RecyclerView recyclerView1;
-    private RecyclerView recyclerView2;
-    private RecyclerView recyclerView3;
-    private RecyclerView recyclerView4;
-    private RecyclerView recyclerView5;
-    private RecyclerView recyclerView6;
+    private ArrayList<String> genres = new ArrayList<>();
+    private RecyclerViewAdapter adapter;
+    private RecyclerView performance_recyclerView;
+    private Spinner genreSpinner;
+    private TextView genreTextView;
+    private MapView mapView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,11 +63,90 @@ public class PerformanceInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         View view = inflater.inflate(R.layout.fragment_performance_info, container, false);
         super.onCreate(savedInstanceState);
+        mapView = (MapView)view.findViewById(R.id.mapView_performance);
+        mapView.onCreate(savedInstanceState);
+        mapView.onResume();
+        mapView.getMapAsync(this);
         arrayInit();
-        init(view);
-        settingImg();
-        System.out.println(otherInfos.size());
+        genreSpinner = view.findViewById(R.id.genre_spinner);
+        genreTextView = view.findViewById(R.id.genre_textview);
+        genres = APIData.getGenres();
+        ArrayAdapter adp = new ArrayAdapter(getContext(), R.layout.spinner_item, genres);
+        adp.setDropDownViewResource(R.layout.spinner_item);
+        genreSpinner.setAdapter(adp);
+        genreSpinner.setSelection(0);
+        genreTextView.setText(genres.get(0));
+        genreSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if(genreSpinner.getSelectedItemPosition() > 0){
+                    genreTextView.setText(genreSpinner.getSelectedItem().toString());
+                    switch (genreSpinner.getSelectedItem().toString()){
+                        case "음악":
+                            settingRecycleView(view, musicInfos);
+                            break;
+                        case "연극":
+                            settingRecycleView(view, theaterInfos);
+                            break;
+                        case "기타":
+                            settingRecycleView(view, otherInfos);
+                            break;
+                        case "미술":
+                            settingRecycleView(view, artInfos);
+                            break;
+                        case "무용":
+                            settingRecycleView(view, dancingInfos);
+                            break;
+                        case "국악":
+                            settingRecycleView(view, koreaMusicInfos);
+                            break;
+                    }
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        performance_recyclerView = view.findViewById(R.id.performance_recyclerView);
+        performance_recyclerView.setLayoutManager(layoutManager);
+        adapter = new RecyclerViewAdapter(getContext()); //여기애매함
+        adapter.addItems(koreaMusicInfos);
+        performance_recyclerView.setAdapter(adapter);   // 어뎁터 설정
+        adapter.setOnItemClickListener(new RecyclerViewAdapter.itemClickListener() {
+            @Override
+            public void onItemClick(RecyclerViewHolder holder, View view, int position) {
+                myStartActivity(PerformanceDetailInfoActivity.class, koreaMusicInfos, position);
+            }
+        });
         return view;
+    }
+
+    public void settingRecycleView(View view, final ArrayList<PerformanceInfo> arr){
+        adapter.replaceItems(arr);
+        performance_recyclerView.setAdapter(adapter);   // 어뎁터 설정
+        adapter.setOnItemClickListener(new RecyclerViewAdapter.itemClickListener() {
+            @Override
+            public void onItemClick(RecyclerViewHolder holder, View view, int position) {
+                myStartActivity(PerformanceDetailInfoActivity.class, arr, position);
+            }
+        });
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        LatLng SEOUL = new LatLng(37.56, 126.97);
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(SEOUL);
+        markerOptions.title("서울");
+        markerOptions.snippet("수도");
+        googleMap.addMarker(markerOptions);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));
+        mMap.addMarker(markerOptions);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SEOUL, 15));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
     }
 
     public void sortArray(ArrayList<PerformanceInfo> arr){
@@ -88,13 +168,6 @@ public class PerformanceInfoFragment extends Fragment {
 
     public void arrayInit(){
         performanceInfos = APIData.getPerformanceInfos();
-        if(performanceInfos.size() == 0){
-            Util.showToast(getActivity(), "인터넷 연결 상태를 확인해 주세요");
-            getActivity().finish();
-        }
-
-
-
         usingPerformanceInfos = settingPerformaceArray();
         for(int i=0; i<usingPerformanceInfos.size(); i++){
             switch (usingPerformanceInfos.get(i).getRealmName()){
@@ -127,143 +200,27 @@ public class PerformanceInfoFragment extends Fragment {
         sortArray(otherInfos);
     }
 
-
-    public void init(View view){
-        imgPerformance = view.findViewById(R.id.imgRandom);
-        imgPerformance.setOnClickListener(onClickListener);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
-                LinearLayoutManager.HORIZONTAL, false);
-        LinearLayoutManager layoutManager2 = new LinearLayoutManager(getContext(),
-                LinearLayoutManager.HORIZONTAL, false);
-        LinearLayoutManager layoutManager3 = new LinearLayoutManager(getContext(),
-                LinearLayoutManager.HORIZONTAL, false);
-        LinearLayoutManager layoutManager4 = new LinearLayoutManager(getContext(),
-                LinearLayoutManager.HORIZONTAL, false);
-        LinearLayoutManager layoutManager5 = new LinearLayoutManager(getContext(),
-                LinearLayoutManager.HORIZONTAL, false);
-        LinearLayoutManager layoutManager6 = new LinearLayoutManager(getContext(),
-                LinearLayoutManager.HORIZONTAL, false);
-        recyclerView1 = view.findViewById(R.id.recycler_view1);
-        recyclerView2 = view.findViewById(R.id.recycler_view2);
-        recyclerView3 = view.findViewById(R.id.recycler_view3);
-        recyclerView4 = view.findViewById(R.id.recycler_view4);
-        recyclerView5 = view.findViewById(R.id.recycler_view5);
-        recyclerView6 = view.findViewById(R.id.recycler_view6);
-        recyclerView1.setLayoutManager(layoutManager);
-        recyclerView2.setLayoutManager(layoutManager2);
-        recyclerView3.setLayoutManager(layoutManager3);
-        recyclerView4.setLayoutManager(layoutManager4);
-        recyclerView5.setLayoutManager(layoutManager5);
-        recyclerView6.setLayoutManager(layoutManager6);
-
-        adapter1 = new RecyclerViewAdapter(getContext()); //여기애매함
-        adapter1.addItems(musicInfos);
-        recyclerView1.setAdapter(adapter1);   // 어뎁터 설정
-
-        adapter2 = new RecyclerViewAdapter(getContext()); //여기애매함
-        adapter2.addItems(theaterInfos);
-        recyclerView2.setAdapter(adapter2);   // 어뎁터 설정
-
-        adapter3 = new RecyclerViewAdapter(getContext()); //여기애매함
-        adapter3.addItems(artInfos);
-        recyclerView3.setAdapter(adapter3);   // 어뎁터 설정
-
-        adapter4 = new RecyclerViewAdapter(getContext()); //여기애매함
-        adapter4.addItems(dancingInfos);
-        recyclerView4.setAdapter(adapter4);   // 어뎁터 설정
-
-        adapter5 = new RecyclerViewAdapter(getContext()); //여기애매함
-        adapter5.addItems(koreaMusicInfos);
-        recyclerView5.setAdapter(adapter5);   // 어뎁터 설정
-
-        adapter6 = new RecyclerViewAdapter(getContext()); //여기애매함
-        adapter6.addItems(otherInfos);
-        recyclerView6.setAdapter(adapter6);   // 어뎁터 설정
-
-
-        adapter1.setOnItemClickListener(new RecyclerViewAdapter.itemClickListener() {
-            @Override
-            public void onItemClick(RecyclerViewHolder holder, View view, int position) {
-                myStartActivity(PerformanceDetailInfoActivity.class, musicInfos,position);
-            }
-        });
-
-        adapter2.setOnItemClickListener(new RecyclerViewAdapter.itemClickListener() {
-            @Override
-            public void onItemClick(RecyclerViewHolder holder, View view, int position) {
-                myStartActivity(PerformanceDetailInfoActivity.class, theaterInfos,position);
-            }
-        });
-        adapter3.setOnItemClickListener(new RecyclerViewAdapter.itemClickListener() {
-            @Override
-            public void onItemClick(RecyclerViewHolder holder, View view, int position) {
-                myStartActivity(PerformanceDetailInfoActivity.class, artInfos,position);
-            }
-        });
-        adapter4.setOnItemClickListener(new RecyclerViewAdapter.itemClickListener() {
-            @Override
-            public void onItemClick(RecyclerViewHolder holder, View view, int position) {
-                myStartActivity(PerformanceDetailInfoActivity.class, dancingInfos,position);
-            }
-        });
-        adapter5.setOnItemClickListener(new RecyclerViewAdapter.itemClickListener() {
-            @Override
-            public void onItemClick(RecyclerViewHolder holder, View view, int position) {
-                myStartActivity(PerformanceDetailInfoActivity.class, koreaMusicInfos,position);
-            }
-        });
-        adapter6.setOnItemClickListener(new RecyclerViewAdapter.itemClickListener() {
-            @Override
-            public void onItemClick(RecyclerViewHolder holder, View view, int position) {
-                myStartActivity(PerformanceDetailInfoActivity.class, otherInfos,position);
-            }
-        });
-    }
-
-    View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.imgRandom:
-                    settingImg();
-                    break;
-            }
-        }
-    };
-
-    private void settingImg(){
-        Random random = new Random();
-        while(true){
-            int rand = random.nextInt(usingPerformanceInfos.size());
-            if(usingPerformanceInfos.get(rand).getThumbNail() != null){
-                Glide.with(getActivity()).load(usingPerformanceInfos.get(rand).getThumbNail()).override(2000).into(imgPerformance);
-                break;
-            }
-        }
-    }
-
     private ArrayList<PerformanceInfo> settingPerformaceArray(){
         ArrayList<PerformanceInfo> usingPerformanceInfos = new ArrayList<>();
         Location myPos = new Location("MyPos");
         Location performancePos = new Location("PerPos");
-        // GpsX = Latitude , GpsY = Longitude
         myPos.setLongitude(Util.myPosY);
         myPos.setLatitude(Util.myPosX);
-        //myPos.setLatitude(37.602938);
-        //myPos.setLongitude(126.955007);
         for(int i=0; i<performanceInfos.size(); i++){
             performancePos.setLatitude(Double.parseDouble(performanceInfos.get(i).getGpsY()));
             performancePos.setLongitude(Double.parseDouble(performanceInfos.get(i).getGpsX()));
             double temp = myPos.distanceTo(performancePos)/1000;
             performanceInfos.get(i).setDistance(String.format("%.2f", temp));
         }
-        for(int i=0; i<performanceInfos.size(); i++){
-            if(Double.parseDouble(performanceInfos.get(i).getDistance()) < 20.0){
-                    usingPerformanceInfos.add(performanceInfos.get(i));
-            }
-        }
         if(usingPerformanceInfos.size() == 0){
             usingPerformanceInfos = performanceInfos;
+        }
+        else{
+            for(int i=0; i<performanceInfos.size(); i++){
+                if(Double.parseDouble(performanceInfos.get(i).getDistance()) < 20.0){
+                    usingPerformanceInfos.add(performanceInfos.get(i));
+                }
+            }
         }
         return usingPerformanceInfos;
     }

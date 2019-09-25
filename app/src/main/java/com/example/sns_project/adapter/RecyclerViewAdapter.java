@@ -58,6 +58,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewHolder
         this.items = items; // 아이템 배열 추가
     }
 
+    public void replaceItems(ArrayList<PerformanceInfo> items){
+        this.items = items;
+    }
+
     public PerformanceInfo getItem(int position) {
         return items.get(position); // 아이템 가져오기
     }

@@ -72,7 +72,13 @@ public class SearchFragment extends Fragment {
             GridViewAdapter adapter = new GridViewAdapter(getContext(), R.layout.gridview_item, performanceInfosSearch);
             gv.setAdapter(adapter);
             ViewGroup.LayoutParams params = gv.getLayoutParams();
-            params.height = performanceInfosSearch.size()*340;
+            if(performanceInfos.size()%2==0){
+                params.height = performanceInfosSearch.size()*340;
+            }
+            else{
+                params.height = performanceInfosSearch.size()*680;
+            }
+
             gv.setLayoutParams(params);
             gv.requestLayout();
             gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
