@@ -11,6 +11,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RatingBar;
+import android.widget.TextView;
+
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 
@@ -48,11 +52,18 @@ public class PostActivity extends BasicActivity {
     private ListView listView;
     private ArrayList<CommentInfo> list;
     private String[] photoUrl = new String[2];
+    private Toolbar toolbar ;
+    private TextView performancetitle;
+    private RatingBar rating;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        performancetitle = findViewById(R.id.performanceTitleView2);
+        rating = findViewById(R.id.mini_star2);
         postInfo = (PostInfo) getIntent().getSerializableExtra("postInfo");
         listView = findViewById(R.id.listview);
         commentList();
@@ -140,6 +151,10 @@ public class PostActivity extends BasicActivity {
 
     private void uiUpdate(){
         setToolbarTitle(postInfo.getTitle());
+        performancetitle.setText(postInfo.getPerformanceTitle());
+        rating.setStepSize((float) 0.5);
+        rating.setRating(postInfo.getStar());
+        rating.setIsIndicator(true);
         readContentsVIew.setPostInfo(postInfo);
     }
 
