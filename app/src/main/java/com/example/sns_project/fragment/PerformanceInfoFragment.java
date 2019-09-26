@@ -1,6 +1,7 @@
 package com.example.sns_project.fragment;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -107,9 +109,13 @@ public class PerformanceInfoFragment extends Fragment implements OnMapReadyCallb
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         performance_recyclerView = view.findViewById(R.id.performance_recyclerView);
-        performance_recyclerView.setLayoutManager(layoutManager);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(),3);
+        performance_recyclerView.setLayoutManager(gridLayoutManager);
+
+
         adapter = new RecyclerViewAdapter(getContext()); //여기애매함
         adapter.addItems(koreaMusicInfos);
         performance_recyclerView.setAdapter(adapter);   // 어뎁터 설정
@@ -148,6 +154,8 @@ public class PerformanceInfoFragment extends Fragment implements OnMapReadyCallb
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SEOUL, 15));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
     }
+
+
 
     public void sortArray(ArrayList<PerformanceInfo> arr){
         Collections.sort(arr, new Comparator<PerformanceInfo>() {
