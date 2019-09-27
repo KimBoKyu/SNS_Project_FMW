@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/black">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -12,7 +13,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF"
+            android:background="#00ff0000"
+            android:layout_marginTop="50dp"
             android:orientation="vertical"
             android:padding="10dp">
 
@@ -21,7 +23,7 @@
                 android:layout_height="80dp"
                 android:gravity="center"
                 android:text="회원정보"
-                android:textColor="#000000"
+                android:textColor="#ffffff"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -53,6 +55,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
                     android:orientation="vertical">
 
                 <EditText
@@ -61,6 +64,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="이름"
+                    android:textColor="@color/white"
                     android:inputType="textPersonName" />
 
                 <EditText
@@ -69,6 +73,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="전화번호"
+                    android:textColor="@color/white"
                     android:inputType="phone" />
 
                 <EditText
@@ -77,16 +82,18 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="생년월일"
+                    android:textColor="@color/white"
                     android:inputType="date" />
 
                 </LinearLayout>
 
                 <Button
                     android:id="@+id/checkButton"
-                    android:layout_width="300dp"
+                    android:layout_width="250dp"
                     android:layout_height="35dp"
                     android:background="@drawable/button_background"
-                    android:text="확인" />
+                    android:text="확인"
+                    android:textColor="@color/white"/>
 
             </LinearLayout>
         </LinearLayout>
