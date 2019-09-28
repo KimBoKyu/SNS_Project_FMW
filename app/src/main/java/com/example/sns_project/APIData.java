@@ -14,7 +14,7 @@ import java.util.Locale;
 
 public class APIData {
     public static boolean inPerforList = false, inTitle = false, inStartDate = false, inEndDate = false, inPlace = false;
-    public static boolean inRealmName = false, inArea = false, inThumbnail = false, inSeqNum = false;
+    public static boolean inRealmName = false, inArea = false, inThumbnail = false, inSeqNum = false, inContents1 = false;
     public static boolean inPrice = false, inUrl = false, ingpsX = false, ingpsY = false, inplaceAddr = false;
     public static final String serviceKey = "nPNS96E9tPdBbuORe7jyzvIx9NxrNVmvAV1e5vh%2B2lItx%2F9mmlcqmEZeTCt%2FYL84UEsuGXUO3fFhuTL8kG4Tzg%3D%3D";
     public static final int rows = 500;
@@ -24,6 +24,7 @@ public class APIData {
     public static ArrayList<String> startDate = new ArrayList<>();
     public static ArrayList<String> endDate = new ArrayList<>();
     public static String place;
+    public static String contents1;
     public static ArrayList<String> genres = new ArrayList<>();
     public static ArrayList<String> realmName = new ArrayList<>();
     public static ArrayList<String> area = new ArrayList<>();
@@ -182,6 +183,9 @@ public class APIData {
                         if (parser.getName().equals("placeAddr")) {
                             inplaceAddr = true;
                         }
+                        if(parser.getName().equals("contents1")){
+                            inContents1 = true;
+                        }
                         break;
 
                     case XmlPullParser.TEXT://parser가 내용에 접근했을때
@@ -201,6 +205,10 @@ public class APIData {
                             detailAddr = parser.getText();
                             inplaceAddr = false;
                         }
+                        if(inContents1){
+                            contents1 = parser.getText();
+                            inContents1 = false;
+                        }
                         break;
                     case XmlPullParser.END_TAG:
                         break;
@@ -218,7 +226,7 @@ public class APIData {
     }
 
     public static void setDetailData(){
-        performanceDetailInfo = new PerformanceDetailInfo(detailPrice, detailUrl, place, detailAddr);
+        performanceDetailInfo = new PerformanceDetailInfo(detailPrice, detailUrl, place, detailAddr, contents1);
     }
 
     public static void setData(){

@@ -7,13 +7,19 @@ public class PerformanceDetailInfo implements Serializable {
     private String url;
     private String placeAddr;
     private String place;
+    private String contents1;
 
-    public PerformanceDetailInfo(String price, String url, String place, String placeAddr){
+    public PerformanceDetailInfo(String price, String url, String place, String placeAddr, String contents1){
         this.price = price;
         this.url = url;
         this.place = place;
         this.placeAddr = placeAddr;
+        this.contents1 = contents1;
     }
+
+    public String getContents1(){ return contents1; }
+
+    public void setContents1(String contents1){ this.contents1 = contents1; }
 
     public String getPrice() {
         return price;

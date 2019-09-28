@@ -1,8 +1,9 @@
 package com.example.sns_project.fragment;
 
 
-import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,7 +17,6 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sns_project.APIData;
@@ -30,6 +30,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -55,6 +56,7 @@ public class PerformanceInfoFragment extends Fragment implements OnMapReadyCallb
     private Spinner genreSpinner;
     private TextView genreTextView;
     private MapView mapView;
+    private ArrayList<MarkerOptions> markers;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,10 +64,11 @@ public class PerformanceInfoFragment extends Fragment implements OnMapReadyCallb
     }
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_performance_info, container, false);
         super.onCreate(savedInstanceState);
-        mapView = (MapView)view.findViewById(R.id.mapView_performance);
+        markers = new ArrayList<>();
+        mapView = view.findViewById(R.id.mapView_performance);
         mapView.onCreate(savedInstanceState);
         mapView.onResume();
         mapView.getMapAsync(this);
@@ -81,41 +84,44 @@ public class PerformanceInfoFragment extends Fragment implements OnMapReadyCallb
         genreSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(genreSpinner.getSelectedItemPosition() > 0){
+                if (genreSpinner.getSelectedItemPosition() > 0) {
                     genreTextView.setText(genreSpinner.getSelectedItem().toString());
-                    switch (genreSpinner.getSelectedItem().toString()){
+                    switch (genreSpinner.getSelectedItem().toString()) {
                         case "음악":
                             settingRecycleView(view, musicInfos);
+                            setMarker(musicInfos);
                             break;
                         case "연극":
                             settingRecycleView(view, theaterInfos);
+                            setMarker(theaterInfos);
                             break;
                         case "기타":
                             settingRecycleView(view, otherInfos);
+                            setMarker(otherInfos);
                             break;
                         case "미술":
                             settingRecycleView(view, artInfos);
+                            setMarker(artInfos);
                             break;
                         case "무용":
                             settingRecycleView(view, dancingInfos);
+                            setMarker(dancingInfos);
                             break;
                         case "국악":
                             settingRecycleView(view, koreaMusicInfos);
+                            setMarker(koreaMusicInfos);
                             break;
                     }
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         performance_recyclerView = view.findViewById(R.id.performance_recyclerView);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(),3);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(), 2);
         performance_recyclerView.setLayoutManager(gridLayoutManager);
-
-
         adapter = new RecyclerViewAdapter(getContext()); //여기애매함
         adapter.addItems(koreaMusicInfos);
         performance_recyclerView.setAdapter(adapter);   // 어뎁터 설정
@@ -128,6 +134,7 @@ public class PerformanceInfoFragment extends Fragment implements OnMapReadyCallb
         return view;
     }
 
+
     public void settingRecycleView(View view, final ArrayList<PerformanceInfo> arr){
         adapter.replaceItems(arr);
         performance_recyclerView.setAdapter(adapter);   // 어뎁터 설정
@@ -139,22 +146,58 @@ public class PerformanceInfoFragment extends Fragment implements OnMapReadyCallb
         });
     }
 
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void setGoogleMap(GoogleMap googleMap){
         mMap = googleMap;
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-        LatLng SEOUL = new LatLng(37.56, 126.97);
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(SEOUL);
-        markerOptions.title("서울");
-        markerOptions.snippet("수도");
-        googleMap.addMarker(markerOptions);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));
-        mMap.addMarker(markerOptions);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(SEOUL, 15));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        setGoogleMap(googleMap);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        for(int i=0; i<koreaMusicInfos.size();i++){
+            if(Double.parseDouble(koreaMusicInfos.get(i).getDistance()) <= 15){
+                LatLng perPos = new LatLng(Double.parseDouble(koreaMusicInfos.get(i).getGpsY()), Double.parseDouble(koreaMusicInfos.get(i).getGpsX()));
+                MarkerOptions markerOptions = new MarkerOptions();
+                BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.point);
+                Bitmap b=bitmapdraw.getBitmap();
+                Bitmap smallMarker = Bitmap.createScaledBitmap(b, 80, 80, false);
+                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                markerOptions.position(perPos);
+                markerOptions.title(koreaMusicInfos.get(i).getTitle());
+                markers.add(markerOptions);
+            }
+        }
+        for(int i=0; i<markers.size(); i++){
+            mMap.addMarker(markers.get(i));
+        }
+
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markers.get(0).getPosition(), 13));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
+    }
+
+
+    public void setMarker(ArrayList<PerformanceInfo> infos){
+        markers.clear();
+        mMap.clear();
+        for(int i=0; i<infos.size();i++){
+            if(Double.parseDouble(infos.get(i).getDistance()) <= 15){
+                LatLng perPos = new LatLng(Double.parseDouble(infos.get(i).getGpsY()), Double.parseDouble(infos.get(i).getGpsX()));
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(perPos);
+                markerOptions.title(infos.get(i).getTitle());
+                BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.point);
+                Bitmap b=bitmapdraw.getBitmap();
+                Bitmap smallMarker = Bitmap.createScaledBitmap(b, 80, 80, false);
+                markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                markers.add(markerOptions);
+            }
+        }
+        for(int i=0; i<markers.size(); i++){
+            mMap.addMarker(markers.get(i));
+        }
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(markers.get(0).getPosition(), 13));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(13));
+    }
 
 
     public void sortArray(ArrayList<PerformanceInfo> arr){

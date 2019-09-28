@@ -32,6 +32,7 @@ public class PerformanceDetailInfoActivity extends FragmentActivity implements O
     private float gpsY;
     private float gpsX;
     private String thumbNail;
+    private String contents1;
     private ImageView performanceImageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,8 @@ public class PerformanceDetailInfoActivity extends FragmentActivity implements O
         gpsY = Float.parseFloat(getIntent().getStringExtra("gpsY"));
         gpsX = Float.parseFloat(getIntent().getStringExtra("gpsX"));
         thumbNail = getIntent().getStringExtra("thumbNail");
+        contents1 = performanceDetailInfo.getContents1();
+        System.out.println(contents1);
         textViewTitle = findViewById(R.id.textTitle);
         performanceImageView = findViewById(R.id.performanceImageView);
         textViewStartDate = findViewById(R.id.textStartDate);
