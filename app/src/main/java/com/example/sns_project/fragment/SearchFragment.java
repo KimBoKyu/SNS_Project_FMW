@@ -5,26 +5,28 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.GridView;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.sns_project.APIData;
 import com.example.sns_project.PerformanceInfo;
 import com.example.sns_project.R;
 import com.example.sns_project.Util;
 import com.example.sns_project.activity.PerformanceDetailInfoActivity;
-import com.example.sns_project.adapter.GridViewAdapter;
+import com.example.sns_project.adapter.RecyclerViewAdapter;
+import com.example.sns_project.adapter.RecyclerViewHolder;
 
 import java.util.ArrayList;
 
 public class SearchFragment extends Fragment {
     private ArrayList<PerformanceInfo> performanceInfos;
     private EditText textSearch;
-    private GridView gv;
     private ArrayList<PerformanceInfo> performanceInfosSearch;
+    private RecyclerView performance_recyclerView_search;
+    private RecyclerViewAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,10 @@ public class SearchFragment extends Fragment {
         if(textSearch.requestFocus()){
             Util.upKeyboard(getContext());
         }
-        gv = view.findViewById(R.id.performanceGridView);
+        performance_recyclerView_search = view.findViewById(R.id.performance_recyclerView_search);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this.getContext(), 2);
+        performance_recyclerView_search.setLayoutManager(gridLayoutManager);
+        adapter = new RecyclerViewAdapter(getContext()); //여기애매함
         view.findViewById(R.id.searchButton).setOnClickListener(onClickListener);
         return view;
     }
@@ -52,7 +57,7 @@ public class SearchFragment extends Fragment {
         boolean flag2 = false;
         performanceInfosSearch = new ArrayList<>();
         String search_inp = textSearch.getText().toString();
-        if(search_inp.length() < 0){
+        if(search_inp.length() < 2){
             Util.showToast(getActivity(), "두글자 이상 검색해주세요.");
         }else{
             flag1 = true;
@@ -69,21 +74,11 @@ public class SearchFragment extends Fragment {
             }
         }
         if(flag1 && flag2) {
-            GridViewAdapter adapter = new GridViewAdapter(getContext(), R.layout.gridview_item, performanceInfosSearch);
-            gv.setAdapter(adapter);
-            ViewGroup.LayoutParams params = gv.getLayoutParams();
-            if(performanceInfos.size()%2==0){
-                params.height = performanceInfosSearch.size()*340;
-            }
-            else{
-                params.height = performanceInfosSearch.size()*680;
-            }
-
-            gv.setLayoutParams(params);
-            gv.requestLayout();
-            gv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            adapter.addItems(performanceInfosSearch);
+            performance_recyclerView_search.setAdapter(adapter);   // 어뎁터 설정
+            adapter.setOnItemClickListener(new RecyclerViewAdapter.itemClickListener() {
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                public void onItemClick(RecyclerViewHolder holder, View view, int position) {
                     myStartActivity(PerformanceDetailInfoActivity.class, performanceInfosSearch, position);
                 }
             });

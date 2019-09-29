@@ -84,8 +84,9 @@ public class PerformanceInfoFragment extends Fragment implements OnMapReadyCallb
         genreSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (genreSpinner.getSelectedItemPosition() > 0) {
+                if (genreSpinner.getSelectedItemPosition() >= 0) {
                     genreTextView.setText(genreSpinner.getSelectedItem().toString());
+                    System.out.println(genreSpinner.getSelectedItem().toString());
                     switch (genreSpinner.getSelectedItem().toString()) {
                         case "음악":
                             settingRecycleView(view, musicInfos);

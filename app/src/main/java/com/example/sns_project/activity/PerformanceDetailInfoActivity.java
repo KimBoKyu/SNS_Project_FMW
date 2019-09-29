@@ -1,6 +1,8 @@
 package com.example.sns_project.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -13,26 +15,27 @@ import com.bumptech.glide.Glide;
 import com.example.sns_project.APIData;
 import com.example.sns_project.PerformanceDetailInfo;
 import com.example.sns_project.R;
+import com.example.sns_project.Util;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class PerformanceDetailInfoActivity extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap mMap;
     private TextView textViewTitle;
-    private TextView textViewStartDate;
-    private TextView textViewEndDate;
+    private TextView textViewPeroid;
     private TextView textViewPlace;
     private TextView textViewPrice;
-    private TextView textViewRealmName;
     private PerformanceDetailInfo performanceDetailInfo;
     private float gpsY;
     private float gpsX;
     private String thumbNail;
     private String contents1;
+    private ImageView img_only;
     private ImageView performanceImageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,22 +64,21 @@ public class PerformanceDetailInfoActivity extends FragmentActivity implements O
         thumbNail = getIntent().getStringExtra("thumbNail");
         contents1 = performanceDetailInfo.getContents1();
         System.out.println(contents1);
+        img_only = findViewById(R.id.image_only2);
         textViewTitle = findViewById(R.id.textTitle);
         performanceImageView = findViewById(R.id.performanceImageView);
-        textViewStartDate = findViewById(R.id.textStartDate);
-        textViewEndDate = findViewById(R.id.textEndDate);
+        textViewPeroid = findViewById(R.id.textPeroid);
         textViewPlace = findViewById(R.id.textPlace);
         textViewPrice = findViewById(R.id.textPrice);
-        textViewRealmName = findViewById(R.id.textRealmName);
+        performanceImageView.setOnClickListener(onClickListener);
+        img_only.setOnClickListener(onClickListener);
     }
 
     public void textSetting(){
         Glide.with(this).load(thumbNail).into(performanceImageView);
         textViewTitle.setText(getIntent().getStringExtra("title"));
         textViewPrice.setText(performanceDetailInfo.getPrice());
-        textViewRealmName.setText(getIntent().getStringExtra("realmName"));
-        textViewStartDate.setText(getIntent().getStringExtra("startDate"));
-        textViewEndDate.setText(getIntent().getStringExtra("endDate"));
+        textViewPeroid.setText(getIntent().getStringExtra("startDate") + " ~ " + getIntent().getStringExtra("endDate"));
         textViewPlace.setText(performanceDetailInfo.getPlace());
         System.out.println(getIntent().getStringExtra("seqNum"));
     }
@@ -89,6 +91,12 @@ public class PerformanceDetailInfoActivity extends FragmentActivity implements O
                 case R.id.buttonBuyLink:
                     gotoLink();
                     break;
+                case R.id.performanceImageView:
+                    gotoImgOnly();
+                    break;
+                case R.id.image_only2:
+                    img_only.setVisibility(View.INVISIBLE);
+                    break;
             }
         }
     };
@@ -99,8 +107,19 @@ public class PerformanceDetailInfoActivity extends FragmentActivity implements O
     }
 
     public void gotoLink(){
-        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(performanceDetailInfo.getUrl()));
-        startActivity(intent);
+        try{
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(performanceDetailInfo.getUrl()));
+            startActivity(intent);
+        } catch (Exception e){
+            e.printStackTrace();
+            Util.showToast(this, "해당되는 페이지가 없습니다. 죄송합니다.");
+        }
+
+    }
+
+    public void gotoImgOnly(){
+        Glide.with(this).load(thumbNail).into(img_only);
+        img_only.setVisibility(View.VISIBLE);
     }
 
 
@@ -109,17 +128,27 @@ public class PerformanceDetailInfoActivity extends FragmentActivity implements O
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
         LatLng addr = new LatLng(gpsY, gpsX);
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(addr);
-        if(performanceDetailInfo.getPlaceAddr().length() <=5 ){
-            markerOptions.title(performanceDetailInfo.getPlace());
+        System.out.println(gpsX + "      " + gpsY);
+        if(gpsY < 33 || gpsY >43 || gpsX < 124 || gpsX > 132){
+            Util.showToast(this, "주어진 위치 정보가 없습니다.");
         }
         else{
-            markerOptions.title(performanceDetailInfo.getPlaceAddr());
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(addr);
+            if(performanceDetailInfo.getPlaceAddr().length() <=5 ){
+                markerOptions.title(performanceDetailInfo.getPlace());
+            }
+            else{
+                markerOptions.title(performanceDetailInfo.getPlaceAddr());
+            }
+            BitmapDrawable bitmapdraw=(BitmapDrawable)getResources().getDrawable(R.drawable.point);
+            Bitmap b=bitmapdraw.getBitmap();
+            Bitmap smallMarker = Bitmap.createScaledBitmap(b, 80, 80, false);
+            markerOptions.icon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+            mMap.addMarker(markerOptions);
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(addr, 15));
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
         }
-        mMap.addMarker(markerOptions);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(addr, 15));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
     }
 
 
