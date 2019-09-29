@@ -35,15 +35,17 @@
                     android:layout_weight="1"
                     android:background="@drawable/search_rounded"
                     android:ems="10"
-                    android:hint="검색"
+                    android:hint="   검색"
                     android:inputType="textPersonName"
                     android:textColor="#ffffff" />
 
                 <ImageButton
                     android:id="@+id/searchButton"
                     android:layout_width="20dp"
-                    android:layout_height="50dp"
+                    android:layout_height="35dp"
                     android:layout_weight="1"
+                    android:layout_marginTop="7dp"
+                    android:background="@drawable/rounded_gray"
                     app:srcCompat="@drawable/places_ic_search" />
 
             </LinearLayout>
